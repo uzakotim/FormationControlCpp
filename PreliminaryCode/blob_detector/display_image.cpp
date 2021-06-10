@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     } 
 
     std::cout<<"Start grabbing"<<'\n'<<"Press any key to terminate"<<'\n';
-
+    
     for (;;)
     {
         cap.read(image);
@@ -30,7 +30,8 @@ int main(int argc, char** argv)
         {
             std::cerr<<"ERROR! blank frame grabbed\n";
             break;
-        }
+        }    
+        cv::namedWindow("Live", cv::WINDOW_AUTOSIZE);
         cv::imshow("Live", image);  // show image
         if (cv::waitKey(5) >= 0)    // break if a key is pressed
             break;
