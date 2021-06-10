@@ -15,9 +15,13 @@ int main(int argc, char** argv)
 
     cv::Scalar ORANGE_MIN = cv::Scalar(10,150,150);     //min hsv value orange
     cv::Scalar ORANGE_MAX = cv::Scalar(27,255,255);     //max hsv value orange
+    cv::Scalar detectionColor = cv::Scalar(255,165,0);
+
 
     std::vector<std::vector<cv::Point>> contours;       //contours are stored here
-    std::vector<cv::Vec4i> hierarchy;                   
+    std::vector<cv::Vec4i>              hierarchy;                   
+    
+
 
     cap.open(deviceID,apiID);
     // check if succeded
@@ -42,9 +46,37 @@ int main(int argc, char** argv)
 
         cv::findContours(frame_threshold, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
         cv::Mat drawing = cv::Mat::zeros(frame_threshold.size(), CV_8UC3 );
+        
+        double maxArea = 0;
+        int maxAreaContourId = -1;
+
         for ( size_t i = 0; i< contours.size();i++)
         {
-            cv::drawContours(drawing, contours, (int)i, cv::Scalar(255,165,0),5, cv::LINE_8, hierarchy, 0 );
+            double newArea = cv::contourArea(contours.at(i));
+            if (newArea > maxArea)
+            {
+                maxArea = newArea;
+                maxAreaContourId = i;
+            }
+        }
+        
+        if (maxAreaContourId>0)
+        {   
+
+            std::vector<cv::Point> contour_poly   (contours.size());
+            cv::Point2f            center         (contours.size());  
+            float                  radius          (contours.size());
+
+            cv::approxPolyDP(contours[maxAreaContourId], contour_poly, 3, true);
+            cv::minEnclosingCircle(contour_poly, center, radius);
+
+            // uncomment the following to draw contours exactly
+            cv::drawContours(drawing, contours, maxAreaContourId, detectionColor ,5, cv::LINE_8, hierarchy, 0 );
+
+            cv::circle(drawing, center, int(radius), detectionColor, 2 );
+
+            // uncomment the following for checking center coordinates
+            // std::cout<<center<<'\n';
         }
         cv::namedWindow("Live", cv::WINDOW_AUTOSIZE);
         cv::namedWindow("Live Mask", cv::WINDOW_AUTOSIZE);
