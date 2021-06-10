@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
     cv::Scalar ORANGE_MIN = cv::Scalar(10,150,150);     //min hsv value orange
     cv::Scalar ORANGE_MAX = cv::Scalar(27,255,255);     //max hsv value orange
-    cv::Scalar detectionColor = cv::Scalar(255,165,0);
+    cv::Scalar detectionColor = cv::Scalar(255,100,0);
 
 
     std::vector<std::vector<cv::Point>> contours;       //contours are stored here
@@ -74,7 +74,7 @@ int main(int argc, char** argv)
             cv::drawContours(drawing, contours, maxAreaContourId, detectionColor ,5, cv::LINE_8, hierarchy, 0 );
 
             cv::circle(drawing, center, int(radius), detectionColor, 2 );
-
+            cv::circle(drawing, center, 5, detectionColor, 10);
             // uncomment the following for checking center coordinates
             // std::cout<<center<<'\n';
         }

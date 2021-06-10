@@ -27,6 +27,8 @@
         "mutex": "cpp",
         "ostream": "cpp",
         "sstream": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "bitset": "cpp",
+        "string_view": "cpp"
     }
 }
