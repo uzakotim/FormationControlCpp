@@ -1,0 +1,3 @@
+/home/timur/Playground/blob_detector/CMakeFiles/rebuild_cache.dir
+/home/timur/Playground/blob_detector/CMakeFiles/edit_cache.dir
+/home/timur/Playground/blob_detector/CMakeFiles/blob_detector.dir
