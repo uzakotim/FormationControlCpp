@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/timur/Playground/blob_detector/display_image.cpp
+/home/timur/FormationControlCpp/PreliminaryCode/blob_detector/display_image.cpp
 stdio.h
 -
 opencv2/opencv.hpp

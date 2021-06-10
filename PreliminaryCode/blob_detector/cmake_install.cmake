@@ -1,4 +1,4 @@
-# Install script for directory: /home/timur/Playground/blob_detector
+# Install script for directory: /home/timur/FormationControlCpp/PreliminaryCode/blob_detector
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/timur/Playground/blob_detector/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/timur/FormationControlCpp/PreliminaryCode/blob_detector/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
