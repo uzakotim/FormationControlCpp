@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
-
+#include <opencv2/core/hal/interface.h>
 
 int main(int argc, char** argv)
 {
@@ -15,6 +15,9 @@ int main(int argc, char** argv)
 
     cv::Scalar ORANGE_MIN = cv::Scalar(10,150,150);     //min hsv value orange
     cv::Scalar ORANGE_MAX = cv::Scalar(27,255,255);     //max hsv value orange
+
+    std::vector<std::vector<cv::Point>> contours;       //contours are stored here
+    std::vector<cv::Vec4i> hierarchy;                   
 
     cap.open(deviceID,apiID);
     // check if succeded
@@ -37,10 +40,15 @@ int main(int argc, char** argv)
         cv::cvtColor(frame, frame_HSV, cv::COLOR_BGR2HSV);
         cv::inRange(frame_HSV, ORANGE_MIN, ORANGE_MAX,frame_threshold);
 
-        
+        cv::findContours(frame_threshold, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
+        cv::Mat drawing = cv::Mat::zeros(frame_threshold.size(), CV_8UC3 );
+        for ( size_t i = 0; i< contours.size();i++)
+        {
+            cv::drawContours(drawing, contours, (int)i, cv::Scalar(255,165,0),5, cv::LINE_8, hierarchy, 0 );
+        }
         cv::namedWindow("Live", cv::WINDOW_AUTOSIZE);
         cv::namedWindow("Live Mask", cv::WINDOW_AUTOSIZE);
-        cv::imshow("Live", frame);  // show image
+        cv::imshow("Live", frame + drawing);  // show image
         cv::imshow("Live Mask", frame_threshold);
         
         
