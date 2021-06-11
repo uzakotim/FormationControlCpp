@@ -1,9 +1,10 @@
 #include <cstdio>
 #include <ctime>
 #include <stdio.h>
-#include <opencv2/opencv.hpp>
 #include <opencv2/core/hal/interface.h>
+#include <opencv2/opencv.hpp>
 #include <opencv2/video/tracking.hpp>
+
 
 int FindMaxAreaContourId(std::vector<std::vector<cv::Point>> contours)
 {
@@ -43,6 +44,20 @@ int main(int argc, char** argv)
     
     cv::Point2f                         last_recognized_center_point{(0.f,0.f)};
 
+    //Kalman filter parameters
+    cv::KalmanFilter KF(4,2,0);
+    KF.transitionMatrix = (cv::Mat_<float>(4,4) << 1,0,1,0, 0,1,0,1, 0,0,1,0, 0,0,0,1);
+    cv::Mat_<float> measurement(2,1); 
+    measurement.setTo(cv::Scalar(0));
+    KF.statePre.at<float>(0) = 0;
+    KF.statePre.at<float>(1) = 0;
+    KF.statePre.at<float>(2) = 0;
+    KF.statePre.at<float>(3) = 0;
+    setIdentity(KF.measurementMatrix);
+    setIdentity(KF.processNoiseCov, cv::Scalar::all(1e-4));
+    setIdentity(KF.measurementNoiseCov, cv::Scalar::all(10));
+    setIdentity(KF.errorCovPost, cv::Scalar::all(.1));
+    
 
     cap.open(device_id,api_id);
     
@@ -55,13 +70,18 @@ int main(int argc, char** argv)
     std::cout<<"Start grabbing"<<'\n'<<"Press any key to terminate"<<'\n';
     for (;;)
     {
+        // First predict, to update the internal statePre variable
+        cv::Mat prediction = KF.predict();
+        cv::Point predictPt(prediction.at<float>(0),prediction.at<float>(1));
+
+
+        // Blob detector ---------
         cap.read(frame);
         if (frame.empty())          // check if succeded
         {
             std::cerr<<"ERROR! blank frame grabbed\n";
             break;
         } 
-
 
         cv::cvtColor(frame, frame_HSV, cv::COLOR_BGR2HSV);
         cv::inRange(frame_HSV, orange_min, orange_max,frame_threshold);
@@ -75,6 +95,7 @@ int main(int argc, char** argv)
         // uncomment to test FindMaxAreaContourId function
         // std::cout<<maxAreaContourId<<'\n';
 
+       
 
       
         if (maxAreaContourId>=0)
@@ -91,23 +112,30 @@ int main(int argc, char** argv)
             // uncomment the following to draw contours exactly
             // cv::drawContours(drawing, contours, maxAreaContourId, detectionColor ,5, cv::LINE_8, hierarchy, 0 );
 
-            cv::circle(drawing, center, int(radius), detection_color, 2 );
-            cv::circle(drawing, center, 5, detection_color, 10);
+            
 
             // uncomment the following for checking center coordinates
             // std::cout<<center<<'\n';
+            
+
+            // getting the point
+            measurement.at<float>(0) = center.x;
+            measurement.at<float>(1) = center.y;
+            //update 
+            cv::Mat estimated = KF.correct(measurement);
+            cv::Point statePt(estimated.at<float>(0),estimated.at<float>(1));
+            cv::Point measPt(measurement(0),measurement(1));
+
+            cv::circle(drawing, statePt, int(radius), detection_color, 2 );
+            cv::circle(drawing, statePt, 5, detection_color, 10);
+
         }
         
 
                 
         cv::namedWindow("Live", cv::WINDOW_AUTOSIZE);
         
-        cv::imshow("Live", frame + drawing);  // show image
-        
-        // uncomment the following to see mask separately
-        // cv::namedWindow("Live Mask", cv::WINDOW_AUTOSIZE);
-        // cv::imshow("Live Mask", frame_threshold);
-        
+        cv::imshow("Live", frame + drawing);  // show image        
         
         if (cv::waitKey(5) >= 0)    // break if a key is pressed
             break;
