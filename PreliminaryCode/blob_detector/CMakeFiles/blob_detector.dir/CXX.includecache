@@ -7,11 +7,17 @@
 #IncludeRegexTransform: 
 
 /home/timur/FormationControlCpp/PreliminaryCode/blob_detector/display_image.cpp
+cstdio
+-
+ctime
+-
 stdio.h
 -
 opencv2/opencv.hpp
 -
 opencv2/core/hal/interface.h
+-
+opencv2/video/tracking.hpp
 -
 
 /usr/local/include/opencv4/opencv2/calib3d.hpp
