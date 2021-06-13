@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( formation_planner )
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+add_executable( formation_planner formation.cpp)
+target_link_libraries( formation_planner ${OpenCV_LIBS})

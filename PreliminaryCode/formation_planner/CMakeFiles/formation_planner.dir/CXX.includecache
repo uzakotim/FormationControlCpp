@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/timur/Playground/formation_planner/formation.cpp
+cmath
+-
+stdio.h
+-
+stdlib.h
+-
+iostream
+-
+opencv4/opencv2/core.hpp
+-
+
