@@ -32,19 +32,22 @@ double CalculateUpdate(double pose_x, double x_previous,double offset_x)
 double FindGoToPoint(double current_cost, double pose_x, double x_previous, double offset_x)
 {
     // Main loop for finding a go_to point
-    // While cost function is greated than threshold, the state will be updating
+    // While cost function is greated than threshold, the state will be updating for n steps
     // In case cost function is lower than threshold, the state is preserved
     double x_updated;
-    
+    int    number_of_steps {50};
     if (std::abs(current_cost)<=0.1)
     {
         x_updated = x_previous;
     }
-    while(std::abs(current_cost)>0.1)
+    else
     {
-        x_updated       = CalculateUpdate(pose_x,x_previous,offset_x);
-        current_cost    = CostFunction(pose_x, x_updated,offset_x);       
-        x_previous      = x_updated;
+        for (int j;j<number_of_steps;j++)
+        {
+            x_updated       = CalculateUpdate(pose_x,x_previous,offset_x);
+            current_cost    = CostFunction(pose_x, x_updated,offset_x);       
+            x_previous      = x_updated;
+        }
     }
     return x_updated;
 
@@ -75,7 +78,7 @@ int main(int argc, char** argv)
     
     // Offset determines the position of a robot 
     // relatively to observation
-    double offset_x {5};
+    double offset_x {-5};
     double offset_y {5};
     double offset_z {1};
 
