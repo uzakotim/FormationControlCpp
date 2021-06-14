@@ -1,0 +1,2 @@
+Invoking command in '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --build /home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector -- -j8 -l8
+Invoked command in '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --build /home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector -- -j8 -l8

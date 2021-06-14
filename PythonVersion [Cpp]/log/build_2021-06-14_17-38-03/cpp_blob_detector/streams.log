@@ -1,0 +1,28 @@
+[0.017s] Invoking command in '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector': CMAKE_PREFIX_PATH=/opt/ros/galactic /usr/bin/cmake --build /home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector -- -j8 -l8
+[0.063s] [35m[1mScanning dependencies of target cpp_blob_detector[0m
+[0.092s] [ 50%] [32mBuilding CXX object CMakeFiles/cpp_blob_detector.dir/src/main.cpp.o[0m
+[1.801s] [01m[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:[m[K In constructor ‘[01m[KPublisher::Publisher()[m[K’:
+[1.801s] [01m[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:17:53:[m[K [01;31m[Kerror: [m[K‘[01m[Kmsgs[m[K’ is not a member of ‘[01m[Kstd[m[K’
+[1.801s]    17 |             publisher_= this->create_publisher<std::[01;31m[Kmsgs[m[K::msg::String>("observation_from_blob_detector",10);
+[1.801s]       |                                                     [01;31m[K^~~~[m[K
+[1.801s] [01m[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:17:31:[m[K [01;31m[Kerror: [m[Kparse error in template argument list
+[1.801s]    17 |             publisher_= this->[01;31m[Kcreate_publisher<std::msgs::msg::String>[m[K("observation_from_blob_detector",10);
+[1.801s]       |                               [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[1.801s] [01m[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:17:107:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[KPublisher::create_publisher<<expression error> >(const char [31], int)[m[K’
+[1.801s]    17 |             publisher_= this->create_publisher<std::msgs::msg::String>("observation_from_blob_detector",10[01;31m[K)[m[K;
+[1.801s]       |                                                                                                           [01;31m[K^[m[K
+[1.801s] In file included from [01m[K/opt/ros/galactic/include/rclcpp/executors/single_threaded_executor.hpp:28[m[K,
+[1.801s]                  from [01m[K/opt/ros/galactic/include/rclcpp/executors.hpp:22[m[K,
+[1.801s]                  from [01m[K/opt/ros/galactic/include/rclcpp/rclcpp.hpp:156[m[K,
+[1.802s]                  from [01m[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:6[m[K:
+[1.802s] [01m[K/opt/ros/galactic/include/rclcpp/node.hpp:189:3:[m[K [01;36m[Knote: [m[Kcandidate: ‘[01m[Ktemplate<class MessageT, class AllocatorT, class PublisherT> std::shared_ptr<PublisherT> rclcpp::Node::create_publisher(const string&, const rclcpp::QoS&, const rclcpp::PublisherOptionsWithAllocator<AllocatorT>&)[m[K’
+[1.802s]   189 |   [01;36m[Kcreate_publisher[m[K(
+[1.802s]       |   [01;36m[K^~~~~~~~~~~~~~~~[m[K
+[1.802s] [01m[K/opt/ros/galactic/include/rclcpp/node.hpp:189:3:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[1.802s] [01m[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:17:107:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+[1.802s]    17 |             publisher_= this->create_publisher<std::msgs::msg::String>("observation_from_blob_detector",10[01;31m[K)[m[K;
+[1.802s]       |                                                                                                           [01;31m[K^[m[K
+[2.588s] make[2]: *** [CMakeFiles/cpp_blob_detector.dir/build.make:63: CMakeFiles/cpp_blob_detector.dir/src/main.cpp.o] Error 1
+[2.588s] make[1]: *** [CMakeFiles/Makefile2:78: CMakeFiles/cpp_blob_detector.dir/all] Error 2
+[2.589s] make: *** [Makefile:141: all] Error 2
+[2.591s] Invoked command in '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector' returned '2': CMAKE_PREFIX_PATH=/opt/ros/galactic /usr/bin/cmake --build /home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector -- -j8 -l8

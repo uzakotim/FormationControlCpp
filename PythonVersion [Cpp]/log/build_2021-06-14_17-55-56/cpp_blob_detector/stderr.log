@@ -1,0 +1,8 @@
+In file included from [01m[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:6[m[K:
+[01m[K/usr/local/include/opencv4/opencv2/highgui.hpp:46:10:[m[K [01;31m[Kfatal error: [m[Kopencv2/core.hpp: No such file or directory
+   46 | #include [01;31m[K"opencv2/core.hpp"[m[K
+      |          [01;31m[K^~~~~~~~~~~~~~~~~~[m[K
+compilation terminated.
+make[2]: *** [CMakeFiles/cpp_blob_detector.dir/build.make:63: CMakeFiles/cpp_blob_detector.dir/src/main.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:78: CMakeFiles/cpp_blob_detector.dir/all] Error 2
+make: *** [Makefile:141: all] Error 2

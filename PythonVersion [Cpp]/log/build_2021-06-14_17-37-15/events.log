@@ -1,0 +1,122 @@
+[0.000000] (-) TimerEvent: {}
+[0.001123] (cpp_blob_detector) JobQueued: {'identifier': 'cpp_blob_detector', 'dependencies': OrderedDict()}
+[0.001244] (cpp_blob_detector) JobStarted: {'identifier': 'cpp_blob_detector'}
+[0.015352] (cpp_blob_detector) JobProgress: {'identifier': 'cpp_blob_detector', 'progress': 'cmake'}
+[0.015698] (cpp_blob_detector) Command: {'cmd': ['/usr/bin/cmake', '/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector', '-DCMAKE_INSTALL_PREFIX=/home/timur/FormationControlCpp/PythonVersion [Cpp]/install/cpp_blob_detector'], 'cwd': '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'timur'), ('LC_TIME', 'uz_UZ.UTF-8'), ('SSH_AGENT_PID', '1231'), ('XDG_SESSION_TYPE', 'x11'), ('GIT_ASKPASS', '/snap/code/66/usr/share/code/resources/app/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/galactic/opt/yaml_cpp_vendor/lib:/opt/ros/galactic/opt/rviz_ogre_vendor/lib:/opt/ros/galactic/lib/x86_64-linux-gnu:/opt/ros/galactic/lib'), ('HOME', '/home/timur'), ('CHROME_DESKTOP', 'code-url-handler.desktop'), ('OLDPWD', '/home/timur/FormationControlCpp/PythonVersion [Cpp]/src'), ('TERM_PROGRAM_VERSION', '1.57.0'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/var/lib/snapd/desktop/applications/code_code.desktop'), ('APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL', 'true'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('VSCODE_GIT_ASKPASS_MAIN', '/snap/code/66/usr/share/code/resources/app/extensions/git/dist/askpass-main.js'), ('LC_MONETARY', 'uz_UZ.UTF-8'), ('VSCODE_GIT_ASKPASS_NODE', '/snap/code/66/usr/share/code/code'), ('MANAGERPID', '932'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '1718'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'galactic'), ('LOGNAME', 'timur'), ('JOURNAL_STREAM', '8:37630'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'timur'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/galactic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/timur-XPS-15-9560:@/tmp/.ICE-unix/1266,unix/timur-XPS-15-9560:/tmp/.ICE-unix/1266'), ('INVOCATION_ID', '269c9e07c3854e05b3833475ddfea5ff'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'uz_UZ.UTF-8'), ('BAMF_DESKTOP_FILE_HINT', '/var/lib/snapd/desktop/applications/code_code.desktop'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('LC_TELEPHONE', 'uz_UZ.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-375d9bd677.sock'), ('TERM_PROGRAM', 'vscode'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('GSETTINGS_SCHEMA_DIR', '/snap/code/66/usr/share/glib-2.0/schemas'), ('AMENT_PREFIX_PATH', '/opt/ros/galactic'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'uz_UZ.UTF-8'), ('DISABLE_WAYLAND', '1'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'uz_UZ.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'uz_UZ.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/galactic/lib/python3.8/site-packages'), ('LC_NUMERIC', 'uz_UZ.UTF-8'), ('BREAKPAD_DUMP_LOCATION', '/home/timur/.config/Code/exthost Crash Reports'), ('LC_PAPER', 'uz_UZ.UTF-8'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/galactic')]), 'shell': False}
+[0.099323] (-) TimerEvent: {}
+[0.104132] (cpp_blob_detector) StdoutLine: {'line': b'-- The C compiler identification is GNU 9.3.0\n'}
+[0.173334] (cpp_blob_detector) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 9.3.0\n'}
+[0.181171] (cpp_blob_detector) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc\n'}
+[0.199415] (-) TimerEvent: {}
+[0.253349] (cpp_blob_detector) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc -- works\n'}
+[0.255640] (cpp_blob_detector) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.299534] (-) TimerEvent: {}
+[0.325186] (cpp_blob_detector) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.337446] (cpp_blob_detector) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.337967] (cpp_blob_detector) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.342520] (cpp_blob_detector) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++\n'}
+[0.399652] (-) TimerEvent: {}
+[0.423174] (cpp_blob_detector) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ -- works\n'}
+[0.424224] (cpp_blob_detector) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.499203] (cpp_blob_detector) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.499714] (-) TimerEvent: {}
+[0.513333] (cpp_blob_detector) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.514138] (cpp_blob_detector) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.520598] (cpp_blob_detector) StdoutLine: {'line': b'-- Found ament_cmake: 1.1.4 (/opt/ros/galactic/share/ament_cmake/cmake)\n'}
+[0.545376] (cpp_blob_detector) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.5", minimum required is "3") \n'}
+[0.545546] (cpp_blob_detector) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.599859] (-) TimerEvent: {}
+[0.631353] (cpp_blob_detector) StdoutLine: {'line': b'-- Found rclcpp: 9.1.0 (/opt/ros/galactic/share/rclcpp/cmake)\n'}
+[0.689819] (cpp_blob_detector) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[0.698596] (cpp_blob_detector) StdoutLine: {'line': b'-- Found rosidl_adapter: 2.2.1 (/opt/ros/galactic/share/rosidl_adapter/cmake)\n'}
+[0.699904] (-) TimerEvent: {}
+[0.781087] (cpp_blob_detector) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  \n'}
+[0.800033] (-) TimerEvent: {}
+[0.811386] (cpp_blob_detector) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/galactic/include  \n'}
+[0.895560] (cpp_blob_detector) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[0.900163] (-) TimerEvent: {}
+[0.970251] (cpp_blob_detector) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 3.3.1 (/opt/ros/galactic/share/rmw_implementation_cmake/cmake)\n'}
+[0.974924] (cpp_blob_detector) StdoutLine: {'line': b'-- Found rmw_cyclonedds_cpp: 0.22.2 (/opt/ros/galactic/share/rmw_cyclonedds_cpp/cmake)\n'}
+[0.998960] (cpp_blob_detector) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_cyclonedds_cpp' as default\n"}
+[1.000256] (-) TimerEvent: {}
+[1.001101] (cpp_blob_detector) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[1.073505] (cpp_blob_detector) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[1.073830] (cpp_blob_detector) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[1.100369] (-) TimerEvent: {}
+[1.150921] (cpp_blob_detector) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed\n'}
+[1.151224] (cpp_blob_detector) StdoutLine: {'line': b'-- Looking for pthread_create in pthreads\n'}
+[1.200460] (-) TimerEvent: {}
+[1.213945] (cpp_blob_detector) StdoutLine: {'line': b'-- Looking for pthread_create in pthreads - not found\n'}
+[1.214187] (cpp_blob_detector) StdoutLine: {'line': b'-- Looking for pthread_create in pthread\n'}
+[1.285512] (cpp_blob_detector) StdoutLine: {'line': b'-- Looking for pthread_create in pthread - found\n'}
+[1.287652] (cpp_blob_detector) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[1.300595] (-) TimerEvent: {}
+[1.400862] (-) TimerEvent: {}
+[1.456387] (cpp_blob_detector) StdoutLine: {'line': b'-- Found ament_lint_auto: 0.10.6 (/opt/ros/galactic/share/ament_lint_auto/cmake)\n'}
+[1.500944] (-) TimerEvent: {}
+[1.535022] (cpp_blob_detector) StdoutLine: {'line': b"-- Added test 'copyright' to check source files copyright and LICENSE\n"}
+[1.540673] (cpp_blob_detector) StdoutLine: {'line': b'-- Configuring done\n'}
+[1.547951] (cpp_blob_detector) StdoutLine: {'line': b'-- Generating done\n'}
+[1.549699] (cpp_blob_detector) StdoutLine: {'line': b'-- Build files have been written to: /home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector\n'}
+[1.558102] (cpp_blob_detector) CommandEnded: {'returncode': 0}
+[1.559445] (cpp_blob_detector) JobProgress: {'identifier': 'cpp_blob_detector', 'progress': 'build'}
+[1.560591] (cpp_blob_detector) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector', '--', '-j8', '-l8'], 'cwd': '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector', 'env': OrderedDict([('GJS_DEBUG_TOPICS', 'JS ERROR;JS LOG'), ('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'timur'), ('LC_TIME', 'uz_UZ.UTF-8'), ('SSH_AGENT_PID', '1231'), ('XDG_SESSION_TYPE', 'x11'), ('GIT_ASKPASS', '/snap/code/66/usr/share/code/resources/app/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/opt/ros/galactic/opt/yaml_cpp_vendor/lib:/opt/ros/galactic/opt/rviz_ogre_vendor/lib:/opt/ros/galactic/lib/x86_64-linux-gnu:/opt/ros/galactic/lib'), ('HOME', '/home/timur'), ('CHROME_DESKTOP', 'code-url-handler.desktop'), ('OLDPWD', '/home/timur/FormationControlCpp/PythonVersion [Cpp]/src'), ('TERM_PROGRAM_VERSION', '1.57.0'), ('DESKTOP_SESSION', 'ubuntu'), ('GIO_LAUNCHED_DESKTOP_FILE', '/var/lib/snapd/desktop/applications/code_code.desktop'), ('APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL', 'true'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('VSCODE_GIT_ASKPASS_MAIN', '/snap/code/66/usr/share/code/resources/app/extensions/git/dist/askpass-main.js'), ('LC_MONETARY', 'uz_UZ.UTF-8'), ('VSCODE_GIT_ASKPASS_NODE', '/snap/code/66/usr/share/code/code'), ('MANAGERPID', '932'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('GIO_LAUNCHED_DESKTOP_FILE_PID', '1718'), ('IM_CONFIG_PHASE', '1'), ('ROS_DISTRO', 'galactic'), ('LOGNAME', 'timur'), ('JOURNAL_STREAM', '8:37630'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('USERNAME', 'timur'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('WINDOWPATH', '2'), ('PATH', '/opt/ros/galactic/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/timur-XPS-15-9560:@/tmp/.ICE-unix/1266,unix/timur-XPS-15-9560:/tmp/.ICE-unix/1266'), ('INVOCATION_ID', '269c9e07c3854e05b3833475ddfea5ff'), ('XDG_MENU_PREFIX', 'gnome-'), ('LC_ADDRESS', 'uz_UZ.UTF-8'), ('BAMF_DESKTOP_FILE_HINT', '/var/lib/snapd/desktop/applications/code_code.desktop'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('GDK_BACKEND', 'x11'), ('DISPLAY', ':0'), ('LANG', 'en_US.UTF-8'), ('XDG_CURRENT_DESKTOP', 'Unity'), ('LC_TELEPHONE', 'uz_UZ.UTF-8'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('VSCODE_GIT_IPC_HANDLE', '/run/user/1000/vscode-git-375d9bd677.sock'), ('TERM_PROGRAM', 'vscode'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('GSETTINGS_SCHEMA_DIR', '/snap/code/66/usr/share/glib-2.0/schemas'), ('AMENT_PREFIX_PATH', '/opt/ros/galactic'), ('ORIGINAL_XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('SHELL', '/bin/bash'), ('LC_NAME', 'uz_UZ.UTF-8'), ('DISABLE_WAYLAND', '1'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('LC_MEASUREMENT', 'uz_UZ.UTF-8'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('GJS_DEBUG_OUTPUT', 'stderr'), ('LC_IDENTIFICATION', 'uz_UZ.UTF-8'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/galactic/lib/python3.8/site-packages'), ('LC_NUMERIC', 'uz_UZ.UTF-8'), ('BREAKPAD_DUMP_LOCATION', '/home/timur/.config/Code/exthost Crash Reports'), ('LC_PAPER', 'uz_UZ.UTF-8'), ('COLCON', '1'), ('CMAKE_PREFIX_PATH', '/opt/ros/galactic')]), 'shell': False}
+[1.601093] (-) TimerEvent: {}
+[1.601542] (cpp_blob_detector) StdoutLine: {'line': b'\x1b[35m\x1b[1mScanning dependencies of target cpp_blob_detector\x1b[0m\n'}
+[1.694172] (cpp_blob_detector) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/cpp_blob_detector.dir/src/main.cpp.o\x1b[0m\n'}
+[1.701212] (-) TimerEvent: {}
+[1.801547] (-) TimerEvent: {}
+[1.901893] (-) TimerEvent: {}
+[2.002238] (-) TimerEvent: {}
+[2.102605] (-) TimerEvent: {}
+[2.202996] (-) TimerEvent: {}
+[2.303642] (-) TimerEvent: {}
+[2.403988] (-) TimerEvent: {}
+[2.504336] (-) TimerEvent: {}
+[2.604711] (-) TimerEvent: {}
+[2.705068] (-) TimerEvent: {}
+[2.805376] (-) TimerEvent: {}
+[2.905733] (-) TimerEvent: {}
+[3.006075] (-) TimerEvent: {}
+[3.106439] (-) TimerEvent: {}
+[3.206908] (-) TimerEvent: {}
+[3.307330] (-) TimerEvent: {}
+[3.326845] (cpp_blob_detector) StderrLine: {'line': b'\x1b[01m\x1b[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:33:2:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kexpected \xe2\x80\x98\x1b[01m\x1b[K;\x1b[m\x1b[K\xe2\x80\x99 after class definition\n'}
+[3.327060] (cpp_blob_detector) StderrLine: {'line': b'   33 | }\n'}
+[3.327150] (cpp_blob_detector) StderrLine: {'line': b'      |  \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[3.327287] (cpp_blob_detector) StderrLine: {'line': b'      |  \x1b[32m\x1b[K;\x1b[m\x1b[K\n'}
+[3.328384] (cpp_blob_detector) StderrLine: {'line': b'\x1b[01m\x1b[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:\x1b[m\x1b[K In constructor \xe2\x80\x98\x1b[01m\x1b[KPublisher::Publisher()\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[3.328688] (cpp_blob_detector) StderrLine: {'line': b'\x1b[01m\x1b[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:17:53:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[K\xe2\x80\x98\x1b[01m\x1b[Kmsgs\x1b[m\x1b[K\xe2\x80\x99 is not a member of \xe2\x80\x98\x1b[01m\x1b[Kstd\x1b[m\x1b[K\xe2\x80\x99\n'}
+[3.328850] (cpp_blob_detector) StderrLine: {'line': b'   17 |             publisher_= this->create_publisher<std::\x1b[01;31m\x1b[Kmsgs\x1b[m\x1b[K::msg::String>("observation_from_blob_detector",10);\n'}
+[3.328984] (cpp_blob_detector) StderrLine: {'line': b'      |                                                     \x1b[01;31m\x1b[K^~~~\x1b[m\x1b[K\n'}
+[3.329105] (cpp_blob_detector) StderrLine: {'line': b'\x1b[01m\x1b[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:17:31:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kparse error in template argument list\n'}
+[3.329229] (cpp_blob_detector) StderrLine: {'line': b'   17 |             publisher_= this->\x1b[01;31m\x1b[Kcreate_publisher<std::msgs::msg::String>\x1b[m\x1b[K("observation_from_blob_detector",10);\n'}
+[3.329352] (cpp_blob_detector) StderrLine: {'line': b'      |                               \x1b[01;31m\x1b[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[3.329476] (cpp_blob_detector) StderrLine: {'line': b'\x1b[01m\x1b[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:17:107:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Kno matching function for call to \xe2\x80\x98\x1b[01m\x1b[KPublisher::create_publisher<<expression error> >(const char [31], int)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[3.329612] (cpp_blob_detector) StderrLine: {'line': b'   17 |             publisher_= this->create_publisher<std::msgs::msg::String>("observation_from_blob_detector",10\x1b[01;31m\x1b[K)\x1b[m\x1b[K;\n'}
+[3.329732] (cpp_blob_detector) StderrLine: {'line': b'      |                                                                                                           \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[3.329865] (cpp_blob_detector) StderrLine: {'line': b'In file included from \x1b[01m\x1b[K/opt/ros/galactic/include/rclcpp/executors/single_threaded_executor.hpp:28\x1b[m\x1b[K,\n'}
+[3.330021] (cpp_blob_detector) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/galactic/include/rclcpp/executors.hpp:22\x1b[m\x1b[K,\n'}
+[3.330149] (cpp_blob_detector) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/opt/ros/galactic/include/rclcpp/rclcpp.hpp:156\x1b[m\x1b[K,\n'}
+[3.330300] (cpp_blob_detector) StderrLine: {'line': b'                 from \x1b[01m\x1b[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:6\x1b[m\x1b[K:\n'}
+[3.330419] (cpp_blob_detector) StderrLine: {'line': b'\x1b[01m\x1b[K/opt/ros/galactic/include/rclcpp/node.hpp:189:3:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[Kcandidate: \xe2\x80\x98\x1b[01m\x1b[Ktemplate<class MessageT, class AllocatorT, class PublisherT> std::shared_ptr<PublisherT> rclcpp::Node::create_publisher(const string&, const rclcpp::QoS&, const rclcpp::PublisherOptionsWithAllocator<AllocatorT>&)\x1b[m\x1b[K\xe2\x80\x99\n'}
+[3.330536] (cpp_blob_detector) StderrLine: {'line': b'  189 |   \x1b[01;36m\x1b[Kcreate_publisher\x1b[m\x1b[K(\n'}
+[3.330643] (cpp_blob_detector) StderrLine: {'line': b'      |   \x1b[01;36m\x1b[K^~~~~~~~~~~~~~~~\x1b[m\x1b[K\n'}
+[3.330750] (cpp_blob_detector) StderrLine: {'line': b'\x1b[01m\x1b[K/opt/ros/galactic/include/rclcpp/node.hpp:189:3:\x1b[m\x1b[K \x1b[01;36m\x1b[Knote: \x1b[m\x1b[K  template argument deduction/substitution failed:\n'}
+[3.330872] (cpp_blob_detector) StderrLine: {'line': b'\x1b[01m\x1b[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:17:107:\x1b[m\x1b[K \x1b[01;31m\x1b[Kerror: \x1b[m\x1b[Ktemplate argument 1 is invalid\n'}
+[3.330994] (cpp_blob_detector) StderrLine: {'line': b'   17 |             publisher_= this->create_publisher<std::msgs::msg::String>("observation_from_blob_detector",10\x1b[01;31m\x1b[K)\x1b[m\x1b[K;\n'}
+[3.331097] (cpp_blob_detector) StderrLine: {'line': b'      |                                                                                                           \x1b[01;31m\x1b[K^\x1b[m\x1b[K\n'}
+[3.407423] (-) TimerEvent: {}
+[3.507745] (-) TimerEvent: {}
+[3.608130] (-) TimerEvent: {}
+[3.708442] (-) TimerEvent: {}
+[3.808723] (-) TimerEvent: {}
+[3.908990] (-) TimerEvent: {}
+[4.009302] (-) TimerEvent: {}
+[4.064377] (cpp_blob_detector) StderrLine: {'line': b'make[2]: *** [CMakeFiles/cpp_blob_detector.dir/build.make:63: CMakeFiles/cpp_blob_detector.dir/src/main.cpp.o] Error 1\n'}
+[4.064733] (cpp_blob_detector) StderrLine: {'line': b'make[1]: *** [CMakeFiles/Makefile2:78: CMakeFiles/cpp_blob_detector.dir/all] Error 2\n'}
+[4.065017] (cpp_blob_detector) StderrLine: {'line': b'make: *** [Makefile:141: all] Error 2\n'}
+[4.067318] (cpp_blob_detector) CommandEnded: {'returncode': 2}
+[4.101441] (cpp_blob_detector) JobEnded: {'identifier': 'cpp_blob_detector', 'rc': 2}
+[4.109413] (-) TimerEvent: {}
+[4.111960] (-) EventReactorShutdown: {}

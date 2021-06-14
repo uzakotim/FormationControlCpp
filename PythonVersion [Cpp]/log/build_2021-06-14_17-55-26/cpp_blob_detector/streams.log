@@ -1,0 +1,11 @@
+[0.023s] Invoking command in '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --build /home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector -- -j8 -l8
+[0.078s] [35m[1mScanning dependencies of target cpp_blob_detector[0m
+[0.119s] [ 50%] [32mBuilding CXX object CMakeFiles/cpp_blob_detector.dir/src/main.cpp.o[0m
+[0.174s] [01m[K/home/timur/FormationControlCpp/PythonVersion [Cpp]/src/cpp_blob_detector/src/main.cpp:6:10:[m[K [01;31m[Kfatal error: [m[Kopencv2/highgui.h: No such file or directory
+[0.174s]     6 | #include [01;31m[K<opencv2/highgui.h>[m[K
+[0.175s]       |          [01;31m[K^~~~~~~~~~~~~~~~~~~[m[K
+[0.175s] compilation terminated.
+[0.176s] make[2]: *** [CMakeFiles/cpp_blob_detector.dir/build.make:63: CMakeFiles/cpp_blob_detector.dir/src/main.cpp.o] Error 1
+[0.176s] make[1]: *** [CMakeFiles/Makefile2:78: CMakeFiles/cpp_blob_detector.dir/all] Error 2
+[0.177s] make: *** [Makefile:141: all] Error 2
+[0.179s] Invoked command in '/home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/galactic /usr/bin/cmake --build /home/timur/FormationControlCpp/PythonVersion [Cpp]/build/cpp_blob_detector -- -j8 -l8
