@@ -78,7 +78,7 @@ int main(int argc, char** argv)
     
     // Offset determines the position of a robot 
     // relatively to observation
-    double offset_x {-5};
+    double offset_x{-5};
     double offset_y {5};
     double offset_z {1};
 

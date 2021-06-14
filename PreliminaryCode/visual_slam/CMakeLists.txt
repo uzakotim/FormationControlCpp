@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+project( visual_slam )
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+add_executable( visual_slam slam.cpp)
+target_link_libraries( visual_slam ${OpenCV_LIBS})
