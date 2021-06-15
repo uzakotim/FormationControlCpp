@@ -140,8 +140,11 @@ include_directories (
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(blob_detector src/main.cpp)
-target_link_libraries(blob_detector ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(main src/main.cpp)
+target_link_libraries(main ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(publisher src/publisher.cpp)
+target_link_libraries(publisher ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

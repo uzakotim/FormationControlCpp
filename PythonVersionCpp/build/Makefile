@@ -545,6 +545,19 @@ std_msgs_generate_messages_nodejs/fast:
 .PHONY : std_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named roscpp_generate_messages_eus
+
+# Build rule for target.
+roscpp_generate_messages_eus: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 roscpp_generate_messages_eus
+.PHONY : roscpp_generate_messages_eus
+
+# fast build rule for target.
+roscpp_generate_messages_eus/fast:
+	$(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build
+.PHONY : roscpp_generate_messages_eus/fast
+
+#=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_eus
 
 # Build rule for target.
@@ -571,6 +584,19 @@ rosgraph_msgs_generate_messages_lisp/fast:
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 #=============================================================================
+# Target rules for targets named publisher
+
+# Build rule for target.
+publisher: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 publisher
+.PHONY : publisher
+
+# fast build rule for target.
+publisher/fast:
+	$(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/build
+.PHONY : publisher/fast
+
+#=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_nodejs
 
 # Build rule for target.
@@ -584,6 +610,19 @@ rosgraph_msgs_generate_messages_nodejs/fast:
 .PHONY : rosgraph_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
+# Target rules for targets named main
+
+# Build rule for target.
+main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 main
+.PHONY : main
+
+# fast build rule for target.
+main/fast:
+	$(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/build
+.PHONY : main/fast
+
+#=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_cpp
 
 # Build rule for target.
@@ -595,32 +634,6 @@ rosgraph_msgs_generate_messages_cpp: cmake_check_build_system
 rosgraph_msgs_generate_messages_cpp/fast:
 	$(MAKE) -f blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
-
-#=============================================================================
-# Target rules for targets named roscpp_generate_messages_eus
-
-# Build rule for target.
-roscpp_generate_messages_eus: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 roscpp_generate_messages_eus
-.PHONY : roscpp_generate_messages_eus
-
-# fast build rule for target.
-roscpp_generate_messages_eus/fast:
-	$(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build
-.PHONY : roscpp_generate_messages_eus/fast
-
-#=============================================================================
-# Target rules for targets named blob_detector
-
-# Build rule for target.
-blob_detector: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 blob_detector
-.PHONY : blob_detector
-
-# fast build rule for target.
-blob_detector/fast:
-	$(MAKE) -f blob_detector/CMakeFiles/blob_detector.dir/build.make blob_detector/CMakeFiles/blob_detector.dir/build
-.PHONY : blob_detector/fast
 
 # Help Target
 help:
@@ -664,12 +677,13 @@ help:
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_nodejs"
+	@echo "... roscpp_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... publisher"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
+	@echo "... main"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
-	@echo "... roscpp_generate_messages_eus"
-	@echo "... blob_detector"
 .PHONY : help
 
 

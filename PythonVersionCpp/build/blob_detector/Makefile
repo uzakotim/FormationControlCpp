@@ -90,6 +90,17 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -123,17 +134,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -468,6 +468,21 @@ std_msgs_generate_messages_nodejs/fast:
 .PHONY : std_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
+blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+.PHONY : blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_eus: blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+.PHONY : roscpp_generate_messages_eus
+
+# fast build rule for target.
+roscpp_generate_messages_eus/fast:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build
+.PHONY : roscpp_generate_messages_eus/fast
+
+# Convenience name for target.
 blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
 	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
 .PHONY : blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
@@ -498,6 +513,21 @@ rosgraph_msgs_generate_messages_lisp/fast:
 .PHONY : rosgraph_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
+blob_detector/CMakeFiles/publisher.dir/rule:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/publisher.dir/rule
+.PHONY : blob_detector/CMakeFiles/publisher.dir/rule
+
+# Convenience name for target.
+publisher: blob_detector/CMakeFiles/publisher.dir/rule
+
+.PHONY : publisher
+
+# fast build rule for target.
+publisher/fast:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/build
+.PHONY : publisher/fast
+
+# Convenience name for target.
 blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
 	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
 .PHONY : blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
@@ -511,6 +541,21 @@ rosgraph_msgs_generate_messages_nodejs: blob_detector/CMakeFiles/rosgraph_msgs_g
 rosgraph_msgs_generate_messages_nodejs/fast:
 	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
 .PHONY : rosgraph_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+blob_detector/CMakeFiles/main.dir/rule:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/main.dir/rule
+.PHONY : blob_detector/CMakeFiles/main.dir/rule
+
+# Convenience name for target.
+main: blob_detector/CMakeFiles/main.dir/rule
+
+.PHONY : main
+
+# fast build rule for target.
+main/fast:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/build
+.PHONY : main/fast
 
 # Convenience name for target.
 blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
@@ -527,43 +572,13 @@ rosgraph_msgs_generate_messages_cpp/fast:
 	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
-# Convenience name for target.
-blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-.PHONY : blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_eus: blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-
-.PHONY : roscpp_generate_messages_eus
-
-# fast build rule for target.
-roscpp_generate_messages_eus/fast:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build
-.PHONY : roscpp_generate_messages_eus/fast
-
-# Convenience name for target.
-blob_detector/CMakeFiles/blob_detector.dir/rule:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/blob_detector.dir/rule
-.PHONY : blob_detector/CMakeFiles/blob_detector.dir/rule
-
-# Convenience name for target.
-blob_detector: blob_detector/CMakeFiles/blob_detector.dir/rule
-
-.PHONY : blob_detector
-
-# fast build rule for target.
-blob_detector/fast:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/blob_detector.dir/build.make blob_detector/CMakeFiles/blob_detector.dir/build
-.PHONY : blob_detector/fast
-
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
 
 # target to build an object file
 src/main.cpp.o:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/blob_detector.dir/build.make blob_detector/CMakeFiles/blob_detector.dir/src/main.cpp.o
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -572,7 +587,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/blob_detector.dir/build.make blob_detector/CMakeFiles/blob_detector.dir/src/main.cpp.i
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -581,8 +596,35 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/blob_detector.dir/build.make blob_detector/CMakeFiles/blob_detector.dir/src/main.cpp.s
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/publisher.o: src/publisher.cpp.o
+
+.PHONY : src/publisher.o
+
+# target to build an object file
+src/publisher.cpp.o:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/src/publisher.cpp.o
+.PHONY : src/publisher.cpp.o
+
+src/publisher.i: src/publisher.cpp.i
+
+.PHONY : src/publisher.i
+
+# target to preprocess a source file
+src/publisher.cpp.i:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/src/publisher.cpp.i
+.PHONY : src/publisher.cpp.i
+
+src/publisher.s: src/publisher.cpp.s
+
+.PHONY : src/publisher.s
+
+# target to generate assembly for a file
+src/publisher.cpp.s:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/src/publisher.cpp.s
+.PHONY : src/publisher.cpp.s
 
 # Help Target
 help:
@@ -613,19 +655,23 @@ help:
 	@echo "... std_msgs_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_eus"
 	@echo "... std_msgs_generate_messages_nodejs"
+	@echo "... rebuild_cache"
+	@echo "... roscpp_generate_messages_eus"
 	@echo "... install/local"
 	@echo "... rosgraph_msgs_generate_messages_eus"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... publisher"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
+	@echo "... main"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... test"
 	@echo "... edit_cache"
-	@echo "... roscpp_generate_messages_eus"
-	@echo "... blob_detector"
-	@echo "... rebuild_cache"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/publisher.o"
+	@echo "... src/publisher.i"
+	@echo "... src/publisher.s"
 .PHONY : help
 
 

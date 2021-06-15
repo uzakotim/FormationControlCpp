@@ -79,7 +79,8 @@ clean: blob_detector/clean
 # Directory level rules for directory blob_detector
 
 # Recursive "all" directory target.
-blob_detector/all: blob_detector/CMakeFiles/blob_detector.dir/all
+blob_detector/all: blob_detector/CMakeFiles/publisher.dir/all
+blob_detector/all: blob_detector/CMakeFiles/main.dir/all
 
 .PHONY : blob_detector/all
 
@@ -109,12 +110,13 @@ blob_detector/clean: blob_detector/CMakeFiles/sensor_msgs_generate_messages_cpp.
 blob_detector/clean: blob_detector/CMakeFiles/std_msgs_generate_messages_py.dir/clean
 blob_detector/clean: blob_detector/CMakeFiles/geometry_msgs_generate_messages_eus.dir/clean
 blob_detector/clean: blob_detector/CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
+blob_detector/clean: blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/clean
 blob_detector/clean: blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/clean
 blob_detector/clean: blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
+blob_detector/clean: blob_detector/CMakeFiles/publisher.dir/clean
 blob_detector/clean: blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
+blob_detector/clean: blob_detector/CMakeFiles/main.dir/clean
 blob_detector/clean: blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
-blob_detector/clean: blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/clean
-blob_detector/clean: blob_detector/CMakeFiles/blob_detector.dir/clean
 
 .PHONY : blob_detector/clean
 
@@ -318,7 +320,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googlemock/CMakeFiles/gmoc
 gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=5,6 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=3,4 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -345,7 +347,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=3,4 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=1,2 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -372,7 +374,7 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=9,10 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=7,8 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -399,7 +401,7 @@ gtest/googletest/CMakeFiles/gtest_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=7,8 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=5,6 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -960,6 +962,33 @@ blob_detector/CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean:
 .PHONY : blob_detector/CMakeFiles/std_msgs_generate_messages_nodejs.dir/clean
 
 #=============================================================================
+# Target rules for target blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir
+
+# All Build rule for target.
+blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/all:
+	$(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/depend
+	$(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_eus"
+.PHONY : blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/all
+
+# Build rule for subdir invocation for target.
+blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
+	$(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
+.PHONY : blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_eus: blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+.PHONY : roscpp_generate_messages_eus
+
+# clean rule for target.
+blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/clean:
+	$(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/clean
+.PHONY : blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/clean
+
+#=============================================================================
 # Target rules for target blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir
 
 # All Build rule for target.
@@ -1014,6 +1043,33 @@ blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
 .PHONY : blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean
 
 #=============================================================================
+# Target rules for target blob_detector/CMakeFiles/publisher.dir
+
+# All Build rule for target.
+blob_detector/CMakeFiles/publisher.dir/all:
+	$(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/depend
+	$(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=11,12 "Built target publisher"
+.PHONY : blob_detector/CMakeFiles/publisher.dir/all
+
+# Build rule for subdir invocation for target.
+blob_detector/CMakeFiles/publisher.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/publisher.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
+.PHONY : blob_detector/CMakeFiles/publisher.dir/rule
+
+# Convenience name for target.
+publisher: blob_detector/CMakeFiles/publisher.dir/rule
+
+.PHONY : publisher
+
+# clean rule for target.
+blob_detector/CMakeFiles/publisher.dir/clean:
+	$(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/clean
+.PHONY : blob_detector/CMakeFiles/publisher.dir/clean
+
+#=============================================================================
 # Target rules for target blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir
 
 # All Build rule for target.
@@ -1041,6 +1097,33 @@ blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean:
 .PHONY : blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean
 
 #=============================================================================
+# Target rules for target blob_detector/CMakeFiles/main.dir
+
+# All Build rule for target.
+blob_detector/CMakeFiles/main.dir/all:
+	$(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/depend
+	$(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=9,10 "Built target main"
+.PHONY : blob_detector/CMakeFiles/main.dir/all
+
+# Build rule for subdir invocation for target.
+blob_detector/CMakeFiles/main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/main.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
+.PHONY : blob_detector/CMakeFiles/main.dir/rule
+
+# Convenience name for target.
+main: blob_detector/CMakeFiles/main.dir/rule
+
+.PHONY : main
+
+# clean rule for target.
+blob_detector/CMakeFiles/main.dir/clean:
+	$(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/clean
+.PHONY : blob_detector/CMakeFiles/main.dir/clean
+
+#=============================================================================
 # Target rules for target blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir
 
 # All Build rule for target.
@@ -1066,60 +1149,6 @@ rosgraph_msgs_generate_messages_cpp: blob_detector/CMakeFiles/rosgraph_msgs_gene
 blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
 	$(MAKE) -f blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 .PHONY : blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
-
-#=============================================================================
-# Target rules for target blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir
-
-# All Build rule for target.
-blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/all:
-	$(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/depend
-	$(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num= "Built target roscpp_generate_messages_eus"
-.PHONY : blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/all
-
-# Build rule for subdir invocation for target.
-blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
-	$(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
-.PHONY : blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_eus: blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-
-.PHONY : roscpp_generate_messages_eus
-
-# clean rule for target.
-blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/clean:
-	$(MAKE) -f blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/build.make blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/clean
-.PHONY : blob_detector/CMakeFiles/roscpp_generate_messages_eus.dir/clean
-
-#=============================================================================
-# Target rules for target blob_detector/CMakeFiles/blob_detector.dir
-
-# All Build rule for target.
-blob_detector/CMakeFiles/blob_detector.dir/all:
-	$(MAKE) -f blob_detector/CMakeFiles/blob_detector.dir/build.make blob_detector/CMakeFiles/blob_detector.dir/depend
-	$(MAKE) -f blob_detector/CMakeFiles/blob_detector.dir/build.make blob_detector/CMakeFiles/blob_detector.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=1,2 "Built target blob_detector"
-.PHONY : blob_detector/CMakeFiles/blob_detector.dir/all
-
-# Build rule for subdir invocation for target.
-blob_detector/CMakeFiles/blob_detector.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 blob_detector/CMakeFiles/blob_detector.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
-.PHONY : blob_detector/CMakeFiles/blob_detector.dir/rule
-
-# Convenience name for target.
-blob_detector: blob_detector/CMakeFiles/blob_detector.dir/rule
-
-.PHONY : blob_detector
-
-# clean rule for target.
-blob_detector/CMakeFiles/blob_detector.dir/clean:
-	$(MAKE) -f blob_detector/CMakeFiles/blob_detector.dir/build.make blob_detector/CMakeFiles/blob_detector.dir/clean
-.PHONY : blob_detector/CMakeFiles/blob_detector.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
