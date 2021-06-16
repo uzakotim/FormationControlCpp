@@ -1,0 +1,8 @@
+prefix=/home/timur/FormationControlCpp/CppVersion/install
+
+Name: blob_detector_new
+Description: Description of blob_detector_new
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp sensor_msgs std_msgs cv_bridge image_transport

@@ -1,0 +1,2 @@
+blob_detector_new
+-DCATKIN_DEVEL_PREFIX=/home/timur/FormationControlCpp/CppVersion/devel -DCMAKE_INSTALL_PREFIX=/home/timur/FormationControlCpp/CppVersion/install -G Unix Makefiles
