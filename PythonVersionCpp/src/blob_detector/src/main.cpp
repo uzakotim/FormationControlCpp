@@ -23,41 +23,45 @@ using namespace std_msgs;
 class BlobDetector 
 {
 private:
-    image_transport::Publisher pub;
-    ros::Publisher pub_point;
-    cv::Scalar                          orange_min = cv::Scalar(10,150,150);     //min hsv value orange
-    cv::Scalar                          orange_max = cv::Scalar(27,255,255);     //max hsv value orange
-    cv::Scalar                          detection_color = cv::Scalar(255,100,0);
-    
-    cv::KalmanFilter KF;
-    cv::Mat_<float> measurement;
-    int count = 0;
-    
-    sensor_msgs::ImagePtr msg_output;
-    geometry_msgs::Point goal;
+    // Publishers 
+    image_transport::Publisher  pub;
+    ros::Publisher              pub_point;
 
-    typedef sync_policies::ApproximateTime<Image, Image> MySyncPolicy;
-    typedef Synchronizer<MySyncPolicy> Sync;
-    boost::shared_ptr<Sync> sync;
+    // Blob Detector Parametrs
+    cv::Scalar                  orange_min = cv::Scalar(10,150,150);     //min hsv value orange
+    cv::Scalar                  orange_max = cv::Scalar(27,255,255);     //max hsv value orange
+    cv::Scalar                  detection_color = cv::Scalar(255,100,0);
+    
+    // Kalman Filter Parameters
+    cv::KalmanFilter            KF;
+    cv::Mat_<float>             measurement;
+    int                         count = 0;
+    
+    // Output Parameters
+    sensor_msgs::ImagePtr       msg_output;
+    geometry_msgs::Point        goal;
+
+    // Time Sych Parameters
+    typedef sync_policies::ApproximateTime  <Image, Image> MySyncPolicy;
+    typedef Synchronizer                    <MySyncPolicy> Sync;
+    boost::shared_ptr<Sync>     sync;
 public:
     
     BlobDetector(ros::NodeHandle *nh)
     {   
         message_filters::Subscriber<Image> image_sub(*nh,"camera/image",1);
-       
     //    !!!! TODO: Configure depth camera image input here !!!!
         message_filters::Subscriber<Image> depth_sub(*nh,"/uav1/rs_d435/aligned_depth_to_color/image_raw",1);
        
     //  TODO: Ensure that callback is called
-        sync.reset(new Sync(MySyncPolicy(10), image_sub, depth_sub));
-        sync->registerCallback(boost::bind(&BlobDetector::image_callback, this, _1, _2));
+        sync.reset              (new Sync(MySyncPolicy(10), image_sub, depth_sub));
+        sync->registerCallback  (boost::bind(&BlobDetector::image_callback, this, _1, _2));
 
-
-    //  Detection publisher
+    //  Detection publisher -->
         image_transport::ImageTransport it(*nh);
-        pub = it.advertise("camera/blob", 1);
-        pub_point = nh->advertise<geometry_msgs::Point>("goal_point", 10);
-    //  Center point publisher
+        pub         = it.advertise("camera/blob", 1);
+        pub_point   = nh->advertise<geometry_msgs::Point>("goal_point", 10);
+    //   < -- Center point publisher
         
 
     //---Kalman Filter Parameters---->>----
@@ -70,15 +74,15 @@ public:
         KF.statePre.at<float>(2) = 0;
         KF.statePre.at<float>(3) = 0;
         setIdentity(KF.measurementMatrix);
-        setIdentity(KF.processNoiseCov, cv::Scalar::all(1e-4));
+        setIdentity(KF.processNoiseCov,     cv::Scalar::all(1e-4));
         setIdentity(KF.measurementNoiseCov, cv::Scalar::all(10));
-        setIdentity(KF.errorCovPost, cv::Scalar::all(.1));
+        setIdentity(KF.errorCovPost,        cv::Scalar::all(.1));
     // ---<< Kalman Filter Parameters ----
 
     }
     int FindMaxAreaContourId(std::vector<std::vector<cv::Point>> contours)
-{
-    double  maxArea = 0;
+    {
+    double  maxArea          = 0;
     int     maxAreaContourId = -1;
 
     for (size_t i = 0;i<contours.size();i++)
@@ -107,7 +111,7 @@ public:
         cv_bridge::CvImagePtr cv_ptr_depth; //depth msg
         try
         {
-            cv_ptr = cv_bridge::toCvCopy(msg,sensor_msgs::image_encodings::TYPE_8UC3 );
+            cv_ptr       = cv_bridge::toCvCopy(msg,sensor_msgs::image_encodings::TYPE_8UC3 );
             cv_ptr_depth = cv_bridge::toCvCopy(depth_msg,sensor_msgs::image_encodings::TYPE_16UC1 );
         }
         catch (cv_bridge::Exception& e)
@@ -115,7 +119,7 @@ public:
             ROS_ERROR("cv_bridge exception: %s", e.what());
             return;
         }
-        cv::Mat image = cv_ptr->image;
+        cv::Mat image       = cv_ptr->image;
         cv::Mat image_depth = cv_ptr_depth->image;
         // --<< -- Conversion to cv::Mat
 
@@ -126,13 +130,13 @@ public:
         
         // -->> Operations on image ----
         // 1) gaussian blur
-        cv::Mat image_blurred;
+        cv::Mat          image_blurred;
         cv::GaussianBlur(image, image_blurred, cv::Size(5,5), 0);
         // 2) conversion to hsv
-        cv::Mat image_HSV;
+        cv::Mat          image_HSV;
         cv::cvtColor    (image_blurred, image_HSV,CV_BGR2HSV);
         // 3) finding orange mask
-        cv::Mat image_threshold;
+        cv::Mat          image_threshold;
         cv::inRange     (image_HSV, BlobDetector::orange_min, BlobDetector::orange_max, image_threshold);
         // 4) finding contours
         std::vector<std::vector<cv::Point>> contours;       //contours are stored here
