@@ -13,6 +13,8 @@ class BlobDetector
 private:
     image_transport::Publisher pub;
     image_transport::Subscriber sub;
+    int count = 0;
+    sensor_msgs::ImagePtr msg_output;
 public:
     BlobDetector(ros::NodeHandle *nh)
     {   
@@ -27,7 +29,24 @@ public:
         std::string         frame_id = msg_header.frame_id;
         ROS_INFO_STREAM("[Image from: " << frame_id<<" ]");
         
-        pub.publish(msg);
+        cv_bridge::CvImagePtr cv_ptr;
+        try
+        {
+            cv_ptr = cv_bridge::toCvCopy(msg,sensor_msgs::image_encodings::TYPE_8UC3 );
+        }
+        catch (cv_bridge::Exception& e)
+        {
+            ROS_ERROR("cv_bridge exception: %s", e.what());
+            return;
+        }
+        cv::Mat image = cv_ptr->image;
+        cv::Mat imageHSV;
+        cv::cvtColor(image, imageHSV,CV_BGR2HSV);
+
+        msg_output = cv_bridge::CvImage(std_msgs::Header(), "bgr8", imageHSV).toImageMsg();
+        msg_output->header.frame_id = std::to_string(count);
+        count++;
+        pub.publish(msg_output);
         ROS_INFO_STREAM("[Image:" << frame_id<<" was sent ]");
     }
 };
