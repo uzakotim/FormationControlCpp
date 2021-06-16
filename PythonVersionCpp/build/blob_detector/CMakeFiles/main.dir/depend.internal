@@ -4,6 +4,7 @@
 blob_detector/CMakeFiles/main.dir/src/main.cpp.o
  /home/timur/FormationControlCpp/PythonVersionCpp/src/blob_detector/src/main.cpp
  /opt/ros/noetic/include/cv_bridge/cv_bridge.h
+ /opt/ros/noetic/include/geometry_msgs/Point.h
  /opt/ros/noetic/include/image_transport/camera_publisher.h
  /opt/ros/noetic/include/image_transport/camera_subscriber.h
  /opt/ros/noetic/include/image_transport/exception.h
@@ -14,6 +15,17 @@ blob_detector/CMakeFiles/main.dir/src/main.cpp.o
  /opt/ros/noetic/include/image_transport/single_subscriber_publisher.h
  /opt/ros/noetic/include/image_transport/subscriber.h
  /opt/ros/noetic/include/image_transport/transport_hints.h
+ /opt/ros/noetic/include/message_filters/connection.h
+ /opt/ros/noetic/include/message_filters/macros.h
+ /opt/ros/noetic/include/message_filters/null_types.h
+ /opt/ros/noetic/include/message_filters/signal1.h
+ /opt/ros/noetic/include/message_filters/signal9.h
+ /opt/ros/noetic/include/message_filters/simple_filter.h
+ /opt/ros/noetic/include/message_filters/subscriber.h
+ /opt/ros/noetic/include/message_filters/sync_policies/approximate_time.h
+ /opt/ros/noetic/include/message_filters/sync_policies/exact_time.h
+ /opt/ros/noetic/include/message_filters/synchronizer.h
+ /opt/ros/noetic/include/message_filters/time_synchronizer.h
  /opt/ros/noetic/include/ros/advertise_options.h
  /opt/ros/noetic/include/ros/advertise_service_options.h
  /opt/ros/noetic/include/ros/assert.h

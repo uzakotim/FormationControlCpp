@@ -1,10 +1,13 @@
 // include message filters and time sync
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
+#include <message_filters/sync_policies/approximate_time.h>
 // include CvBridge, Image Transport, Image msg
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
+#include <geometry_msgs/Point.h>
+
 // include opencv2
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -31,7 +34,11 @@ private:
     int count = 0;
     
     sensor_msgs::ImagePtr msg_output;
-    cv::Point3d goal;
+    geometry_msgs::Point goal;
+
+    typedef sync_policies::ApproximateTime<Image, Image> MySyncPolicy;
+    typedef Synchronizer<MySyncPolicy> Sync;
+    boost::shared_ptr<Sync> sync;
 public:
     
     BlobDetector(ros::NodeHandle *nh)
@@ -42,18 +49,18 @@ public:
         message_filters::Subscriber<Image> depth_sub(*nh,"/uav1/rs_d435/aligned_depth_to_color/image_raw",1);
        
     //  TODO: Ensure that callback is called
-        TimeSynchronizer<Image, Image> sync (image_sub, depth_sub, 10);
-        sync.registerCallback( boost::bind(&BlobDetector::image_callback,_1,_2));
+        sync.reset(new Sync(MySyncPolicy(10), image_sub, depth_sub));
+        sync->registerCallback(boost::bind(&BlobDetector::image_callback, this, _1, _2));
 
 
     //  Detection publisher
         image_transport::ImageTransport it(*nh);
         pub = it.advertise("camera/blob", 1);
-        pub_point = nh->advertise<cv::Point3d>("goal_point", 10);
+        pub_point = nh->advertise<geometry_msgs::Point>("goal_point", 10);
     //  Center point publisher
         
 
-        //---Kalman Filter Parameters---->>----
+    //---Kalman Filter Parameters---->>----
         cv::KalmanFilter KF(4,2,0);
         KF.transitionMatrix = (cv::Mat_<float>(4,4) << 1,0,1,0, 0,1,0,1, 0,0,1,0, 0,0,0,1);
         measurement(2,1); 
@@ -66,7 +73,7 @@ public:
         setIdentity(KF.processNoiseCov, cv::Scalar::all(1e-4));
         setIdentity(KF.measurementNoiseCov, cv::Scalar::all(10));
         setIdentity(KF.errorCovPost, cv::Scalar::all(.1));
-        // ---<< Kalman Filter Parameters ----
+    // ---<< Kalman Filter Parameters ----
 
     }
     int FindMaxAreaContourId(std::vector<std::vector<cv::Point>> contours)
@@ -177,7 +184,6 @@ public:
         msg_output = cv_bridge::CvImage(std_msgs::Header(), "bgr8", drawing).toImageMsg();
         msg_output->header.frame_id = std::to_string(count);
         count++;
-
         pub.publish(msg_output);
         pub_point.publish(goal);
         // -<< Conversion to msg
