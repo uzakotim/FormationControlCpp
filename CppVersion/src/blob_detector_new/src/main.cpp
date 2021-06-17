@@ -20,7 +20,6 @@
 #include <ros/ros.h>
 
 using namespace sensor_msgs;
-// using namespace message_filters;
 using namespace std_msgs;
 
 class BlobDetector 
@@ -36,32 +35,23 @@ private:
     cv::Scalar                  detection_color = cv::Scalar(255,100,0);
     
     int                         count = 0;
-    
-    // Output Parameters
-    sensor_msgs::ImagePtr       msg_output;
     geometry_msgs::Point        goal;
 
-    // Time Sych Parameters
-    // typedef sync_policies::ApproximateTime  <Image, Image> MySyncPolicy;
-    // typedef Synchronizer                    <MySyncPolicy> Sync;
-    // boost::shared_ptr<Sync>     sync;
+    // Output Parameters
+    sensor_msgs::ImagePtr       msg_output;
+    
+
 public:
     cv::KalmanFilter KF = cv::KalmanFilter(4,2,0);
     cv::Mat_<float>  measurement = cv::Mat_<float>(2,1);
+
+    // Constructor
     BlobDetector(ros::NodeHandle *nh)
     {   
         image_transport::ImageTransport it(*nh);
         pub = it.advertise("camera/blob", 1);
-        sub = it.subscribe("camera/image", 1, &BlobDetector::image_callback,this);
-       
-    //  TODO: Ensure that callback is called
-        // sync.reset              (new Sync(MySyncPolicy(10), image_sub, depth_sub));
-        // sync->registerCallback  (boost::bind(&BlobDetector::image_callback, this, _1, _2));
-
-    //  Detection publisher -->
         pub_point   = nh->advertise<geometry_msgs::Point>("computations/goal_point", 10);
-    //   < -- Center point publisher
-        
+        sub = it.subscribe("camera/image", 1, &BlobDetector::image_callback,this);
 
     //---Kalman Filter Parameters---->>----
         KF.transitionMatrix = (cv::Mat_<float>(4,4) << 1,0,1,0, 0,1,0,1, 0,0,1,0, 0,0,0,1);
@@ -77,6 +67,8 @@ public:
     // ---<< Kalman Filter Parameters ----
 
     }
+
+    // Function for finding maximal size contour
     int FindMaxAreaContourId(std::vector<std::vector<cv::Point>> contours)
     {
         double  maxArea          = 0;
@@ -93,18 +85,21 @@ public:
         }
         return maxAreaContourId;
     }
-
-    void image_callback(const sensor_msgs::ImageConstPtr& msg)
+    void PrintThatMessageWasReceived(std::string frame_id)
     {
-        std_msgs::Header    msg_header = msg->header;
-        std::string         frame_id = msg_header.frame_id;
-        ROS_INFO_STREAM("[Image from: " << frame_id<<" ]");
-
+        
+        ROS_INFO_STREAM("[Image from: " <<frame_id<<" ]");
+    }
+    cv::Point PredictUsingKalmanFilter()
+    {
         // Prediction, to update the internal statePre variable -->>
         cv::Mat prediction  =   KF.predict();
         cv::Point               predictPt(prediction.at<float>(0),prediction.at<float>(1));
+        return  predictPt;
         //  <<---Prediction, to update the internal statePre variable
-
+    }
+    cv::Mat ReturnCVMatImageFromMsg(const sensor_msgs::ImageConstPtr& msg)
+    {
         cv_bridge::CvImagePtr cv_ptr;
         try
         {
@@ -113,79 +108,149 @@ public:
         catch (cv_bridge::Exception& e)
         {
             ROS_ERROR("cv_bridge exception: %s", e.what());
-            return;
+            std::cerr<<"Could not convert image into CV Mat\n";
         }
         cv::Mat image = cv_ptr->image;
-        
-        
+        return  image;
+    }
+    cv::Mat GaussianBlur(cv::Mat image)
+    {
+        cv::Mat image_blurred;
+        cv::GaussianBlur(image, image_blurred, cv::Size(5,5), 0);
+        return  image_blurred;
+    }
+    cv::Mat BGRtoHSV(cv::Mat image)
+    {
         cv::Mat image_HSV;
         cv::cvtColor(image, image_HSV,CV_BGR2HSV);
-
-        // -->> Operations on image ----
-        // 1) gaussian blur
-        // cv::Mat          image_blurred;
-        // cv::GaussianBlur(image, image_blurred, cv::Size(5,5), 0);
-        // 2) conversion to hsv
-        // cv::Mat          image_HSV;
-        // cv::cvtColor    (image_blurred, image_HSV,CV_BGR2HSV);
-        
-        // 3) finding orange mask
+        return  image_HSV;
+    }
+    cv::Mat ReturnOrangeMask(cv::Mat image)
+    {
         cv::Mat          image_threshold;
-        cv::inRange     (image_HSV, BlobDetector::orange_min, BlobDetector::orange_max, image_threshold);
-        // 4) finding contours
+        cv::inRange     (image, BlobDetector::orange_min, BlobDetector::orange_max, image_threshold);
+        return image_threshold;
+    }
+    std::vector<std::vector<cv::Point>> ReturnContours(cv::Mat image_threshold)
+    {
         std::vector<std::vector<cv::Point>> contours;       //contours are stored here
         std::vector<cv::Vec4i>              hierarchy; 
         cv::findContours(image_threshold, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
-        // 5) finding max contour
-        int maxAreaContourId    = BlobDetector::FindMaxAreaContourId(contours);
-        // 6) finding center and kalman filtering
-        cv::Mat drawing         = cv::Mat::zeros(image_threshold.size(), CV_8UC3 );
+        return contours;
+    }
+    cv::Point2f FindCenter(std::vector<std::vector<cv::Point>> contours, int ID)
+    {
+        std::vector<cv::Point>  contour_poly   (contours.size());
+        cv::Point2f             center         (contours.size());  
+        float                   radius         (contours.size());
+
+        cv::approxPolyDP        (contours[ID], contour_poly, 3, true);
+        cv::minEnclosingCircle  (contour_poly, center, radius);
+        return center;
+
+    }
+    float FindRadius(std::vector<std::vector<cv::Point>> contours, int ID)
+    {
+        std::vector<cv::Point>  contour_poly   (contours.size());
+        cv::Point2f             center         (contours.size());  
+        float                   radius         (contours.size());
+
+        cv::approxPolyDP        (contours[ID], contour_poly, 3, true);
+        cv::minEnclosingCircle  (contour_poly, center, radius);
+        return radius;
+
+    }
+    void SetMeasurement(cv::Point2f center)
+    {
+        measurement.at<float>(0) = center.x;
+        measurement.at<float>(1) = center.y;
+    }
+    cv::Point UpdateKalmanFilter(cv::Mat_<float>  measurement)
+    {
+        // Updating Kalman Filter    
+        cv::Mat     estimated = KF.correct(measurement);
+        cv::Point   statePt(estimated.at<float>(0),estimated.at<float>(1));
+        cv::Point   measPt(measurement(0),measurement(1));
+        return      statePt;
+    }
+    void SetGoal(cv::Point statePt)
+    {
+        goal.x = statePt.x;
+        goal.y = statePt.y;
+            
+        // In case of depth camera
+        // goal.z = image_depth.at<float>(statePt.x,statePt.y)/1000;
+    }
+    // Callback for received camera frame
+    void image_callback(const sensor_msgs::ImageConstPtr& msg)
+    {   
+        std_msgs::Header    msg_header  = msg->header;
+        std::string         frame_id    = msg_header.frame_id;
+    
         
+        PrintThatMessageWasReceived (frame_id);
+        cv::Point   predictPt       = PredictUsingKalmanFilter    ();
+        cv::Mat     image           = ReturnCVMatImageFromMsg     (msg);
+         // -->> Operations on image ----
+        // 1) smoothing the image
+        cv::Mat     image_blurred   = GaussianBlur(image);
+        // 2) conversion to hsv
+        cv::Mat     image_HSV       = BGRtoHSV(image_blurred); 
+        // 3) finding orange mask
+        cv::Mat     image_threshold = ReturnOrangeMask(image_HSV);
+        // 4) finding contours
+        std::vector<std::vector<cv::Point>> contours = ReturnContours(image_threshold);
+        // 5) finding max contour
+        int maxAreaContourId        = BlobDetector::FindMaxAreaContourId(contours);
+        
+        cv::Mat drawing = cv::Mat::zeros(image.size(), CV_8UC3 );
+        // 6,7) finding center and kalman filtering
         if (maxAreaContourId>=0)
         {   
             
-            std::vector<cv::Point>  contour_poly   (contours.size());
-            cv::Point2f             center         (contours.size());  
-            float                   radius         (contours.size());
-
-            cv::approxPolyDP        (contours[maxAreaContourId], contour_poly, 3, true);
-            cv::minEnclosingCircle  (contour_poly, center, radius);
+            cv::Point2f center = FindCenter(contours, maxAreaContourId);
+            float       radius = FindRadius(contours, maxAreaContourId);
 
             // uncomment the following to draw contours exactly
             /* cv::drawContours(drawing, contours, maxAreaContourId, 
                                 detectionColor ,5, cv::LINE_8, hierarchy, 0 );
             */
+
+
             // uncomment the following for checking center coordinates
             // std::cout<<center<<'\n';
 
              //-<<---Blob detector
             
-            // Obtaining the point fro Kalman Filter
-            // std::cout<<"Detected"<<'\n';
-            measurement.at<float>(0) = center.x;
-            measurement.at<float>(1) = center.y;
+            // Obtaining the point from Kalman Filter
+            SetMeasurement(center);
             
-            // Updating Kalman Filter
-            cv::Mat     estimated = KF.correct(measurement);
-            cv::Point   statePt(estimated.at<float>(0),estimated.at<float>(1));
-            cv::Point   measPt(measurement(0),measurement(1));
-            // Drawing Point
+            cv::Point statePt = UpdateKalmanFilter(measurement);
+            
+            // uncomment the following for checking estimated center coordinates
+            // std::cout<<statePt<<'\n';
+
+            // Setting up goal point
+            SetGoal(statePt);    
+            
+             // Drawing Point
             cv::circle  (drawing, statePt, int(radius), detection_color, 2 );
-            cv::circle  (drawing, statePt, 5, detection_color, 10);
-            // // Setting up goal point
-            // goal.x = statePt.x;
-            // goal.y = statePt.y;
-            // goal.z = image_depth.at<float>(statePt.x,statePt.y)/1000;
-            std::cout<<statePt<<'\n';
+            cv::circle  (drawing, statePt, 5, detection_color, 10);   
+            
 
         }
-        cv::Mat display = image + drawing;
 
-        msg_output = cv_bridge::CvImage(std_msgs::Header(), "bgr8", display).toImageMsg();
-        msg_output->header.frame_id = std::to_string(count);
-        count++;
-        pub.publish(msg_output);
-        ROS_INFO_STREAM("[Image:" << frame_id<<" was sent ]");
+    cv::Mat display = image + drawing;
+    msg_output= cv_bridge::CvImage(std_msgs::Header(), "bgr8", display).toImageMsg();
+    msg_output->header.frame_id = std::to_string(count);
+
+    count++;
+
+    pub.publish(msg_output);
+    pub_point.publish(goal);
+    // uncomment for debugging
+    // ROS_INFO_STREAM("[Image:" << frame_id<<" was sent ]");
+
     }
 };
 
