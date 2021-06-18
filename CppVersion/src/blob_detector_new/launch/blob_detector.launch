@@ -1,0 +1,15 @@
+<launch>
+  <node
+    pkg="blob_detector_new"
+    type="publisher"
+    name="camera_node"
+    output="screen"
+  />
+  <node
+    pkg="blob_detector_new"
+    type="main"
+    name="main_node" 
+    output="screen"
+  />
+  
+</launch> 

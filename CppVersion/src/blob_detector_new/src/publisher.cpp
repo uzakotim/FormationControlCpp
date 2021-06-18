@@ -8,11 +8,11 @@
 int main(int argc, char** argv)
 {   
     // Check if video source has been passed as a parameter
-    if(argv[1] == NULL) 
-    {
-        std::cerr<<"Please, enter the device number"<<'\n';
-        return 1; 
-    }
+    // if(argv[1] == NULL) 
+    // {
+        // std::cerr<<"Please, enter the device number"<<'\n';
+        // return 1; 
+    // }
 
     ros::init(argc,argv, "image_publisher");
     ros::NodeHandle nh;
@@ -22,10 +22,10 @@ int main(int argc, char** argv)
     image_transport::Publisher      pub = it.advertise("/camera/image",1);
     std::istringstream              video_sourceCmd(argv[1]);
     
-    int video_source;
-    int api_id = cv::CAP_ANY;
+    int video_source = 0;           //CAMERA PARAMETERS
+    int api_id = cv::CAP_ANY;       //CAMERA PARAMETERS
 
-    if(!(video_sourceCmd>>video_source)) return 1;
+    // if(!(video_sourceCmd>>video_source)) return 1;
     
     cv::VideoCapture cap(video_source, api_id);
     if (!cap.isOpened()) return 1;
