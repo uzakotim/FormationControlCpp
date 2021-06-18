@@ -15,6 +15,8 @@ sensor_msgs/image_encodings.h
 -
 geometry_msgs/Point.h
 -
+geometry_msgs/PointStamped.h
+-
 opencv2/highgui/highgui.hpp
 -
 opencv2/imgproc/imgproc.hpp
@@ -56,6 +58,26 @@ ros/serialization.h
 ros/builtin_message_traits.h
 -
 ros/message_operations.h
+-
+
+/opt/ros/noetic/include/geometry_msgs/PointStamped.h
+string
+-
+vector
+-
+map
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+std_msgs/Header.h
+-
+geometry_msgs/Point.h
 -
 
 /opt/ros/noetic/include/image_transport/camera_publisher.h

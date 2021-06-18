@@ -635,6 +635,32 @@ rosgraph_msgs_generate_messages_cpp/fast:
 	$(MAKE) -f blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
+#=============================================================================
+# Target rules for targets named formation_pub
+
+# Build rule for target.
+formation_pub: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 formation_pub
+.PHONY : formation_pub
+
+# fast build rule for target.
+formation_pub/fast:
+	$(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/build
+.PHONY : formation_pub/fast
+
+#=============================================================================
+# Target rules for targets named formation_main
+
+# Build rule for target.
+formation_main: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 formation_main
+.PHONY : formation_main
+
+# fast build rule for target.
+formation_main/fast:
+	$(MAKE) -f formation/CMakeFiles/formation_main.dir/build.make formation/CMakeFiles/formation_main.dir/build
+.PHONY : formation_main/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -684,6 +710,8 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... main"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
+	@echo "... formation_pub"
+	@echo "... formation_main"
 .PHONY : help
 
 

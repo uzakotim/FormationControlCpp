@@ -55,12 +55,14 @@ CMAKE_BINARY_DIR = /home/timur/FormationControlCpp/PythonVersionCpp/build
 # The main recursive "all" target.
 all: gtest/all
 all: blob_detector/all
+all: formation/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: gtest/preinstall
 preinstall: blob_detector/preinstall
+preinstall: formation/preinstall
 
 .PHONY : preinstall
 
@@ -72,6 +74,7 @@ clean: CMakeFiles/tests.dir/clean
 clean: CMakeFiles/download_extra_data.dir/clean
 clean: gtest/clean
 clean: blob_detector/clean
+clean: formation/clean
 
 .PHONY : clean
 
@@ -119,6 +122,26 @@ blob_detector/clean: blob_detector/CMakeFiles/main.dir/clean
 blob_detector/clean: blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 
 .PHONY : blob_detector/clean
+
+#=============================================================================
+# Directory level rules for directory formation
+
+# Recursive "all" directory target.
+formation/all: formation/CMakeFiles/formation_pub.dir/all
+formation/all: formation/CMakeFiles/formation_main.dir/all
+
+.PHONY : formation/all
+
+# Recursive "preinstall" directory target.
+formation/preinstall:
+
+.PHONY : formation/preinstall
+
+# Recursive "clean" directory target.
+formation/clean: formation/CMakeFiles/formation_pub.dir/clean
+formation/clean: formation/CMakeFiles/formation_main.dir/clean
+
+.PHONY : formation/clean
 
 #=============================================================================
 # Directory level rules for directory gtest
@@ -320,7 +343,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googlemock/CMakeFiles/gmoc
 gtest/googlemock/CMakeFiles/gmock_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=3,4 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=7,8 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -347,7 +370,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=1,2 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=5,6 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -374,7 +397,7 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googletest/CMakeFiles/gtest_main.dir/all: gtest/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest_main.dir/build.make gtest/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=7,8 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=11,12 "Built target gtest_main"
 .PHONY : gtest/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -401,7 +424,7 @@ gtest/googletest/CMakeFiles/gtest_main.dir/clean:
 gtest/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) -f gtest/googletest/CMakeFiles/gtest.dir/build.make gtest/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=5,6 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=9,10 "Built target gtest"
 .PHONY : gtest/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1049,7 +1072,7 @@ blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
 blob_detector/CMakeFiles/publisher.dir/all:
 	$(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/depend
 	$(MAKE) -f blob_detector/CMakeFiles/publisher.dir/build.make blob_detector/CMakeFiles/publisher.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=11,12 "Built target publisher"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=15,16 "Built target publisher"
 .PHONY : blob_detector/CMakeFiles/publisher.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1103,7 +1126,7 @@ blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/clean:
 blob_detector/CMakeFiles/main.dir/all:
 	$(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/depend
 	$(MAKE) -f blob_detector/CMakeFiles/main.dir/build.make blob_detector/CMakeFiles/main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=9,10 "Built target main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=13,14 "Built target main"
 .PHONY : blob_detector/CMakeFiles/main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1149,6 +1172,60 @@ rosgraph_msgs_generate_messages_cpp: blob_detector/CMakeFiles/rosgraph_msgs_gene
 blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
 	$(MAKE) -f blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 .PHONY : blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
+
+#=============================================================================
+# Target rules for target formation/CMakeFiles/formation_pub.dir
+
+# All Build rule for target.
+formation/CMakeFiles/formation_pub.dir/all:
+	$(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/depend
+	$(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=3,4 "Built target formation_pub"
+.PHONY : formation/CMakeFiles/formation_pub.dir/all
+
+# Build rule for subdir invocation for target.
+formation/CMakeFiles/formation_pub.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 formation/CMakeFiles/formation_pub.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
+.PHONY : formation/CMakeFiles/formation_pub.dir/rule
+
+# Convenience name for target.
+formation_pub: formation/CMakeFiles/formation_pub.dir/rule
+
+.PHONY : formation_pub
+
+# clean rule for target.
+formation/CMakeFiles/formation_pub.dir/clean:
+	$(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/clean
+.PHONY : formation/CMakeFiles/formation_pub.dir/clean
+
+#=============================================================================
+# Target rules for target formation/CMakeFiles/formation_main.dir
+
+# All Build rule for target.
+formation/CMakeFiles/formation_main.dir/all:
+	$(MAKE) -f formation/CMakeFiles/formation_main.dir/build.make formation/CMakeFiles/formation_main.dir/depend
+	$(MAKE) -f formation/CMakeFiles/formation_main.dir/build.make formation/CMakeFiles/formation_main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles --progress-num=1,2 "Built target formation_main"
+.PHONY : formation/CMakeFiles/formation_main.dir/all
+
+# Build rule for subdir invocation for target.
+formation/CMakeFiles/formation_main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 formation/CMakeFiles/formation_main.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/PythonVersionCpp/build/CMakeFiles 0
+.PHONY : formation/CMakeFiles/formation_main.dir/rule
+
+# Convenience name for target.
+formation_main: formation/CMakeFiles/formation_main.dir/rule
+
+.PHONY : formation_main
+
+# clean rule for target.
+formation/CMakeFiles/formation_main.dir/clean:
+	$(MAKE) -f formation/CMakeFiles/formation_main.dir/build.make formation/CMakeFiles/formation_main.dir/clean
+.PHONY : formation/CMakeFiles/formation_main.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

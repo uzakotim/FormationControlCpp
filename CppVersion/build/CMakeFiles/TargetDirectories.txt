@@ -69,3 +69,11 @@
 /home/timur/FormationControlCpp/CppVersion/build/blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir
 /home/timur/FormationControlCpp/CppVersion/build/blob_detector_new/CMakeFiles/test.dir
 /home/timur/FormationControlCpp/CppVersion/build/blob_detector_new/CMakeFiles/edit_cache.dir
+/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/install/strip.dir
+/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/install/local.dir
+/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/install.dir
+/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/list_install_components.dir
+/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/rebuild_cache.dir
+/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/edit_cache.dir
+/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/test.dir
+/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/main_slam.dir

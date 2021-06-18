@@ -4,6 +4,7 @@
 blob_detector_new/CMakeFiles/main.dir/src/main.cpp.o: /home/timur/FormationControlCpp/CppVersion/src/blob_detector_new/src/main.cpp
 blob_detector_new/CMakeFiles/main.dir/src/main.cpp.o: /opt/ros/noetic/include/cv_bridge/cv_bridge.h
 blob_detector_new/CMakeFiles/main.dir/src/main.cpp.o: /opt/ros/noetic/include/geometry_msgs/Point.h
+blob_detector_new/CMakeFiles/main.dir/src/main.cpp.o: /opt/ros/noetic/include/geometry_msgs/PointStamped.h
 blob_detector_new/CMakeFiles/main.dir/src/main.cpp.o: /opt/ros/noetic/include/image_transport/camera_publisher.h
 blob_detector_new/CMakeFiles/main.dir/src/main.cpp.o: /opt/ros/noetic/include/image_transport/camera_subscriber.h
 blob_detector_new/CMakeFiles/main.dir/src/main.cpp.o: /opt/ros/noetic/include/image_transport/exception.h

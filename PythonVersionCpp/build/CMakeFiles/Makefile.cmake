@@ -15,9 +15,13 @@ set(CMAKE_MAKEFILE_DEPENDS
   "catkin/catkin_generated/version/package.cmake"
   "catkin_generated/installspace/_setup_util.py"
   "catkin_generated/order_packages.cmake"
+  "formation/catkin_generated/ordered_paths.cmake"
+  "formation/catkin_generated/package.cmake"
   "/home/timur/FormationControlCpp/PythonVersionCpp/src/CMakeLists.txt"
   "/home/timur/FormationControlCpp/PythonVersionCpp/src/blob_detector/CMakeLists.txt"
   "/home/timur/FormationControlCpp/PythonVersionCpp/src/blob_detector/package.xml"
+  "/home/timur/FormationControlCpp/PythonVersionCpp/src/formation/CMakeLists.txt"
+  "/home/timur/FormationControlCpp/PythonVersionCpp/src/formation/package.xml"
   "/opt/ros/noetic/share/catkin/cmake/all.cmake"
   "/opt/ros/noetic/share/catkin/cmake/assert.cmake"
   "/opt/ros/noetic/share/catkin/cmake/atomic_configure_file.cmake"
@@ -207,6 +211,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "gtest/googlemock/CMakeFiles/CMakeDirectoryInformation.cmake"
   "gtest/googletest/CMakeFiles/CMakeDirectoryInformation.cmake"
   "blob_detector/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "formation/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
@@ -247,4 +252,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/DependInfo.cmake"
   "blob_detector/CMakeFiles/main.dir/DependInfo.cmake"
   "blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/DependInfo.cmake"
+  "formation/CMakeFiles/formation_pub.dir/DependInfo.cmake"
+  "formation/CMakeFiles/formation_main.dir/DependInfo.cmake"
   )

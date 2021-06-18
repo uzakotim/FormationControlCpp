@@ -69,3 +69,12 @@
 /home/timur/FormationControlCpp/PythonVersionCpp/build/blob_detector/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir
 /home/timur/FormationControlCpp/PythonVersionCpp/build/blob_detector/CMakeFiles/test.dir
 /home/timur/FormationControlCpp/PythonVersionCpp/build/blob_detector/CMakeFiles/edit_cache.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/install/strip.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/install/local.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/install.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/list_install_components.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/rebuild_cache.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/edit_cache.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/test.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/formation_pub.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/formation_main.dir

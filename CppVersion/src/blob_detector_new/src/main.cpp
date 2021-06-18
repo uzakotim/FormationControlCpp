@@ -3,13 +3,13 @@
 // #include <message_filters/time_synchronizer.h>
 // #include <message_filters/sync_policies/approximate_time.h>
 
-
 // include CvBridge, Image Transport, Image msg
 
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
 #include <geometry_msgs/Point.h>
+#include <geometry_msgs/PointStamped.h>
 
 // include opencv2
 #include <opencv2/highgui/highgui.hpp>
@@ -21,6 +21,7 @@
 
 using namespace sensor_msgs;
 using namespace std_msgs;
+using namespace geometry_msgs;
 
 class BlobDetector 
 {
@@ -35,11 +36,10 @@ private:
     cv::Scalar                  detection_color = cv::Scalar(255,100,0);
     
     int                         count = 0;
-    geometry_msgs::Point        goal;
+    geometry_msgs::PointStamped goal;
 
     // Output Parameters
     sensor_msgs::ImagePtr       msg_output;
-    
 
 public:
     cv::KalmanFilter KF = cv::KalmanFilter(4,2,0);
@@ -50,7 +50,7 @@ public:
     {   
         image_transport::ImageTransport it(*nh);
         pub = it.advertise("camera/blob", 1);
-        pub_point   = nh->advertise<geometry_msgs::Point>("computations/goal_point", 10);
+        pub_point   = nh->advertise<geometry_msgs::PointStamped>("computations/goal_point", 10);
         sub = it.subscribe("camera/image", 1, &BlobDetector::image_callback,this);
 
     //---Kalman Filter Parameters---->>----
@@ -175,11 +175,12 @@ public:
     }
     void SetGoal(cv::Point statePt)
     {
-        goal.x = statePt.x;
-        goal.y = statePt.y;
+        goal.point.x = statePt.x;
+        goal.point.y = statePt.y;
+       
             
         // In case of depth camera
-        // goal.z = image_depth.at<float>(statePt.x,statePt.y)/1000;
+        // goal.point.z = image_depth.at<float>(statePt.x,statePt.y)/1000;
     }
     // Callback for received camera frame
     void image_callback(const sensor_msgs::ImageConstPtr& msg)
@@ -243,8 +244,13 @@ public:
     cv::Mat display = image + drawing;
     msg_output= cv_bridge::CvImage(std_msgs::Header(), "bgr8", display).toImageMsg();
     msg_output->header.frame_id = std::to_string(count);
-
+    
+    msg_output->header.stamp = ros::Time::now();
+    
+    goal.header.stamp = ros::Time::now();
+    
     count++;
+
 
     pub.publish(msg_output);
     pub_point.publish(goal);

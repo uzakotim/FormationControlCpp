@@ -1,0 +1,8 @@
+prefix=/home/timur/FormationControlCpp/CppVersion/devel
+
+Name: visual_slam
+Description: Description of visual_slam
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: roscpp sensor_msgs std_msgs cv_bridge image_transport

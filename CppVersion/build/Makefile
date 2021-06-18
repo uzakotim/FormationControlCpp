@@ -635,6 +635,19 @@ rosgraph_msgs_generate_messages_cpp/fast:
 	$(MAKE) -f blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
+#=============================================================================
+# Target rules for targets named main_slam
+
+# Build rule for target.
+main_slam: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 main_slam
+.PHONY : main_slam
+
+# fast build rule for target.
+main_slam/fast:
+	$(MAKE) -f visual_slam/CMakeFiles/main_slam.dir/build.make visual_slam/CMakeFiles/main_slam.dir/build
+.PHONY : main_slam/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -684,6 +697,7 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... main"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
+	@echo "... main_slam"
 .PHONY : help
 
 
