@@ -19,7 +19,7 @@ int main(int argc, char** argv)
     ROS_INFO_STREAM("Hello from Camera publisher node");
 
     image_transport::ImageTransport it(nh);
-    image_transport::Publisher      pub = it.advertise("/camera/image",1);
+    image_transport::Publisher      pub = it.advertise("camera/image",1);
     std::istringstream              video_sourceCmd(argv[1]);
     
     int video_source;
@@ -44,8 +44,6 @@ int main(int argc, char** argv)
         {
             msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", frame).toImageMsg();
             msg->header.frame_id = std::to_string(count);
-            msg->header.stamp= ros::Time::now();
-
             pub.publish(msg);
             count++;
             
