@@ -4,6 +4,7 @@
     type="publisher"
     name="camera_node"
     output="screen"
+    args="0"
   />
   <node
     pkg="blob_detector_new"
