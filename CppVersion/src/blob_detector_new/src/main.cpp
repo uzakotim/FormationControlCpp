@@ -8,10 +8,11 @@
 // include CvBridge, Image Transport, Image msg
 
 #include <cv_bridge/cv_bridge.h>
-#include <image_transport/image_transport.h>
-#include <sensor_msgs/image_encodings.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/PointStamped.h>
+#include <image_transport/image_transport.h>
+#include <sensor_msgs/image_encodings.h>
+
 
 // include opencv2
 #include <opencv2/highgui/highgui.hpp>
