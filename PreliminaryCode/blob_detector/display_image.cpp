@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     int device_id   = 0;            // 0 = open default camera
     int api_id      = cv::CAP_ANY;      // 0 = autodetect default API
 
-    cv::Scalar                          orange_min = cv::Scalar(10,150,150);     //min hsv value orange
+    cv::Scalar                          orange_min = cv::Scalar(10,105,105);     //min hsv value orange
     cv::Scalar                          orange_max = cv::Scalar(27,255,255);     //max hsv value orange
     cv::Scalar                          detection_color = cv::Scalar(255,100,0);
 
