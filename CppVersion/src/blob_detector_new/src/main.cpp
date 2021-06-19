@@ -1,3 +1,5 @@
+// Copyright [2021] [Timur Uzakov]
+
 // include message filters and time sync
 // #include <message_filters/subscriber.h>
 // #include <message_filters/time_synchronizer.h>
