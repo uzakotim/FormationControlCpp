@@ -9,6 +9,8 @@
 /home/timur/FormationControlCpp/CppVersion/src/visual_slam/src/main.cpp
 iostream
 -
+cmath
+-
 message_filters/subscriber.h
 -
 message_filters/synchronizer.h

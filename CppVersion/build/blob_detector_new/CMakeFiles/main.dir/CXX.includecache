@@ -9,13 +9,13 @@
 /home/timur/FormationControlCpp/CppVersion/src/blob_detector_new/src/main.cpp
 cv_bridge/cv_bridge.h
 -
-image_transport/image_transport.h
--
-sensor_msgs/image_encodings.h
--
 geometry_msgs/Point.h
 -
 geometry_msgs/PointStamped.h
+-
+image_transport/image_transport.h
+-
+sensor_msgs/image_encodings.h
 -
 opencv2/highgui/highgui.hpp
 -
