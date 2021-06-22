@@ -101,12 +101,6 @@ public:
         pub = nh.advertise<sensor_msgs::Image>(pub_image_topic,1);
     //  SLAM Node Constructor --------------
 
-    // Initial Positions
-
-        camera_pose.x = 0.0;
-        camera_pose.y = 0.0;
-        camera_pose.z = 0.0;
-
     // Parameters for Time Synchronizer, two subscribers connected to one SLAM::callback
         sync.reset(new Sync(MySyncPolicy(10), sub_1,sub_2));
         sync->registerCallback(boost::bind(&SLAM::callback,this,_1,_2));
@@ -201,11 +195,11 @@ public:
 
             for (size_t i=0; i<matches.size();i++)
             {
-                int image_index_previous = matches.at(i).queryIdx;
-                int image_index_current  = matches.at(i).trainIdx;
+                int index_prev {matches.at(i).queryIdx};
+                int index_cur  {matches.at(i).trainIdx};
 
-                point_previous = keypoints_prev.at(image_index_previous).pt;
-                point_current  = keypoints.at(image_index_current).pt;
+                point_previous = keypoints_prev.at(index_prev).pt;
+                point_current  = keypoints.at(index_cur).pt;
 
                 points_previous.push_back(point_previous);
                 points_current.push_back(point_current);
@@ -243,8 +237,8 @@ public:
                 // std::cout<<t.at<double>(0)<<'\n';
                 // Calculate camera position
                 camera_pose.x = camera_pose.x + t.at<double>(0);
-                camera_pose.z = camera_pose.y + t.at<double>(1);
-                camera_pose.y = camera_pose.z + t.at<double>(2);  
+                // camera_pose.z = camera_pose.y + t.at<double>(1);
+                // camera_pose.y = camera_pose.z + t.at<double>(2);  
 
                 ROS_INFO("[Camera Position]");
                 std::cout<<camera_pose<<'\n';
