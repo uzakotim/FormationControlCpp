@@ -36,7 +36,7 @@ private:
     typedef Synchronizer                    <MySyncPolicy>          Sync;
     boost::shared_ptr<Sync> sync;
 
-    // parameters
+// parameters
     double n_pos        = 1.2;
     double n_neg        = 0.5;
     double delta_max    = 0.5;
@@ -57,7 +57,8 @@ private:
     cv::Mat w_prev = (cv::Mat_<float>(3,1) <<  0,0,0);
     cv::Mat w;
     cv::Mat master_pose;
-    // measurements
+
+// measurements
     cv::Mat state,state_cov,human_coord,human_cov;
     int count {0};
 
@@ -148,16 +149,16 @@ public:
         sub_1.subscribe(nh,"/uav1/sensor_fusion",1);
         sub_2.subscribe(nh,"/odometry/odom_main",1);
     
-        //  TODO: Ensure that callback is called
+//  TODO: Ensure that callback is called
         sync.reset              (new Sync(MySyncPolicy(10), sub_1, sub_2));
         sync->registerCallback  (boost::bind(&FormationController::callback, this, _1, _2));
         
         
-        // TODO Ensure the sensor fusion message is transported and received
+// TODO Ensure the sensor fusion message is transported and received
         error_pub = nh.advertise<_Float32[]>(error_topic, 1);
         pose_pub = nh.advertise<PointStamped>(pose_topic, 1);
 
-        // measurement
+// measurement
         tracker.push_back(tracker_vector);
         tracker.push_back(tracker_vector);
         ROS_INFO("All functions initialized");
@@ -171,7 +172,7 @@ public:
             cost_prev_y = CostY(w_prev,w_prev,master_pose,state_cov,human_cov,radius);
             cost_prev_z = CostZ(w_prev,w_prev,master_pose,state_cov,human_cov,radius);
 
-            // TODO DRY
+// TODO DRY
 
             cost_cur_x = CostX(w,w_prev,master_pose,state_cov,human_cov,radius);
             cost_cur_y = CostY(w,w_prev,master_pose,state_cov,human_cov,radius);
@@ -231,8 +232,12 @@ public:
         cost_prev[1] = cost_prev_y;
         cost_prev[2] = cost_prev_z;
     }
+// MAIN CALLBACK
     void callback(const PointStampedConstPtr& goal_point, const nav_msgs::OdometryPtr &pose)
     {
+       
+
+
         // measurements
         state       = (cv::Mat_<float>(4,1) << pose->pose.pose.position.x,pose->pose.pose.position.y,pose->pose.pose.position.z,pose->pose.pose.orientation.z);
         state_cov   = (cv::Mat_<float>(6,6) << pose->pose.covariance); // TODO Check if recevied
