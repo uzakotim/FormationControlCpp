@@ -1,14 +1,16 @@
+#include <cmath>
 // include message filters and time sync
 #include <message_filters/subscriber.h>
-#include <message_filters/time_synchronizer.h>
 #include <message_filters/sync_policies/approximate_time.h>
+#include <message_filters/time_synchronizer.h>
 // include CvBridge, Image Transport, Image msg
 #include <cv_bridge/cv_bridge.h>
-#include <image_transport/image_transport.h>
-#include <sensor_msgs/image_encodings.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/PointStamped.h>
+#include <image_transport/image_transport.h>
 #include <nav_msgs/Odometry.h>
+#include <sensor_msgs/image_encodings.h>
+
 // include opencv2
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -16,49 +18,48 @@
 
 // include ros library
 #include <ros/ros.h>
-#include <cmath>
 
-using namespace sensor_msgs;
-using namespace message_filters;
-using namespace std_msgs;
-using namespace nav_msgs;
+
 using namespace geometry_msgs;
+using namespace message_filters;
+using namespace nav_msgs;
+using namespace sensor_msgs;
+using namespace std_msgs;
 
 class FormationController 
 {
 private:
 
-    message_filters::Subscriber<_Float32[]> sub_1;
-    message_filters::Subscriber<Odometry> sub_2;
-    typedef sync_policies::ApproximateTime<_Float32[],Odometry> MySyncPolicy;
-    typedef Synchronizer<MySyncPolicy> Sync;
+    message_filters::Subscriber             <_Float32[]>            sub_1;
+    message_filters::Subscriber             <Odometry>              sub_2;
+    typedef sync_policies::ApproximateTime  <_Float32[],Odometry>   MySyncPolicy;
+    typedef Synchronizer                    <MySyncPolicy>          Sync;
     boost::shared_ptr<Sync> sync;
 
     // parameters
-    double n_pos = 1.2;
-    double n_neg = 0.5;
-    double delta_max = 0.5;
-    double delta_min = 0.000001;
-    double radius = 6;
+    double n_pos        = 1.2;
+    double n_neg        = 0.5;
+    double delta_max    = 0.5;
+    double delta_min    = 0.000001;
+    double radius       = 6;
 
-    ros::Publisher error_pub;
-    std::string error_topic = "/uav1/error";
-    ros::Publisher pose_pub;
-    std::string pose_topic = "/uav1/control_manager/goto";
+    ros::Publisher  error_pub;
+    ros::Publisher  pose_pub;
 
-    PointStamped msg;
+    std::string     error_topic = "/uav1/error";
+    std::string     pose_topic  = "/uav1/control_manager/goto";
 
-    cv::Mat tracker_vector = (cv::Mat_<float>(3,1) << 0,0,0);
-    std::vector<cv::Mat> tracker;
-    int count {0};
-    cv::Mat w_prev = (cv::Mat_<float>(3,1) <<  0,0,0);\
+    PointStamped    msg;
+    
+    cv::Mat                 tracker_vector = (cv::Mat_<float>(3,1) << 0,0,0);
+    std::vector<cv::Mat>    tracker;
+    
+    cv::Mat w_prev = (cv::Mat_<float>(3,1) <<  0,0,0);
     cv::Mat w;
     cv::Mat master_pose;
-    
-    
-
     // measurements
     cv::Mat state,state_cov,human_coord,human_cov;
+    int count {0};
 
 public:
 
@@ -77,6 +78,7 @@ public:
     std::vector<double> cost_prev;
     std::vector<double> grad_cur;
     std::vector<double> grad_prev;
+
     std::vector<double> delta {0.5,0.5,0.5};
     std::vector<double> delta_prev {0.5,0.5,0.5};
     int k{0};  //computing steps
@@ -107,45 +109,12 @@ public:
         if (x < 0) return -1;
         return 0;
     }
-    FormationController()
+
+    cv::Mat TrackMasterPose(int count,cv::Mat human_coord,std::vector<cv::Mat> tracker)
     {
-        ros::NodeHandle nh;
-        sub_1.subscribe(nh,"/uav1/sensor_fusion",1);
-        sub_2.subscribe(nh,"/odometry/odom_main",1);
-    
-        //  TODO: Ensure that callback is called
-        sync.reset              (new Sync(MySyncPolicy(10), sub_1, sub_2));
-        sync->registerCallback  (boost::bind(&FormationController::callback, this, _1, _2));
-        
-        
-        // TODO Ensure the sensor fusion message is transported and received
-        
-        error_pub = nh.advertise<_Float32[]>(error_topic, 1);
-        pose_pub = nh.advertise<PointStamped>(pose_topic, 1);
-
-        // measurements
-
-        tracker.push_back(tracker_vector);
-        tracker.push_back(tracker_vector);
-        ROS_INFO("All functions initialized");
-
-
-        
-    }
-    void callback(const PointStampedConstPtr& goal_point, const nav_msgs::OdometryPtr &pose)
-    {
-        // measurements
-        state = (cv::Mat_<float>(4,1) << pose->pose.pose.position.x,pose->pose.pose.position.y,pose->pose.pose.position.z,pose->pose.pose.orientation.z);
-        state_cov = (cv::Mat_<float>(6,6) << pose->pose.covariance); // TODO Check if recevied
-        // ROS_INFO("state covariance"<<state_cov<<'\n');
-        human_coord = (cv::Mat_<float>(3,1) << goal_point->point.x, goal_point->point.y, goal_point->point.z);
-        // human_cov = (cv::Mat_<float>(6,6) << goal_point->point.covariance); TODO 
-        
-        // Tracker --->>
-        
         tracker.push_back(human_coord);
+        
         count++;
-
         if (count == 2)
         {
             tracker.pop_back();
@@ -164,17 +133,40 @@ public:
                 tracker.pop_back();
                 count--;
             }
-            master_pose = (cv::Mat_<float>(3,1) << sum_x/10.0, sum_y/10.0, sum_z/10.0);
+            
         }
-        // ----<<Tracker
+        cv::Mat averaged_position = (cv::Mat_<float>(3,1) << sum_x/10.0, sum_y/10.0, sum_z/10.0);
+        return averaged_position;
+  
+    }
 
-        w = (cv::Mat_<float>(3,1) <<  state.at<float>(0),state.at<float>(1),state.at<float>(2));
+        
 
-        // RPROP ------------------------------------------------    
-        if (w.empty() == false)
-        {
-            // Run optimization
-            // costs
+    FormationController()
+    {
+        ros::NodeHandle nh;
+        sub_1.subscribe(nh,"/uav1/sensor_fusion",1);
+        sub_2.subscribe(nh,"/odometry/odom_main",1);
+    
+        //  TODO: Ensure that callback is called
+        sync.reset              (new Sync(MySyncPolicy(10), sub_1, sub_2));
+        sync->registerCallback  (boost::bind(&FormationController::callback, this, _1, _2));
+        
+        
+        // TODO Ensure the sensor fusion message is transported and received
+        error_pub = nh.advertise<_Float32[]>(error_topic, 1);
+        pose_pub = nh.advertise<PointStamped>(pose_topic, 1);
+
+        // measurement
+        tracker.push_back(tracker_vector);
+        tracker.push_back(tracker_vector);
+        ROS_INFO("All functions initialized");
+
+
+        
+    }
+    void InitializeCosts()
+    {
             cost_prev_x = CostX(w_prev,w_prev,master_pose,state_cov,human_cov,radius);
             cost_prev_y = CostY(w_prev,w_prev,master_pose,state_cov,human_cov,radius);
             cost_prev_z = CostZ(w_prev,w_prev,master_pose,state_cov,human_cov,radius);
@@ -206,34 +198,71 @@ public:
             grad_prev.push_back(cost_dif_y/step_y);
             grad_prev.push_back(cost_dif_z/step_z);
 
+    }
+    void ComputeGradient()
+    {
+        cost_cur_x = CostX(w,w_prev,master_pose,state_cov,human_cov,radius);
+        cost_cur_y = CostY(w,w_prev,master_pose,state_cov,human_cov,radius);
+        cost_cur_z = CostZ(w,w_prev,master_pose,state_cov,human_cov,radius);
+
+        cost_cur[0] = cost_cur_x;
+        cost_cur[1] = cost_cur_y;
+        cost_cur[2] = cost_cur_z;
+
+        cost_dif_x = (cost_cur_x - cost_prev_x);
+        cost_dif_y = (cost_cur_y - cost_prev_y);
+        cost_dif_z = (cost_cur_z - cost_prev_z);
+
+        step_x = w.at<float>(0) - w_prev.at<float>(0);
+        step_y = w.at<float>(1) - w_prev.at<float>(1);
+        step_z = w.at<float>(2) - w_prev.at<float>(2);
+
+        grad_cur[0] = cost_dif_x/step_x;
+        grad_cur[1] = cost_dif_y/step_y;
+        grad_cur[2] = cost_dif_z/step_z;
+
+    }
+    void UpdateCosts(){
+        cost_prev_x = cost_cur_x;
+        cost_prev_y = cost_cur_y;
+        cost_prev_z = cost_cur_z;
+
+        cost_prev[0] = cost_prev_x;
+        cost_prev[1] = cost_prev_y;
+        cost_prev[2] = cost_prev_z;
+    }
+    void callback(const PointStampedConstPtr& goal_point, const nav_msgs::OdometryPtr &pose)
+    {
+        // measurements
+        state       = (cv::Mat_<float>(4,1) << pose->pose.pose.position.x,pose->pose.pose.position.y,pose->pose.pose.position.z,pose->pose.pose.orientation.z);
+        state_cov   = (cv::Mat_<float>(6,6) << pose->pose.covariance); // TODO Check if recevied
+        // ROS_INFO("state covariance"<<state_cov<<'\n');
+        human_coord = (cv::Mat_<float>(3,1) << goal_point->point.x, goal_point->point.y, goal_point->point.z);
+        // human_cov = (cv::Mat_<float>(6,6) << goal_point->point.covariance); TODO 
+       
+        // Tracker --->>
+        master_pose = TrackMasterPose(count,human_coord,tracker);
+        // ----<<Tracker
+
+        w           = (cv::Mat_<float>(3,1) <<  state.at<float>(0),state.at<float>(1),state.at<float>(2));
+
+        // RPROP ------------------------------------------------    
+        if (w.empty() == false)
+        {
+            // Run optimization
+            // costs
+            InitializeCosts();
             // computing longer when standing
             if ((std::abs(w.at<float>(0) - w_prev.at<float>(0))<0.2) || (std::abs(w.at<float>(1) - w_prev.at<float>(1))<0.2) || (std::abs(w.at<float>(2) - w_prev.at<float>(2))<0.2))
             {
                     k = 200;
             } else  k = 50;
+
             for(int j=0;j<k;j++)
             {
                 // Main RPROP loop
-                cost_cur_x = CostX(w,w_prev,master_pose,state_cov,human_cov,radius);
-                cost_cur_y = CostY(w,w_prev,master_pose,state_cov,human_cov,radius);
-                cost_cur_z = CostZ(w,w_prev,master_pose,state_cov,human_cov,radius);
-
-                cost_cur[0] = cost_cur_x;
-                cost_cur[1] = cost_cur_y;
-                cost_cur[2] = cost_cur_z;
-
-                cost_dif_x = (cost_cur_x - cost_prev_x);
-                cost_dif_y = (cost_cur_y - cost_prev_y);
-                cost_dif_z = (cost_cur_z - cost_prev_z);
-
-                step_x = w.at<float>(0) - w_prev.at<float>(0);
-                step_y = w.at<float>(1) - w_prev.at<float>(1);
-                step_z = w.at<float>(2) - w_prev.at<float>(2);
-
-                grad_cur[0] = cost_dif_x/step_x;
-                grad_cur[1] = cost_dif_y/step_y;
-                grad_cur[2] = cost_dif_z/step_z;
-
+               
+                ComputeGradient();
                 delta_prev = delta;
                 for (int i = 0; i<3;i++)
                 {
@@ -259,15 +288,7 @@ public:
                         grad_prev[i] = grad_cur[i];
                     }
                 }
-
-                cost_prev_x = cost_cur_x;
-                cost_prev_y = cost_cur_y;
-                cost_prev_z = cost_cur_z;
-
-                cost_prev[0] = cost_prev_x;
-                cost_prev[1] = cost_prev_y;
-                cost_prev[2] = cost_prev_z;
-
+                UpdateCosts();
             }
             std::cout<<"[ Goal Position " << master_pose<< " ]\n";
             
@@ -287,9 +308,6 @@ public:
         w_prev = (cv::Mat_<float>(3,1) <<  state.at<float>(0),state.at<float>(1),state.at<float>(2));
         // RPROP <<----------------------------------------------
         ROS_INFO("Synchronized\n");
-
-
-        // TODO Drone Safety
     }
 };
 
@@ -298,7 +316,6 @@ int main(int argc, char** argv)
 {
     ROS_INFO_STREAM  ("Instanciating Formation Node\n");
     ros::init        (argc, argv, "roscpp_formation");
-    
     FormationController fc;
     ros::spin();
     return 0;
