@@ -10,6 +10,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/PointStamped.h>
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
 
@@ -32,6 +33,7 @@ private:
     // Publishers 
     image_transport::Publisher  pub;
     ros            ::Publisher  pub_point;
+    ros            ::Publisher  pub_covar;
     image_transport::Subscriber sub;
     // Blob Detector Parametrs
     cv::Scalar                  orange_min = cv::Scalar(10,150,150);     //min hsv value orange
@@ -39,13 +41,18 @@ private:
     cv::Scalar                  detection_color = cv::Scalar(255,100,0);
     
     int                         count = 0;
-    geometry_msgs::PointStamped goal;
+    // geometry_msgs::PointStamped goal;
+    geometry_msgs::PoseWithCovarianceStamped goal;
 
     // Output Parameters
     sensor_msgs::ImagePtr       msg_output;
 
 public:
     cv::KalmanFilter KF = cv::KalmanFilter(4,2,0);
+    boost::array<double, 36UL> msg_cov_array;
+    cv::Mat cov_matrix = cv::Mat(6,6,CV_32F, &msg_cov_array);
+    
+
     cv::Mat_<float>  measurement = cv::Mat_<float>(2,1);
 
     // Constructor
@@ -53,7 +60,8 @@ public:
     {   
         image_transport::ImageTransport it(*nh);
         pub = it.advertise("camera/blob", 1);
-        pub_point   = nh->advertise<geometry_msgs::PointStamped>("computations/goal_point", 10);
+        // pub_point   = nh->advertise<geometry_msgs::PointStamped>("computations/goal_point", 10);
+        pub_covar   = nh->advertise<geometry_msgs::PoseWithCovarianceStamped>("computations/goal_point", 10);
         sub = it.subscribe("camera/image", 1, &BlobDetector::image_callback,this);
 
     //---Kalman Filter Parameters---->>----
@@ -178,8 +186,8 @@ public:
     }
     void SetGoal(cv::Point statePt)
     {
-        goal.point.x = statePt.x;
-        goal.point.y = statePt.y;
+        goal.pose.pose.position.x = statePt.x;
+        goal.pose.pose.position.y = statePt.y;
        
             
         // In case of depth camera
@@ -241,7 +249,8 @@ public:
             cv::circle  (drawing, statePt, int(radius), detection_color, 2 );
             cv::circle  (drawing, statePt, 5, detection_color, 10);   
             
-
+            // Set covariance
+            cov_matrix = KF.errorCovPost;
         }
 
     cv::Mat display = image + drawing;
@@ -251,15 +260,16 @@ public:
     msg_output->header.stamp = ros::Time::now();
     
     goal.header.stamp = ros::Time::now();
-    
-    count++;
-
+    goal.header.frame_id = std::to_string(count);
+    goal.pose.covariance = msg_cov_array;
+    // Publish covariance
 
     pub.publish(msg_output);
-    pub_point.publish(goal);
+    // pub_point.publish(goal);
+    pub_covar.publish(goal);
     // uncomment for debugging
     // ROS_INFO_STREAM("[Image:" << frame_id<<" was sent ]");
-
+    count++;
     }
 };
 

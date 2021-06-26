@@ -7,6 +7,7 @@
 #include <cv_bridge/cv_bridge.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/PointStamped.h>
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <image_transport/image_transport.h>
 #include <nav_msgs/Odometry.h>
 #include <sensor_msgs/image_encodings.h>
@@ -30,10 +31,10 @@ class FormationController
 {
 private:
 
-    message_filters::Subscriber             <_Float32[]>            sub_1;
-    message_filters::Subscriber             <Odometry>              sub_2;
-    typedef sync_policies::ApproximateTime  <_Float32[],Odometry>   MySyncPolicy;
-    typedef Synchronizer                    <MySyncPolicy>          Sync;
+    message_filters::Subscriber             <PoseWithCovarianceStamped>      sub_1;
+    message_filters::Subscriber             <Odometry>                       sub_2;
+    typedef sync_policies::ApproximateTime  <PoseWithCovarianceStamped,Odometry>   MySyncPolicy;
+    typedef Synchronizer                    <MySyncPolicy>                    Sync;
     boost::shared_ptr<Sync> sync;
 
 // parameters
@@ -43,10 +44,7 @@ private:
     double delta_min    = 0.000001;
     double radius       = 6;
 
-    ros::Publisher  error_pub;
     ros::Publisher  pose_pub;
-
-    std::string     error_topic = "/uav1/error";
     std::string     pose_topic  = "/uav1/control_manager/goto";
 
     PointStamped    msg;
@@ -114,7 +112,7 @@ public:
     cv::Mat TrackMasterPose(int count,cv::Mat human_coord,std::vector<cv::Mat> tracker)
     {
         tracker.push_back(human_coord);
-        
+        cv::Mat averaged_position = (cv::Mat_<float>(3,1) << 0, 0, 0);
         count++;
         if (count == 2)
         {
@@ -133,10 +131,11 @@ public:
 
                 tracker.pop_back();
                 count--;
+                
             }
-            
+            cv::Mat averaged_position = (cv::Mat_<float>(3,1) << sum_x/10.0, sum_y/10.0, sum_z/10.0);
         }
-        cv::Mat averaged_position = (cv::Mat_<float>(3,1) << sum_x/10.0, sum_y/10.0, sum_z/10.0);
+       
         return averaged_position;
   
     }
@@ -147,7 +146,7 @@ public:
     {
         ros::NodeHandle nh;
         sub_1.subscribe(nh,"/uav1/sensor_fusion",1);
-        sub_2.subscribe(nh,"/odometry/odom_main",1);
+        sub_2.subscribe(nh,"/uav1/odometry/odom_main",1);
     
 //  TODO: Ensure that callback is called
         sync.reset              (new Sync(MySyncPolicy(10), sub_1, sub_2));
@@ -155,7 +154,6 @@ public:
         
         
 // TODO Ensure the sensor fusion message is transported and received
-        error_pub = nh.advertise<_Float32[]>(error_topic, 1);
         pose_pub = nh.advertise<PointStamped>(pose_topic, 1);
 
 // measurement
@@ -233,7 +231,7 @@ public:
         cost_prev[2] = cost_prev_z;
     }
 // MAIN CALLBACK
-    void callback(const PointStampedConstPtr& goal_point, const nav_msgs::OdometryPtr &pose)
+    void callback(const PoseWithCovarianceStampedConstPtr& goal_point, const nav_msgs::OdometryPtr &pose)
     {
        
 
@@ -242,8 +240,18 @@ public:
         state       = (cv::Mat_<float>(4,1) << pose->pose.pose.position.x,pose->pose.pose.position.y,pose->pose.pose.position.z,pose->pose.pose.orientation.z);
         state_cov   = (cv::Mat_<float>(6,6) << pose->pose.covariance); // TODO Check if recevied
         // ROS_INFO("state covariance"<<state_cov<<'\n');
-        human_coord = (cv::Mat_<float>(3,1) << goal_point->point.x, goal_point->point.y, goal_point->point.z);
-        // human_cov = (cv::Mat_<float>(6,6) << goal_point->point.covariance); TODO 
+        human_coord = (cv::Mat_<float>(3,1) << goal_point->pose.pose.position.x, goal_point->pose.pose.position.y, goal_point->pose.pose.position.z);
+
+        human_cov   = (cv::Mat_<float>(6,6) << goal_point->pose.covariance);
+
+        // human_cov = (cv::Mat_<float>(6,6)   <<  goal_point[6],goal_point[7],goal_point[8],goal_point[9],goal_point[10],goal_point[11],
+        //                                         goal_point[12],goal_point[13],goal_point[14],goal_point[15],goal_point[16],goal_point[17],
+        //                                         goal_point[18],goal_point[19],goal_point[20],goal_point[21],goal_point[22],goal_point[23],
+        //                                         goal_point[24],goal_point[25],goal_point[26],goal_point[27],goal_point[28],goal_point[29],
+        //                                         goal_point[30],goal_point[31],goal_point[32],goal_point[33],goal_point[34],goal_point[35],
+        //                                         goal_point[36],goal_point[37],goal_point[38],goal_point[39],goal_point[40],goal_point[41]
+
+        // ); 
        
         // Tracker --->>
         master_pose = TrackMasterPose(count,human_coord,tracker);
@@ -305,9 +313,8 @@ public:
             // yaw
             // msg.position.yaw = round(atan2((master_pose[1]-w[1]),(master_pose[0]-w[0])),2)
             // msg.use_yaw = True
-            // error = Float32MultiArray(data = [sqrt((state[0]-master_pose[0]+self.radius)**2),float(now.to_sec())])
+
             pose_pub.publish(msg);
-            // error_pub.publish(error); TODO
         }
 
         w_prev = (cv::Mat_<float>(3,1) <<  state.at<float>(0),state.at<float>(1),state.at<float>(2));
