@@ -33,11 +33,13 @@ using namespace sensor_msgs;
 class SLAM
 {               /*--------------VISUAL SLAM NODE-----------------*/
 private:
-    ros::NodeHandle         nh;
-    ros::Publisher          pub;
-    ros::Publisher          pub_point;
-    sensor_msgs::ImagePtr   msg_output;
-    PointStamped            msg_goal_point;
+    ros::NodeHandle                 nh;
+    ros::Publisher                  pub;
+    ros::Publisher                  pub_point;
+    // Messages
+
+    sensor_msgs::ImagePtr           msg_output;
+    PointStamped                    msg_goal_point;
 
     
     // Time Synchronizer variables ---------
@@ -49,49 +51,48 @@ private:
     // Time Synchronizer variables --------- 
 
     // Msgs Topics -------------------------
-    std::string sub_goal_topic      = "/computations/goal_point";
-    std::string sub_camera_topic    = "/camera/image"; 
-    std::string pub_image_topic     = "/slam/matches";
-    std::string pub_point_topic     = "/slam/points/goal";
+    std::string                     sub_goal_topic      = "/computations/goal_point";
+    std::string                     sub_camera_topic    = "/camera/image"; 
+    std::string                     pub_image_topic     = "/slam/matches";
+    std::string                     pub_point_topic     = "/slam/points/goal";
     // Msgs Topics -------------------------
 
     // Visual SLAM variables ---------------
-    int count {0};
-    cv::Mat image, image_prev, image_matches;
-    const int   MAX_FEATURES        = 500;
-    const float GOOD_MATCH_PERCENT  = 0.15f;
-    bool        flag_first_photo    = true;
+    int                             count {0};
+    cv::Mat                         image, image_prev, image_matches;
+    const int                       MAX_FEATURES        = 500;
+    const float                     GOOD_MATCH_PERCENT  = 0.15f;
+    bool                            flag_first_photo    = true;
 
-    cv::Mat                     descriptors;
-    cv::Mat                     descriptors_prev;
-    std::vector<cv::KeyPoint>   keypoints;
-    std::vector<cv::KeyPoint>   keypoints_prev;
+    cv::Mat                         descriptors;
+    cv::Mat                         descriptors_prev;
+    std::vector<cv::KeyPoint>       keypoints;
+    std::vector<cv::KeyPoint>       keypoints_prev;
     
     cv::Ptr<cv::Feature2D>          orb     = cv::ORB::create(MAX_FEATURES);
     cv::Ptr<cv::DescriptorMatcher>  matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
     std::vector<cv::DMatch>         matches;
     
     
-    std::vector<cv::Point> points_previous;
-    std::vector<cv::Point> points_current;
-    cv::Point              point_previous;
-    cv::Point              point_current;
+    std::vector<cv::Point>          points_previous;
+    std::vector<cv::Point>          points_current;
+    cv::Point                       point_previous;
+    cv::Point                       point_current;
     
     bool moved                      = true;
-    cv::Mat                E,R,t,mask,H,P;
+    cv::Mat                         E,R,t,mask,H,P;
     
     // Camera Point
-    cv::Point3d                 camera_pose;
-    std::vector<cv::Point3d>    obstacles_positions;
+    cv::Point3d                     camera_pose;
 
     // Visual SLAM variables ---------------
 
 public:
     
-    cv::Mat  point2D = cv::Mat::zeros(3,1,CV_64F);
-    cv::Mat  point3D = cv::Mat::zeros(4,1,CV_64F);
-    cv::Mat  point_destination_2D = cv::Mat::zeros(3,1,CV_64F);
-    cv::Mat  point_destination_3D = cv::Mat::zeros(4,1,CV_64F);
+    cv::Mat                         point2D = cv::Mat::zeros(3,1,CV_64F);
+    cv::Mat                         point3D = cv::Mat::zeros(4,1,CV_64F);
+    cv::Mat                         point_destination_2D = cv::Mat::zeros(3,1,CV_64F);
+    cv::Mat                         point_destination_3D = cv::Mat::zeros(4,1,CV_64F);
     
     
     SLAM()
@@ -101,15 +102,19 @@ public:
         sub_1.subscribe(nh,sub_goal_topic,1);
         sub_2.subscribe(nh,sub_camera_topic,1);
         
-        pub = nh.advertise<sensor_msgs::Image>(pub_image_topic,1);
-        pub_point = nh.advertise<PointStamped>(pub_point_topic,1);
+        pub                         = nh.advertise<sensor_msgs::Image>(pub_image_topic,1);
+        pub_point                   = nh.advertise<PointStamped>(pub_point_topic,1);
     //  SLAM Node Constructor --------------
 
     // Parameters for Time Synchronizer, two subscribers connected to one SLAM::callback
         sync.reset(new Sync(MySyncPolicy(10), sub_1,sub_2));
         sync->registerCallback(boost::bind(&SLAM::callback,this,_1,_2));
         
+        camera_pose.x = 0;
+        camera_pose.y = 0;
+        camera_pose.z = 0;
         ROS_INFO("SLAM Node Initialized Successfully");
+
     }
     // Parameters for Time Synchronizer, two subscribers connected to one SLAM::callback
 
@@ -151,6 +156,30 @@ public:
         K = (cv::Mat_<float>(3,3) << f_x, 0,x,   0,f_y,y,   0,0,1); 
 
         return K;
+    }
+    cv::Point3d Project2DPointTo3D(cv::Mat projection_2D_to_3D_matrix, cv::Point obstacle_point)
+    {
+        cv::Mat  point2D      = cv::Mat::zeros(3,1,CV_64F);
+        cv::Mat  point3D      = cv::Mat::zeros(4,1,CV_64F);
+        cv::Point3d output; 
+
+        point2D.at<double>(0) = obstacle_point.x;
+        point2D.at<double>(1) = obstacle_point.y;
+        point2D.at<double>(2) = 1;
+
+        // Projection to 3D
+        point3D.at<double>(0) = 0;
+        point3D.at<double>(1) = 0;
+        point3D.at<double>(2) = 0;
+        point3D.at<double>(3) = 1;
+                    
+        point3D = projection_2D_to_3D_matrix*point2D;
+        //Normalization
+        output.x = point3D.at<double>(0)/point3D.at<double>(3);
+        output.y = point3D.at<double>(1)/point3D.at<double>(3);
+        output.z = point3D.at<double>(2)/point3D.at<double>(3);
+        
+        return output;
     }
     void callback(const PointStampedConstPtr& goal_point,const ImageConstPtr& msg)
     {
@@ -204,66 +233,36 @@ public:
                 points_previous.push_back(point_previous);
                 points_current.push_back(point_current);
 
-                // uncomment to check points
-                // std::cout<< "Current point: "<<point_current<<" Previous point: "<<point_previous<<'\n';
-                
-                // Check if moving
-                if (point_previous.x == point_current.x)
-                {
-                    moved = false;
-                }
             }
+
+            cv::Mat projection_2D_to_3D_matrix = (cv::Mat_<float>(4,3) << 1,0,0,   0,1,0,  0,0,1, 0,0,0);
             
             if (moved == true)
-            {   // uncomment to debug
-
-
-                // std::cout<<image.size[0]<<'\n'; // x height
-                // std::cout<<image.size[1]<<'\n'; // y width
-
+            {   
+                // Calculate Matrices If the frame has moved a little bit,
+                // i.e. features' positions have changed
 
                 cv::Mat K = CalculateIntrinsicMatrix(image.size[0],image.size[1], 78);
-                // ROS_INFO("[Intrinsic Matrix]");
-                // std::cout<<K<<'\n';
-                
-                
                 E = cv::findEssentialMat(points_current,points_previous,K,cv::RANSAC,0.999,1.0,mask);
                 cv::recoverPose(E, points_current, points_previous, K, R, t,mask);
 
-
-                // ROS_INFO("[Before update Cam pose]");
-                // std::cout<<camera_pose<<'\n';
-                // ROS_INFO("[Translation element]");
-                // std::cout<<t.at<double>(0)<<'\n';
                 // Calculate camera position
-                camera_pose.x = camera_pose.x + t.at<double>(0);
-                // camera_pose.z = camera_pose.y + t.at<double>(1);
-                // camera_pose.y = camera_pose.z + t.at<double>(2);  
+                camera_pose.x = t.at<double>(0);
+                camera_pose.y = t.at<double>(1);
+                camera_pose.z = t.at<double>(2);  
 
                 ROS_INFO("[Camera Position]");
                 std::cout<<camera_pose<<'\n';
 
-
-                // ROS_INFO("[Rotation Matrix]");
-                // std::cout<<R<<'\n';
-                
                 
                 cv::hconcat(R,t,H); //Movement Matrix H
-                // ROS_INFO("[Movement Matrix]");
-                // std::cout<<H<<'\n';
-                
-                P = (cv::Mat_<float>(3,4) << 0, 0,0,0,   0,0,0,0,  0,0,0,0); 
+                P = (cv::Mat_<float>(3,4) << 0,0,0,0,   0,0,0,0,  0,0,0,0); 
                 K.convertTo(K, CV_64F);
                 H.convertTo(H, CV_64F);
                 P = K*H; // Projection Matrix
                 
-                // ROS_INFO("[Projection Matrix]");
-                // std::cout<<P<<'\n';
-
-
                 cv::Mat P_transp = P.t();
                 // ROS_INFO("[Projection Tansposed Matrix]");
-                // std::cout<<P_transp<<'\n';
                 
                 // P*X = x
 
@@ -271,54 +270,33 @@ public:
                 // X = Inv(P_transp*P)*P_transp*x
 
                 cv::Mat P_transp_P = P_transp*P;
-                cv::Mat projection_2D_to_3D_matrix = P_transp_P.inv()*P_transp;
-
-                // ROS_INFO("[Projection to 3D Matrix]");
-                // std::cout<<projection_2D_to_3D_matrix<<'\n';
+                projection_2D_to_3D_matrix = P_transp_P.inv()*P_transp;
                 
-                for (size_t i=0; i<points_current.size();i++)
-                {
-                    point2D.at<double>(0) = points_current[i].x;
-                    point2D.at<double>(1) = points_current[i].y;
-                    point2D.at<double>(2) = 1;
-                    // Projection to 3D
-                    point3D.at<double>(0) = 0;
-                    point3D.at<double>(1) = 0;
-                    point3D.at<double>(2) = 0;
-                    point3D.at<double>(3) = 1;
-                    
-                    point3D = projection_2D_to_3D_matrix*point2D;
-                    // Normalization
-                    point3D.at<double>(0) = point3D.at<double>(0)/point3D.at<double>(3);
-                    point3D.at<double>(1) = point3D.at<double>(1)/point3D.at<double>(3);
-                    point3D.at<double>(2) = point3D.at<double>(2)/point3D.at<double>(3);
-                    point3D.at<double>(3) = point3D.at<double>(3)/point3D.at<double>(3);
-
-                }
-                
-                // Computing position of object
-                point_destination_2D.at<double>(0) = goal_point->point.x;
-                point_destination_2D.at<double>(1) = goal_point->point.y;
-                point_destination_2D.at<double>(2) = 1;
-
-                point_destination_3D = projection_2D_to_3D_matrix*point_destination_2D;
-                
-                // Normalization
-                    
-                point_destination_3D.at<double>(0) = point_destination_3D.at<double>(0)/point_destination_3D.at<double>(3);
-                point_destination_3D.at<double>(1) = point_destination_3D.at<double>(1)/point_destination_3D.at<double>(3);
-                point_destination_3D.at<double>(2) = point_destination_3D.at<double>(2)/point_destination_3D.at<double>(3);
-                point_destination_3D.at<double>(3) = point_destination_3D.at<double>(3)/point_destination_3D.at<double>(3);
-                
-                ROS_INFO("[Goal Projection to 3D]");
-                msg_goal_point.point.x = point_destination_3D.at<double>(0);          
-                msg_goal_point.point.y = point_destination_3D.at<double>(1);
-                msg_goal_point.point.z = point_destination_3D.at<double>(2);
-                msg_goal_point.header.stamp= ros::Time::now();
-                msg_goal_point.header.frame_id = std::to_string(count);
-                pub_point.publish(msg_goal_point);
-                std::cout<<point_destination_3D<<'\n';
+            } 
+            // PROJECTION OF ALL POINTS
+            std::vector<cv::Point3d> obstacles_positions;
+            for (size_t i=0; i<points_current.size();i++)
+            {
+                cv::Point3d projected_obstacle_point = Project2DPointTo3D(projection_2D_to_3D_matrix,points_current[i]);
+                obstacles_positions.push_back(projected_obstacle_point); 
             }
+
+            cv::Point   goal_2D;
+            goal_2D.x = goal_point->point.x;
+            goal_2D.y = goal_point->point.y;
+            
+            cv::Point3d goal_3D = Project2DPointTo3D(projection_2D_to_3D_matrix,goal_2D);
+
+
+            ROS_INFO("[Goal Projection to 3D]");
+            msg_goal_point.point.x = goal_3D.x;          
+            msg_goal_point.point.y = goal_3D.y;
+            msg_goal_point.point.z = goal_3D.z;
+            msg_goal_point.header.stamp= ros::Time::now();
+            msg_goal_point.header.frame_id = std::to_string(count);
+            pub_point.publish(msg_goal_point);
+            std::cout<<goal_3D<<'\n';
+         
         }
         // ****************************** 
         // Preparation of output msg
