@@ -7,3 +7,4 @@
 subdirs("gtest")
 subdirs("blob_detector")
 subdirs("formation")
+subdirs("sensor_fusion")

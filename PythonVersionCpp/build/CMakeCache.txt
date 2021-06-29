@@ -497,6 +497,12 @@ rospy_DIR:PATH=/opt/ros/noetic/share/rospy/cmake
 //The directory containing a CMake configuration file for rostime.
 rostime_DIR:PATH=/opt/ros/noetic/share/rostime/cmake
 
+//Value Computed by CMake
+sensor_fusion_BINARY_DIR:STATIC=/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion
+
+//Value Computed by CMake
+sensor_fusion_SOURCE_DIR:STATIC=/home/timur/FormationControlCpp/PythonVersionCpp/src/sensor_fusion
+
 //The directory containing a CMake configuration file for sensor_msgs.
 sensor_msgs_DIR:PATH=/opt/ros/noetic/share/sensor_msgs/cmake
 
@@ -654,7 +660,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=7
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP

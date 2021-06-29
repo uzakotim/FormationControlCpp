@@ -237,12 +237,24 @@ public:
 
 
         // measurements
-        state       = (cv::Mat_<float>(4,1) << pose->pose.pose.position.x,pose->pose.pose.position.y,pose->pose.pose.position.z,pose->pose.pose.orientation.z);
-        state_cov   = (cv::Mat_<float>(6,6) << pose->pose.covariance); // TODO Check if recevied
+        state       = (cv::Mat_<double>(4,1) << pose->pose.pose.position.x,pose->pose.pose.position.y,pose->pose.pose.position.z,pose->pose.pose.orientation.z);
         // ROS_INFO("state covariance"<<state_cov<<'\n');
-        human_coord = (cv::Mat_<float>(3,1) << goal_point->pose.pose.position.x, goal_point->pose.pose.position.y, goal_point->pose.pose.position.z);
+        human_coord = (cv::Mat_<double>(3,1) << goal_point->pose.pose.position.x, goal_point->pose.pose.position.y, goal_point->pose.pose.position.z);
+        state_cov = (cv::Mat_<float>(6,6)   <<  pose->pose.covariance[0],   pose->pose.covariance[1],   pose->pose.covariance[2],   pose->pose.covariance[3],   pose->pose.covariance[4],   pose->pose.covariance[5],
+                                                pose->pose.covariance[6],   pose->pose.covariance[7],   pose->pose.covariance[8],   pose->pose.covariance[9],   pose->pose.covariance[10],  pose->pose.covariance[11],
+                                                pose->pose.covariance[12],  pose->pose.covariance[13],  pose->pose.covariance[14],  pose->pose.covariance[15],  pose->pose.covariance[16],  pose->pose.covariance[17],
+                                                pose->pose.covariance[18],  pose->pose.covariance[19],  pose->pose.covariance[20],  pose->pose.covariance[21],  pose->pose.covariance[22],  pose->pose.covariance[23],
+                                                pose->pose.covariance[24],  pose->pose.covariance[25],  pose->pose.covariance[26],  pose->pose.covariance[27],  pose->pose.covariance[28],  pose->pose.covariance[29],
+                                                pose->pose.covariance[30],  pose->pose.covariance[31],  pose->pose.covariance[32],  pose->pose.covariance[33],  pose->pose.covariance[34],  pose->pose.covariance[35]);
+        human_cov = (cv::Mat_<float>(6,6)   <<  goal_point->pose.covariance[0], goal_point->pose.covariance[1], goal_point->pose.covariance[2], goal_point->pose.covariance[3], goal_point->pose.covariance[4], goal_point->pose.covariance[5],
+                                                goal_point->pose.covariance[6], goal_point->pose.covariance[7], goal_point->pose.covariance[8], goal_point->pose.covariance[9], goal_point->pose.covariance[10],goal_point->pose.covariance[11],
+                                                goal_point->pose.covariance[12],goal_point->pose.covariance[13],goal_point->pose.covariance[14],goal_point->pose.covariance[15],goal_point->pose.covariance[16],goal_point->pose.covariance[17],
+                                                goal_point->pose.covariance[18],goal_point->pose.covariance[19],goal_point->pose.covariance[20],goal_point->pose.covariance[21],goal_point->pose.covariance[22],goal_point->pose.covariance[23],
+                                                goal_point->pose.covariance[24],goal_point->pose.covariance[25],goal_point->pose.covariance[26],goal_point->pose.covariance[27],goal_point->pose.covariance[28],goal_point->pose.covariance[29],
+                                                goal_point->pose.covariance[30],goal_point->pose.covariance[31],goal_point->pose.covariance[32],goal_point->pose.covariance[33],goal_point->pose.covariance[34],goal_point->pose.covariance[35]);
 
-        human_cov   = (cv::Mat_<float>(6,6) << goal_point->pose.covariance);
+ 
+//        human_cov   = (cv::Mat_<float>(6,6) << goal_point->pose.covariance);
 
         // human_cov = (cv::Mat_<float>(6,6)   <<  goal_point[6],goal_point[7],goal_point[8],goal_point[9],goal_point[10],goal_point[11],
         //                                         goal_point[12],goal_point[13],goal_point[14],goal_point[15],goal_point[16],goal_point[17],

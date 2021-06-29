@@ -17,11 +17,15 @@ set(CMAKE_MAKEFILE_DEPENDS
   "catkin_generated/order_packages.cmake"
   "formation/catkin_generated/ordered_paths.cmake"
   "formation/catkin_generated/package.cmake"
+  "sensor_fusion/catkin_generated/ordered_paths.cmake"
+  "sensor_fusion/catkin_generated/package.cmake"
   "/home/timur/FormationControlCpp/PythonVersionCpp/src/CMakeLists.txt"
   "/home/timur/FormationControlCpp/PythonVersionCpp/src/blob_detector/CMakeLists.txt"
   "/home/timur/FormationControlCpp/PythonVersionCpp/src/blob_detector/package.xml"
   "/home/timur/FormationControlCpp/PythonVersionCpp/src/formation/CMakeLists.txt"
   "/home/timur/FormationControlCpp/PythonVersionCpp/src/formation/package.xml"
+  "/home/timur/FormationControlCpp/PythonVersionCpp/src/sensor_fusion/CMakeLists.txt"
+  "/home/timur/FormationControlCpp/PythonVersionCpp/src/sensor_fusion/package.xml"
   "/opt/ros/noetic/share/catkin/cmake/all.cmake"
   "/opt/ros/noetic/share/catkin/cmake/assert.cmake"
   "/opt/ros/noetic/share/catkin/cmake/atomic_configure_file.cmake"
@@ -212,6 +216,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "gtest/googletest/CMakeFiles/CMakeDirectoryInformation.cmake"
   "blob_detector/CMakeFiles/CMakeDirectoryInformation.cmake"
   "formation/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "sensor_fusion/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:

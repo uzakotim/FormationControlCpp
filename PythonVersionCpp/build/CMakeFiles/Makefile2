@@ -56,6 +56,7 @@ CMAKE_BINARY_DIR = /home/timur/FormationControlCpp/PythonVersionCpp/build
 all: gtest/all
 all: blob_detector/all
 all: formation/all
+all: sensor_fusion/all
 
 .PHONY : all
 
@@ -63,6 +64,7 @@ all: formation/all
 preinstall: gtest/preinstall
 preinstall: blob_detector/preinstall
 preinstall: formation/preinstall
+preinstall: sensor_fusion/preinstall
 
 .PHONY : preinstall
 
@@ -75,6 +77,7 @@ clean: CMakeFiles/download_extra_data.dir/clean
 clean: gtest/clean
 clean: blob_detector/clean
 clean: formation/clean
+clean: sensor_fusion/clean
 
 .PHONY : clean
 
@@ -199,6 +202,24 @@ gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest_main.dir/clean
 gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest.dir/clean
 
 .PHONY : gtest/googletest/clean
+
+#=============================================================================
+# Directory level rules for directory sensor_fusion
+
+# Recursive "all" directory target.
+sensor_fusion/all:
+
+.PHONY : sensor_fusion/all
+
+# Recursive "preinstall" directory target.
+sensor_fusion/preinstall:
+
+.PHONY : sensor_fusion/preinstall
+
+# Recursive "clean" directory target.
+sensor_fusion/clean:
+
+.PHONY : sensor_fusion/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/doxygen.dir

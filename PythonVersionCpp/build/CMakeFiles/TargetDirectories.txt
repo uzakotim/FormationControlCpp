@@ -78,3 +78,10 @@
 /home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/test.dir
 /home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/formation_pub.dir
 /home/timur/FormationControlCpp/PythonVersionCpp/build/formation/CMakeFiles/formation_main.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion/CMakeFiles/install/strip.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion/CMakeFiles/install/local.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion/CMakeFiles/install.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion/CMakeFiles/list_install_components.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion/CMakeFiles/rebuild_cache.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion/CMakeFiles/edit_cache.dir
+/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion/CMakeFiles/test.dir

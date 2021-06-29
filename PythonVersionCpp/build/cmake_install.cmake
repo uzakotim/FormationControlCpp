@@ -133,6 +133,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/timur/FormationControlCpp/PythonVersionCpp/build/gtest/cmake_install.cmake")
   include("/home/timur/FormationControlCpp/PythonVersionCpp/build/blob_detector/cmake_install.cmake")
   include("/home/timur/FormationControlCpp/PythonVersionCpp/build/formation/cmake_install.cmake")
+  include("/home/timur/FormationControlCpp/PythonVersionCpp/build/sensor_fusion/cmake_install.cmake")
 
 endif()
 

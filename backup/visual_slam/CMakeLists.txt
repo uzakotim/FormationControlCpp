@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(sensor_fusion)
+project(visual_slam)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   sensor_msgs
+  std_msgs
   std_msgs
 )
 find_package(OpenCV 4.5.3 REQUIRED)
@@ -73,7 +74,7 @@ find_package(OpenCV 4.5.3 REQUIRED)
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   sensor_msgs#   std_msgs
+#   sensor_msgs#   std_msgs#   std_msgs
 # )
 
 ################################################
@@ -105,7 +106,6 @@ find_package(OpenCV 4.5.3 REQUIRED)
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-
 catkin_package(
   INCLUDE_DIRS
   CATKIN_DEPENDS roscpp
@@ -122,16 +122,15 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-
-include_directories (
-  ${catkin_INCLUDE_DIRS} 
+include_directories(
+# include
+  ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
 
-
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/sensor_fusion.cpp
+#   src/${PROJECT_NAME}/visual_slam.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -142,11 +141,9 @@ include_directories (
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/sensor_fusion_node.cpp)
-add_executable(main_sf src/main_sf.cpp)
-target_link_libraries(main_sf ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
-
-
+# add_executable(${PROJECT_NAME}_node src/visual_slam_node.cpp)
+add_executable(main_slam src/main.cpp)
+target_link_libraries(main_slam ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -209,7 +206,7 @@ target_link_libraries(main_sf ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_sensor_fusion.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_visual_slam.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
