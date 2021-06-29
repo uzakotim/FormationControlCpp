@@ -33,9 +33,11 @@ using namespace sensor_msgs;
 class SLAM
 {               /*--------------VISUAL SLAM NODE-----------------*/
 private:
-    ros::NodeHandle nh;
-    ros::Publisher pub;
-    sensor_msgs::ImagePtr msg_output;
+    ros::NodeHandle         nh;
+    ros::Publisher          pub;
+    ros::Publisher          pub_point;
+    sensor_msgs::ImagePtr   msg_output;
+    PointStamped            msg_goal_point;
 
     
     // Time Synchronizer variables ---------
@@ -50,6 +52,7 @@ private:
     std::string sub_goal_topic      = "/computations/goal_point";
     std::string sub_camera_topic    = "/camera/image"; 
     std::string pub_image_topic     = "/slam/matches";
+    std::string pub_point_topic     = "/slam/points/goal";
     // Msgs Topics -------------------------
 
     // Visual SLAM variables ---------------
@@ -99,6 +102,7 @@ public:
         sub_2.subscribe(nh,sub_camera_topic,1);
         
         pub = nh.advertise<sensor_msgs::Image>(pub_image_topic,1);
+        pub_point = nh.advertise<PointStamped>(pub_point_topic,1);
     //  SLAM Node Constructor --------------
 
     // Parameters for Time Synchronizer, two subscribers connected to one SLAM::callback
@@ -148,15 +152,11 @@ public:
 
         return K;
     }
-    // cv::Point3d Calculate3Dpoint(cv::Mat P, cv::point)
-    // {
-// 
-    // }
     void callback(const PointStampedConstPtr& goal_point,const ImageConstPtr& msg)
     {
         // Callback of SLAM Node
 
-        // ROS_INFO("[Synchronized and SLAM started]\n");
+        ROS_INFO("[Synchronized and SLAM started]\n");
 
         moved= true;    // Parameter for SLAM computations
 
@@ -173,7 +173,7 @@ public:
             image_matches           = image.clone();
             flag_first_photo        = false;
 
-            // ROS_INFO("First Photo\n");
+            ROS_INFO("First Photo\n");
             
         }
         else
@@ -281,32 +281,28 @@ public:
                     point2D.at<double>(0) = points_current[i].x;
                     point2D.at<double>(1) = points_current[i].y;
                     point2D.at<double>(2) = 1;
-
-                    
-
+                    // Projection to 3D
                     point3D.at<double>(0) = 0;
                     point3D.at<double>(1) = 0;
                     point3D.at<double>(2) = 0;
                     point3D.at<double>(3) = 1;
-
-                    point3D = projection_2D_to_3D_matrix*point2D;
-
-                    // Normalization
                     
+                    point3D = projection_2D_to_3D_matrix*point2D;
+                    // Normalization
                     point3D.at<double>(0) = point3D.at<double>(0)/point3D.at<double>(3);
                     point3D.at<double>(1) = point3D.at<double>(1)/point3D.at<double>(3);
                     point3D.at<double>(2) = point3D.at<double>(2)/point3D.at<double>(3);
                     point3D.at<double>(3) = point3D.at<double>(3)/point3D.at<double>(3);
-                   
-
 
                 }
+                
                 // Computing position of object
                 point_destination_2D.at<double>(0) = goal_point->point.x;
                 point_destination_2D.at<double>(1) = goal_point->point.y;
                 point_destination_2D.at<double>(2) = 1;
 
                 point_destination_3D = projection_2D_to_3D_matrix*point_destination_2D;
+                
                 // Normalization
                     
                 point_destination_3D.at<double>(0) = point_destination_3D.at<double>(0)/point_destination_3D.at<double>(3);
@@ -315,10 +311,16 @@ public:
                 point_destination_3D.at<double>(3) = point_destination_3D.at<double>(3)/point_destination_3D.at<double>(3);
                 
                 ROS_INFO("[Goal Projection to 3D]");
+                msg_goal_point.point.x = point_destination_3D.at<double>(0);          
+                msg_goal_point.point.y = point_destination_3D.at<double>(1);
+                msg_goal_point.point.z = point_destination_3D.at<double>(2);
+                msg_goal_point.header.stamp= ros::Time::now();
+                msg_goal_point.header.frame_id = std::to_string(count);
+                pub_point.publish(msg_goal_point);
                 std::cout<<point_destination_3D<<'\n';
             }
         }
-
+        // ****************************** 
         // Preparation of output msg
         msg_output = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image_matches).toImageMsg();
         msg_output->header.frame_id = std::to_string(count);
