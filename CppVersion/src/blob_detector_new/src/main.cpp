@@ -34,7 +34,7 @@ private:
     ros            ::Publisher  pub_point;
     image_transport::Subscriber sub;
     // Blob Detector Parametrs
-    cv::Scalar                  orange_min = cv::Scalar(10,150,150);     //min hsv value orange
+    cv::Scalar                  orange_min = cv::Scalar(10,140,140);     //min hsv value orange
     cv::Scalar                  orange_max = cv::Scalar(27,255,255);     //max hsv value orange
     cv::Scalar                  detection_color = cv::Scalar(255,100,0);
     
@@ -53,7 +53,7 @@ public:
     {   
         image_transport::ImageTransport it(*nh);
         pub = it.advertise("camera/blob", 1);
-        pub_point   = nh->advertise<geometry_msgs::PointStamped>("computations/goal_point", 10);
+        pub_point   = nh->advertise<geometry_msgs::PointStamped>("computations/goal_point", 1);
         sub = it.subscribe("camera/image", 1, &BlobDetector::image_callback,this);
 
     //---Kalman Filter Parameters---->>----

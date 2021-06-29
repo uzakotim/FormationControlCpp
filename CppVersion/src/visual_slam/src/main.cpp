@@ -94,6 +94,9 @@ public:
     cv::Mat                         point_destination_2D = cv::Mat::zeros(3,1,CV_64F);
     cv::Mat                         point_destination_3D = cv::Mat::zeros(4,1,CV_64F);
     
+    cv::KalmanFilter KF = cv::KalmanFilter(6,3,0);
+    cv::Mat_<float>  measurement = cv::Mat_<float>(3,1);
+    double dt = 0.125;
     
     SLAM()
     {
@@ -105,7 +108,20 @@ public:
         pub                         = nh.advertise<sensor_msgs::Image>(pub_image_topic,1);
         pub_point                   = nh.advertise<PointStamped>(pub_point_topic,1);
     //  SLAM Node Constructor --------------
-
+    //---Kalman Filter Parameters---->>----
+        KF.transitionMatrix = (cv::Mat_<float>(6,6) << 1,0,0,dt,0,0,  0,1,0,0,dt,0, 0,0,1,0,0,dt, 0,0,0,1,0,0, 0,0,0,0,1,0, 0,0,0,0,0,1);
+        measurement.setTo(cv::Scalar(0));
+        KF.statePre.at<float>(0) = 0;
+        KF.statePre.at<float>(1) = 0;
+        KF.statePre.at<float>(2) = 0;
+        KF.statePre.at<float>(3) = 0;
+        KF.statePre.at<float>(4) = 0;
+        KF.statePre.at<float>(5) = 0;
+        setIdentity(KF.measurementMatrix);
+        setIdentity(KF.processNoiseCov,     cv::Scalar::all(1e-4));
+        setIdentity(KF.measurementNoiseCov, cv::Scalar::all(10));
+        setIdentity(KF.errorCovPost,        cv::Scalar::all(.1));
+    // ---<< Kalman Filter Parameters ----
     // Parameters for Time Synchronizer, two subscribers connected to one SLAM::callback
         sync.reset(new Sync(MySyncPolicy(10), sub_1,sub_2));
         sync->registerCallback(boost::bind(&SLAM::callback,this,_1,_2));
@@ -181,15 +197,39 @@ public:
         
         return output;
     }
+    cv::Point3d PredictUsingKalmanFilter()
+    {
+        // Prediction, to update the internal statePre variable -->>
+        cv::Mat prediction  =   KF.predict();
+        cv::Point3d               predictPt(prediction.at<float>(0),prediction.at<float>(1),prediction.at<float>(2));
+        return  predictPt;
+        //  <<---Prediction, to update the internal statePre variable
+    }
+     void SetMeasurement(cv::Point3d goal)
+    {
+        measurement.at<float>(0) = goal.x;
+        measurement.at<float>(1) = goal.y;
+        measurement.at<float>(2) = goal.z;
+
+    }
+    cv::Point3d UpdateKalmanFilter(cv::Mat_<float>  measurement)
+    {
+        // Updating Kalman Filter    
+        cv::Mat     estimated = KF.correct(measurement);
+        cv::Point3d   statePt(estimated.at<float>(0),estimated.at<float>(1),estimated.at<float>(2));
+        cv::Point3d   measPt(measurement(0),measurement(1),measurement(2));
+        return      statePt;
+    }
     void callback(const PointStampedConstPtr& goal_point,const ImageConstPtr& msg)
     {
         // Callback of SLAM Node
 
         ROS_INFO("[Synchronized and SLAM started]\n");
-
+        
+        cv::Point3d   predictPt       = PredictUsingKalmanFilter    ();
+        cv::Mat       image           = ReturnCVMatImageFromMsg     (msg);
+        
         moved= true;    // Parameter for SLAM computations
-
-        cv::Mat image  = ReturnCVMatImageFromMsg (msg);
 
         if (flag_first_photo == true) 
         {   
@@ -280,23 +320,28 @@ public:
                 cv::Point3d projected_obstacle_point = Project2DPointTo3D(projection_2D_to_3D_matrix,points_current[i]);
                 obstacles_positions.push_back(projected_obstacle_point); 
             }
-
+        
+        
             cv::Point   goal_2D;
             goal_2D.x = goal_point->point.x;
             goal_2D.y = goal_point->point.y;
-            
-            cv::Point3d goal_3D = Project2DPointTo3D(projection_2D_to_3D_matrix,goal_2D);
 
+            if((goal_2D.x!=0) || (goal_2D.y!=0))
+            {
+                cv::Point3d goal_3D = Project2DPointTo3D(projection_2D_to_3D_matrix,goal_2D);
+                // Obtaining the point from Kalman Filter
+                SetMeasurement(goal_3D);
+                cv::Point3d statePt = UpdateKalmanFilter(measurement);
 
-            ROS_INFO("[Goal Projection to 3D]");
-            msg_goal_point.point.x = goal_3D.x;          
-            msg_goal_point.point.y = goal_3D.y;
-            msg_goal_point.point.z = goal_3D.z;
-            msg_goal_point.header.stamp= ros::Time::now();
-            msg_goal_point.header.frame_id = std::to_string(count);
-            pub_point.publish(msg_goal_point);
-            std::cout<<goal_3D<<'\n';
-         
+                ROS_INFO("[Goal Projection to 3D]");
+                msg_goal_point.point.x = goal_3D.x;          
+                msg_goal_point.point.y = goal_3D.y;
+                msg_goal_point.point.z = goal_3D.z;
+                msg_goal_point.header.stamp= ros::Time::now();
+                msg_goal_point.header.frame_id = std::to_string(count);
+                pub_point.publish(msg_goal_point);
+                std::cout<<goal_3D<<'\n';
+            }
         }
         // ****************************** 
         // Preparation of output msg
