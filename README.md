@@ -14,3 +14,4 @@ CppVersion [Cpp] - New version based on VisualSLAM and written in C++
 	2) Build VisualSLAM
 	3) Build Motion Controller 
 
+Implemented using ROS Noetic and Ubuntu 20
