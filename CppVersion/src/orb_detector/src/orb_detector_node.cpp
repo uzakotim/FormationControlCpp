@@ -13,6 +13,7 @@
 #include <geometry_msgs/PointStamped.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/image_encodings.h>
+#include <sensor_msgs/PointCloud.h>
 
 // CvBridge, Image Transport
 #include <cv_bridge/cv_bridge.h>
@@ -31,16 +32,20 @@ using namespace message_filters;
 using namespace sensor_msgs;
 
 class ORB
-{               /*--------------VISUAL SLAM NODE-----------------*/
+{               /*--------------ORB DETECTOR NODE-----------------*/
 private:
     ros::NodeHandle                 nh;
     ros::Publisher                  pub;
+    ros::Publisher                  pub_obstacles;
+
     image_transport::Subscriber     sub;
     // Messages
     sensor_msgs::ImagePtr           msg_output;
+    sensor_msgs::PointCloud         msg_obstacles;
     // Msgs Topics -------------------------
     std::string                     sub_camera_topic    = "/camera/image"; 
-    std::string                     pub_image_topic     = "/slam/matches";
+    std::string                     pub_image_topic     = "/ORB/matches";
+    std::string                     pub_obstacles_topic = "/ORB/points";
     // Msgs Topics -------------------------
 
     // ORB variables ---------------
@@ -57,10 +62,7 @@ private:
     
     cv::Ptr<cv::Feature2D>          orb     = cv::ORB::create(MAX_FEATURES);
     cv::Ptr<cv::DescriptorMatcher>  matcher = cv::DescriptorMatcher::create("BruteForce-Hamming");
-    std::vector<cv::DMatch>         matches;
-    
-    
-   
+    std::vector<cv::DMatch>         matches;   
     // ORB variables ---------------
 
 public:
@@ -69,6 +71,7 @@ public:
         image_transport::ImageTransport it(nh);
         sub = it.subscribe(sub_camera_topic,1,&ORB::callback,this);
         pub = nh.advertise<sensor_msgs::Image>(pub_image_topic,1);
+        pub_obstacles = nh.advertise<sensor_msgs::PointCloud>(pub_obstacles_topic,1);
         ROS_INFO("SLAM Node Initialized Successfully");
     }
     // Parameters for Time Synchronizer, two subscribers connected to one SLAM::callback
@@ -92,12 +95,12 @@ public:
     void callback(const ImageConstPtr& msg)
     {
        // Callback of SLAM Node
-        std::vector<cv::Point>          points_previous;
-        std::vector<cv::Point>          points_current;
-        cv::Point                       point_previous;
-        cv::Point                       point_current;
+        std::vector<geometry_msgs::Point32>          points_previous;
+        std::vector<geometry_msgs::Point32>          points_current;
+        cv::Point                                    point_previous;
+        cv::Point                                    point_current;
  
-        ROS_INFO("[Synchronized and SLAM started]\n");
+        ROS_INFO("[Synchronized and ORB started]\n");
         cv::Mat       image           = ReturnCVMatImageFromMsg     (msg);
 
         if (flag_first_photo == true) 
@@ -133,16 +136,19 @@ public:
 
             for (size_t i=0; i<matches.size();i++)
             {
-                int index_prev {matches.at(i).queryIdx};
+                // int index_prev {matches.at(i).queryIdx};
+                // point_previous = keypoints_prev.at(index_prev).pt;
+                // points_previous.push_back(point_previous);
                 int index_cur  {matches.at(i).trainIdx};
-
-                point_previous = keypoints_prev.at(index_prev).pt;
                 point_current  = keypoints.at(index_cur).pt;
 
-                points_previous.push_back(point_previous);
-                points_current.push_back(point_current);
+                geometry_msgs::Point32 point;
+                point.x = point_current.x;
+                point.y = point_current.y;
+                point.z = 1; // INSERT DEPTH INFORMATION HERE
+
+                points_current.push_back(point);
             }
-            // ROS_INFO_STREAM("[Size of matches: "<<matches.size()<<"]");
             // ROS_INFO_STREAM("[Size of points_current: "<<points_current.size()<<"]");
             // ROS_INFO_STREAM("[x: "<<points_current[0].x<<" y: "<<points_current[0].y<<"]");
         }
@@ -152,9 +158,13 @@ public:
         msg_output->header.frame_id = std::to_string(count);
         msg_output->header.stamp= ros::Time::now();
 
+        msg_obstacles.points = points_current;
+        msg_obstacles.header.frame_id = std::to_string(count);
+        msg_obstacles.header.stamp = ros::Time::now();
         // Publishing
+        pub_obstacles.publish(msg_obstacles);
         pub.publish(msg_output);
-       
+               
         // frame update for ORB detection of features
         image_prev          = image.clone();
         keypoints_prev      = keypoints;

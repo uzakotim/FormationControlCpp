@@ -4,6 +4,7 @@
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /home/timur/FormationControlCpp/CppVersion/src/orb_detector/src/orb_detector_node.cpp
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/cv_bridge/cv_bridge.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/geometry_msgs/Point.h
+orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/geometry_msgs/Point32.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/geometry_msgs/PointStamped.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/image_transport/camera_publisher.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/image_transport/camera_subscriber.h
@@ -81,8 +82,10 @@ orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/n
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/ros/wall_timer_options.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/rosconsole/macros_generated.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/sensor_msgs/CameraInfo.h
+orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/sensor_msgs/ChannelFloat32.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/sensor_msgs/CompressedImage.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/sensor_msgs/Image.h
+orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/sensor_msgs/PointCloud.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/sensor_msgs/RegionOfInterest.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/sensor_msgs/image_encodings.h
 orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h

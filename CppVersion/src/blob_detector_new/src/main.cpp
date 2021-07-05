@@ -241,6 +241,7 @@ public:
             cv::circle  (drawing, statePt, int(radius), detection_color, 2 );
             cv::circle  (drawing, statePt, 5, detection_color, 10);   
             
+            ROS_INFO_STREAM("[Detected orange object: x "<< statePt.x<<" y "<<statePt.y<<"]"); 
 
         }
 

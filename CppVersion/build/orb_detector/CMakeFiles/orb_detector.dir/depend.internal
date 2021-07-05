@@ -5,6 +5,7 @@ orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o
  /home/timur/FormationControlCpp/CppVersion/src/orb_detector/src/orb_detector_node.cpp
  /opt/ros/noetic/include/cv_bridge/cv_bridge.h
  /opt/ros/noetic/include/geometry_msgs/Point.h
+ /opt/ros/noetic/include/geometry_msgs/Point32.h
  /opt/ros/noetic/include/geometry_msgs/PointStamped.h
  /opt/ros/noetic/include/image_transport/camera_publisher.h
  /opt/ros/noetic/include/image_transport/camera_subscriber.h
@@ -82,8 +83,10 @@ orb_detector/CMakeFiles/orb_detector.dir/src/orb_detector_node.cpp.o
  /opt/ros/noetic/include/ros/wall_timer_options.h
  /opt/ros/noetic/include/rosconsole/macros_generated.h
  /opt/ros/noetic/include/sensor_msgs/CameraInfo.h
+ /opt/ros/noetic/include/sensor_msgs/ChannelFloat32.h
  /opt/ros/noetic/include/sensor_msgs/CompressedImage.h
  /opt/ros/noetic/include/sensor_msgs/Image.h
+ /opt/ros/noetic/include/sensor_msgs/PointCloud.h
  /opt/ros/noetic/include/sensor_msgs/RegionOfInterest.h
  /opt/ros/noetic/include/sensor_msgs/image_encodings.h
  /opt/ros/noetic/include/std_msgs/Header.h
