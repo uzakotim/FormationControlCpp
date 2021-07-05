@@ -34,7 +34,7 @@ private:
     ros            ::Publisher  pub_point;
     image_transport::Subscriber sub;
     // Blob Detector Parametrs
-    cv::Scalar                  orange_min = cv::Scalar(10,140,140);     //min hsv value orange
+    cv::Scalar                  orange_min = cv::Scalar(10,110,110);     //min hsv value orange
     cv::Scalar                  orange_max = cv::Scalar(27,255,255);     //max hsv value orange
     cv::Scalar                  detection_color = cv::Scalar(255,100,0);
     
