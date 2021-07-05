@@ -636,6 +636,19 @@ rosgraph_msgs_generate_messages_cpp/fast:
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
 #=============================================================================
+# Target rules for targets named orb_detector
+
+# Build rule for target.
+orb_detector: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 orb_detector
+.PHONY : orb_detector
+
+# fast build rule for target.
+orb_detector/fast:
+	$(MAKE) -f orb_detector/CMakeFiles/orb_detector.dir/build.make orb_detector/CMakeFiles/orb_detector.dir/build
+.PHONY : orb_detector/fast
+
+#=============================================================================
 # Target rules for targets named main_slam
 
 # Build rule for target.
@@ -697,6 +710,7 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... main"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
+	@echo "... orb_detector"
 	@echo "... main_slam"
 .PHONY : help
 

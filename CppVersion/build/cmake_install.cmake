@@ -132,6 +132,7 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/timur/FormationControlCpp/CppVersion/build/gtest/cmake_install.cmake")
   include("/home/timur/FormationControlCpp/CppVersion/build/blob_detector_new/cmake_install.cmake")
+  include("/home/timur/FormationControlCpp/CppVersion/build/orb_detector/cmake_install.cmake")
   include("/home/timur/FormationControlCpp/CppVersion/build/visual_slam/cmake_install.cmake")
 
 endif()

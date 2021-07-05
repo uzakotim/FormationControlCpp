@@ -1,2 +1,2 @@
-blob_detector_new:visual_slam
+blob_detector_new:orb_detector:visual_slam
 -DCATKIN_DEVEL_PREFIX=/home/timur/FormationControlCpp/CppVersion/devel -DCMAKE_INSTALL_PREFIX=/home/timur/FormationControlCpp/CppVersion/install -G Unix Makefiles

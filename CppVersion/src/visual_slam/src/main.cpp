@@ -215,10 +215,10 @@ public:
     cv::Point3d UpdateKalmanFilter(cv::Mat_<float>  measurement)
     {
         // Updating Kalman Filter    
-        cv::Mat     estimated = KF.correct(measurement);
-        cv::Point3d   statePt(estimated.at<float>(0),estimated.at<float>(1),estimated.at<float>(2));
-        cv::Point3d   measPt(measurement(0),measurement(1),measurement(2));
-        return      statePt;
+        cv::Mat         estimated = KF.correct(measurement);
+        cv::Point3d     statePt(estimated.at<float>(0),estimated.at<float>(1),estimated.at<float>(2));
+        cv::Point3d     measPt(measurement(0),measurement(1),measurement(2));
+        return          statePt;
     }
     void callback(const PointStampedConstPtr& goal_point,const ImageConstPtr& msg)
     {
@@ -333,14 +333,15 @@ public:
                 SetMeasurement(goal_3D);
                 cv::Point3d statePt = UpdateKalmanFilter(measurement);
 
-                ROS_INFO("[Goal Projection to 3D]");
                 msg_goal_point.point.x = goal_3D.x;          
                 msg_goal_point.point.y = goal_3D.y;
                 msg_goal_point.point.z = goal_3D.z;
                 msg_goal_point.header.stamp= ros::Time::now();
                 msg_goal_point.header.frame_id = std::to_string(count);
                 pub_point.publish(msg_goal_point);
-                std::cout<<goal_3D<<'\n';
+
+                ROS_INFO_STREAM("[Goal Projection to 3D]");
+                ROS_INFO_STREAM(goal_3D);
             }
         }
         // ****************************** 
