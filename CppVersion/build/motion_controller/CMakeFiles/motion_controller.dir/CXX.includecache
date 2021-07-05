@@ -17,6 +17,8 @@ opencv2/highgui/highgui.hpp
 -
 opencv2/imgproc/imgproc.hpp
 -
+opencv2/video/tracking.hpp
+-
 ros/ros.h
 -
 message_filters/subscriber.h

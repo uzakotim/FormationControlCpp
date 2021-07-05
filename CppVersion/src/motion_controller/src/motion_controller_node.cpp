@@ -5,6 +5,7 @@
 // include opencv2
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/video/tracking.hpp>
 // include ros library
 #include <ros/ros.h>
 // Time Sync
@@ -52,10 +53,40 @@ private:
     cv::Point3f                 initial_state    = cv::Point3f(0,0,1);
 
 public:
+// KF parameters
+    cv::KalmanFilter KF = cv::KalmanFilter(4,2,0);
+    cv::Mat_<float>  measurement = cv::Mat_<float>(2,1);
+
+    void SetMeasurement(cv::Point2f center)
+    {
+        measurement.at<float>(0) = center.x;
+        measurement.at<float>(1) = center.y;
+    }
+    cv::Point UpdateKalmanFilter(cv::Mat_<float>  measurement)
+    {
+        // Updating Kalman Filter    
+        cv::Mat     estimated = KF.correct(measurement);
+        cv::Point   statePt(estimated.at<float>(0),estimated.at<float>(1));
+        cv::Point   measPt(measurement(0),measurement(1));
+        return      statePt;
+    }
+    cv::Point PredictUsingKalmanFilter()
+    {
+        // Prediction, to update the internal statePre variable -->>
+        cv::Mat prediction  =   KF.predict();
+        cv::Point               predictPt(prediction.at<float>(0),prediction.at<float>(1));
+        return  predictPt;
+        //  <<---Prediction, to update the internal statePre variable
+    }
+
+// KF parameters
     double x_previous;
     double y_previous;
     double z_previous;
     
+
+
+
     double CostFunction(double pose_x, double x, double offset)
     {   
     //  Quadratic optimization function
@@ -82,14 +113,15 @@ public:
     return  updated;
     }
 
-    double FindGoToPoint(double current_cost, double pose_x, double previous, double offset)
+    double FindGoToPoint(double cost, double pose_x, double previous, double offset)
     {
         // Main loop for finding a go_to point
         // While cost function is greated than threshold, the state will be updating for n steps
         // In case cost function is lower than threshold, the state is preserved
+        // pose_x is the coordinate of goal
         double updated;
-        int    number_of_steps {50};
-        if (std::abs(current_cost)<=0.1)
+        int    number_of_steps {1000};
+        if (std::abs(cost)<=0.01)
         {
             updated = previous;
         }
@@ -98,7 +130,11 @@ public:
             for (int j;j<number_of_steps;j++)
             {
                 updated       = CalculateUpdate(pose_x,previous,offset);
-                current_cost    = CostFunction(pose_x, updated,offset);       
+                
+                // uncomment for debugging purposes
+                // cost          = CostFunction(pose_x, updated,offset); 
+                // ROS_INFO_STREAM("Current Cost:" <<cost<<'\n');      
+                
                 previous      = updated;
             }
         }
@@ -122,6 +158,21 @@ public:
         double z_previous = initial_state.z;
         
         pub = it.advertise(pub_motion_topic, 1);
+
+
+        //---Kalman Filter Parameters---->>----
+        KF.transitionMatrix = (cv::Mat_<float>(4,4) << 1,0,1,0, 0,1,0,1, 0,0,1,0, 0,0,0,1);
+        measurement.setTo(cv::Scalar(0));
+        KF.statePre.at<float>(0) = 0;
+        KF.statePre.at<float>(1) = 0;
+        KF.statePre.at<float>(2) = 0;
+        KF.statePre.at<float>(3) = 0;
+        setIdentity(KF.measurementMatrix);
+        setIdentity(KF.processNoiseCov,     cv::Scalar::all(1e-4));
+        setIdentity(KF.measurementNoiseCov, cv::Scalar::all(10));
+        setIdentity(KF.errorCovPost,        cv::Scalar::all(.1));
+        // ---<< Kalman Filter Parameters ----
+
         ROS_INFO("Motion Controller Node Initialized Successfully"); 
     }
     void callback(const sensor_msgs::PointCloudConstPtr obstacles,const sensor_msgs::ImageConstPtr& msg, const PointStampedConstPtr goal)
@@ -142,20 +193,24 @@ public:
         }
         cv::Mat image = cv_ptr->image;
 
+        // KF parameters
+        cv::Point   predictPt       = PredictUsingKalmanFilter    ();
 
+
+        // KF parameters
 
 
         goal_point_on_image.x = goal->point.x;
         goal_point_on_image.y = goal->point.y;
 
 
-       
+        // GD parameters    
        
         double x_updated, y_updated, z_updated;
         double current_cost_x, current_cost_y, current_cost_z;
         // Offset determines the position of a robot 
         // relatively to observation
-        double offset_x {100};
+        double offset_x {-100};
         double offset_y {0};
         double offset_z {0};
 
@@ -169,16 +224,26 @@ public:
         x_updated = FindGoToPoint(current_cost_x, goal_point_on_image.x, x_previous,offset_x);
         y_updated = FindGoToPoint(current_cost_y, goal_point_on_image.y, y_previous,offset_y);
         z_updated = FindGoToPoint(current_cost_z, 1, z_previous,offset_z);
-        
-        // std::cout << x_updated<<std::endl;
-        // std::cout << y_updated<<std::endl;
+     
        
         std::cout<<"Observed point        "<<" x: "<<goal_point_on_image.x<<" y: "<<goal_point_on_image.y<<" z: "<<1 <<'\n';
         std::cout<<"Robot's go_to position"<<" x: "<<x_updated<<" y: "  <<y_updated<<" z: "  <<z_updated    <<'\n';
-        
-        go_to_goal.x = x_updated;
-        go_to_goal.y = y_updated;
 
+        cv::Point2f center;
+        center.x = x_updated;
+        center.y = y_updated;
+
+        // Obtaining the point from Kalman Filter
+        SetMeasurement(center);
+        cv::Point statePt = UpdateKalmanFilter(measurement);
+        
+        // uncomment the following for checking estimated center coordinates
+        // std::cout<<statePt<<'\n';
+
+        // Set go to values
+        go_to_goal.x = statePt.x;
+        go_to_goal.y = statePt.y;
+            //drawing
         cv::circle  (image, goal_point_on_image, 5, detection_color, 10);   
         cv::circle  (image, go_to_goal, 5, goal_color, 10);   
 
