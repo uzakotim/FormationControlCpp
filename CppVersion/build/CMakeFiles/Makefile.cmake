@@ -15,6 +15,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "catkin/catkin_generated/version/package.cmake"
   "catkin_generated/installspace/_setup_util.py"
   "catkin_generated/order_packages.cmake"
+  "motion_controller/catkin_generated/ordered_paths.cmake"
+  "motion_controller/catkin_generated/package.cmake"
   "orb_detector/catkin_generated/ordered_paths.cmake"
   "orb_detector/catkin_generated/package.cmake"
   "visual_slam/catkin_generated/ordered_paths.cmake"
@@ -22,6 +24,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/timur/FormationControlCpp/CppVersion/src/CMakeLists.txt"
   "/home/timur/FormationControlCpp/CppVersion/src/blob_detector_new/CMakeLists.txt"
   "/home/timur/FormationControlCpp/CppVersion/src/blob_detector_new/package.xml"
+  "/home/timur/FormationControlCpp/CppVersion/src/motion_controller/CMakeLists.txt"
+  "/home/timur/FormationControlCpp/CppVersion/src/motion_controller/package.xml"
   "/home/timur/FormationControlCpp/CppVersion/src/orb_detector/CMakeLists.txt"
   "/home/timur/FormationControlCpp/CppVersion/src/orb_detector/package.xml"
   "/home/timur/FormationControlCpp/CppVersion/src/visual_slam/CMakeLists.txt"
@@ -215,6 +219,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "gtest/googlemock/CMakeFiles/CMakeDirectoryInformation.cmake"
   "gtest/googletest/CMakeFiles/CMakeDirectoryInformation.cmake"
   "blob_detector_new/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "motion_controller/CMakeFiles/CMakeDirectoryInformation.cmake"
   "orb_detector/CMakeFiles/CMakeDirectoryInformation.cmake"
   "visual_slam/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
@@ -257,6 +262,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/DependInfo.cmake"
   "blob_detector_new/CMakeFiles/main.dir/DependInfo.cmake"
   "blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/DependInfo.cmake"
+  "motion_controller/CMakeFiles/motion_controller.dir/DependInfo.cmake"
   "orb_detector/CMakeFiles/orb_detector.dir/DependInfo.cmake"
   "visual_slam/CMakeFiles/main_slam.dir/DependInfo.cmake"
   )

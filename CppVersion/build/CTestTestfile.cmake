@@ -6,5 +6,6 @@
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
 subdirs("blob_detector_new")
+subdirs("motion_controller")
 subdirs("orb_detector")
 subdirs("visual_slam")

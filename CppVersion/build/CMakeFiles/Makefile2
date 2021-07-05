@@ -55,6 +55,7 @@ CMAKE_BINARY_DIR = /home/timur/FormationControlCpp/CppVersion/build
 # The main recursive "all" target.
 all: gtest/all
 all: blob_detector_new/all
+all: motion_controller/all
 all: orb_detector/all
 all: visual_slam/all
 
@@ -63,6 +64,7 @@ all: visual_slam/all
 # The main recursive "preinstall" target.
 preinstall: gtest/preinstall
 preinstall: blob_detector_new/preinstall
+preinstall: motion_controller/preinstall
 preinstall: orb_detector/preinstall
 preinstall: visual_slam/preinstall
 
@@ -76,6 +78,7 @@ clean: CMakeFiles/tests.dir/clean
 clean: CMakeFiles/download_extra_data.dir/clean
 clean: gtest/clean
 clean: blob_detector_new/clean
+clean: motion_controller/clean
 clean: orb_detector/clean
 clean: visual_slam/clean
 
@@ -182,6 +185,24 @@ gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest_main.dir/clean
 gtest/googletest/clean: gtest/googletest/CMakeFiles/gtest.dir/clean
 
 .PHONY : gtest/googletest/clean
+
+#=============================================================================
+# Directory level rules for directory motion_controller
+
+# Recursive "all" directory target.
+motion_controller/all: motion_controller/CMakeFiles/motion_controller.dir/all
+
+.PHONY : motion_controller/all
+
+# Recursive "preinstall" directory target.
+motion_controller/preinstall:
+
+.PHONY : motion_controller/preinstall
+
+# Recursive "clean" directory target.
+motion_controller/clean: motion_controller/CMakeFiles/motion_controller.dir/clean
+
+.PHONY : motion_controller/clean
 
 #=============================================================================
 # Directory level rules for directory orb_detector
@@ -1091,7 +1112,7 @@ blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
 blob_detector_new/CMakeFiles/publisher.dir/all:
 	$(MAKE) -f blob_detector_new/CMakeFiles/publisher.dir/build.make blob_detector_new/CMakeFiles/publisher.dir/depend
 	$(MAKE) -f blob_detector_new/CMakeFiles/publisher.dir/build.make blob_detector_new/CMakeFiles/publisher.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=15,16 "Built target publisher"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=17,18 "Built target publisher"
 .PHONY : blob_detector_new/CMakeFiles/publisher.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1193,13 +1214,40 @@ blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
 .PHONY : blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean
 
 #=============================================================================
+# Target rules for target motion_controller/CMakeFiles/motion_controller.dir
+
+# All Build rule for target.
+motion_controller/CMakeFiles/motion_controller.dir/all:
+	$(MAKE) -f motion_controller/CMakeFiles/motion_controller.dir/build.make motion_controller/CMakeFiles/motion_controller.dir/depend
+	$(MAKE) -f motion_controller/CMakeFiles/motion_controller.dir/build.make motion_controller/CMakeFiles/motion_controller.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=13,14 "Built target motion_controller"
+.PHONY : motion_controller/CMakeFiles/motion_controller.dir/all
+
+# Build rule for subdir invocation for target.
+motion_controller/CMakeFiles/motion_controller.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/CppVersion/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 motion_controller/CMakeFiles/motion_controller.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/CppVersion/build/CMakeFiles 0
+.PHONY : motion_controller/CMakeFiles/motion_controller.dir/rule
+
+# Convenience name for target.
+motion_controller: motion_controller/CMakeFiles/motion_controller.dir/rule
+
+.PHONY : motion_controller
+
+# clean rule for target.
+motion_controller/CMakeFiles/motion_controller.dir/clean:
+	$(MAKE) -f motion_controller/CMakeFiles/motion_controller.dir/build.make motion_controller/CMakeFiles/motion_controller.dir/clean
+.PHONY : motion_controller/CMakeFiles/motion_controller.dir/clean
+
+#=============================================================================
 # Target rules for target orb_detector/CMakeFiles/orb_detector.dir
 
 # All Build rule for target.
 orb_detector/CMakeFiles/orb_detector.dir/all:
 	$(MAKE) -f orb_detector/CMakeFiles/orb_detector.dir/build.make orb_detector/CMakeFiles/orb_detector.dir/depend
 	$(MAKE) -f orb_detector/CMakeFiles/orb_detector.dir/build.make orb_detector/CMakeFiles/orb_detector.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=13,14 "Built target orb_detector"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=15,16 "Built target orb_detector"
 .PHONY : orb_detector/CMakeFiles/orb_detector.dir/all
 
 # Build rule for subdir invocation for target.

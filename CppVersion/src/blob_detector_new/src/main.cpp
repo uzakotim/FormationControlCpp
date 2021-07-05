@@ -53,7 +53,7 @@ public:
     {   
         image_transport::ImageTransport it(*nh);
         pub = it.advertise("camera/blob", 1);
-        pub_point   = nh->advertise<geometry_msgs::PointStamped>("computations/goal_point", 1);
+        pub_point   = nh->advertise<geometry_msgs::PointStamped>("/camera/goal", 1);
         sub = it.subscribe("camera/image", 1, &BlobDetector::image_callback,this);
 
     //---Kalman Filter Parameters---->>----
@@ -68,7 +68,7 @@ public:
         setIdentity(KF.measurementNoiseCov, cv::Scalar::all(10));
         setIdentity(KF.errorCovPost,        cv::Scalar::all(.1));
     // ---<< Kalman Filter Parameters ----
-
+        ROS_INFO("Blob Detector Initialized Successfully");
     }
 
     // Function for finding maximal size contour
@@ -241,7 +241,7 @@ public:
             cv::circle  (drawing, statePt, int(radius), detection_color, 2 );
             cv::circle  (drawing, statePt, 5, detection_color, 10);   
             
-            ROS_INFO_STREAM("[Detected orange object: x "<< statePt.x<<" y "<<statePt.y<<"]"); 
+            // ROS_INFO_STREAM("[Detected orange object: x "<< statePt.x<<" y "<<statePt.y<<"]"); 
 
         }
 

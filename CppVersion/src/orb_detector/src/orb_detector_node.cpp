@@ -72,7 +72,7 @@ public:
         sub = it.subscribe(sub_camera_topic,1,&ORB::callback,this);
         pub = nh.advertise<sensor_msgs::Image>(pub_image_topic,1);
         pub_obstacles = nh.advertise<sensor_msgs::PointCloud>(pub_obstacles_topic,1);
-        ROS_INFO("SLAM Node Initialized Successfully");
+        ROS_INFO("ORB Node Initialized Successfully");
     }
     // Parameters for Time Synchronizer, two subscribers connected to one SLAM::callback
 
@@ -100,7 +100,7 @@ public:
         cv::Point                                    point_previous;
         cv::Point                                    point_current;
  
-        ROS_INFO("[Synchronized and ORB started]\n");
+        // ROS_INFO("[Synchronized and ORB started]\n");
         cv::Mat       image           = ReturnCVMatImageFromMsg     (msg);
 
         if (flag_first_photo == true) 

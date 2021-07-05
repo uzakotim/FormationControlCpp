@@ -18,5 +18,11 @@
     name="orb_node" 
     output="screen"
   />
+   <node
+    pkg="motion_controller"
+    type="motion_controller"
+    name="motion_node"
+    output="screen"
+  />
   
 </launch> 

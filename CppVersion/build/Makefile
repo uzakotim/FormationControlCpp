@@ -636,6 +636,19 @@ rosgraph_msgs_generate_messages_cpp/fast:
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
 #=============================================================================
+# Target rules for targets named motion_controller
+
+# Build rule for target.
+motion_controller: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 motion_controller
+.PHONY : motion_controller
+
+# fast build rule for target.
+motion_controller/fast:
+	$(MAKE) -f motion_controller/CMakeFiles/motion_controller.dir/build.make motion_controller/CMakeFiles/motion_controller.dir/build
+.PHONY : motion_controller/fast
+
+#=============================================================================
 # Target rules for targets named orb_detector
 
 # Build rule for target.
@@ -710,6 +723,7 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... main"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
+	@echo "... motion_controller"
 	@echo "... orb_detector"
 	@echo "... main_slam"
 .PHONY : help
