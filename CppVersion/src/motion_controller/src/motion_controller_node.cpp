@@ -17,6 +17,8 @@
 #include <geometry_msgs/PointStamped.h>
 #include <sensor_msgs/PointCloud.h>
 
+// Math
+#include <math.h>
 
 using namespace sensor_msgs;
 using namespace message_filters;
@@ -141,6 +143,20 @@ public:
         return updated;
 
     }
+    cv::Mat HumanCoordinateToWorld(cv::Mat image,cv::Mat object_position,double yaw_value,cv::Mat drone_position,cv::Mat offset)
+    {
+        cv::Mat shift_to_center     = (cv::Mat_<float>(3,1) << image.size[1]/2,image.size[0]/2,0);
+        cv::Mat scale_matrix        = (cv::Mat_<float>(3,3) << 0.005,0,0,  0,-0.005,0,     0,0,1); //x same, y flip and rescale
+        // uncomment for debugging 
+        // std::cout<<shift_to_center<<'\n';
+        cv::Mat shifted_and_scaled  = scale_matrix*(object_position - shift_to_center);
+        cv::Mat R                   = (cv::Mat_<float>(3,3) << sin(yaw_value),0,cos(yaw_value),    -cos(yaw_value),0,sin(yaw_value) ,   0,1,0);
+        cv::Mat rotated_vector      = R*shifted_and_scaled;
+
+        cv::Mat point = drone_position + offset + rotated_vector;
+        std::cout<<point<<'\n';
+        return point;
+    }
 
     MotionController()
     {    
@@ -177,6 +193,7 @@ public:
     }
     void callback(const sensor_msgs::PointCloudConstPtr obstacles,const sensor_msgs::ImageConstPtr& msg, const PointStampedConstPtr goal)
     {
+        // Receiving and converting image to CV Mat object
         std_msgs::Header    msg_header = msg->header;
         std::string         frame_id = msg_header.frame_id;
         // ROS_INFO_STREAM("[Image from: " << frame_id<<" ]");
@@ -192,6 +209,22 @@ public:
             return;
         }
         cv::Mat image = cv_ptr->image;
+        //-------------------------------------------------
+        //CONVERSION TO WORLD COORDINATES
+
+        //!TODO: Subscribe to YAW and find the yaw value
+        // or simulate
+        double yaw_value = 0.0;
+
+        //!TODO: Subscribe to Odometry and find the position of robot
+        // or simulate
+        cv::Mat drone_position  = (cv::Mat_<float>(3,1) << 0,0,0);
+        cv::Mat object_position = (cv::Mat_<float>(3,1) << goal->point.x,goal->point.y,goal->point.z);
+        cv::Mat offset          = (cv::Mat_<float>(3,1) << (0.2*cos(yaw_value)),(0.2*sin(yaw_value)),0);
+        
+        cv::Mat object_position_world = HumanCoordinateToWorld(image, object_position,yaw_value, drone_position, offset);
+
+        // -------------------------------------------------
 
         // KF parameters
         cv::Point   predictPt       = PredictUsingKalmanFilter    ();
@@ -226,8 +259,8 @@ public:
         z_updated = FindGoToPoint(current_cost_z, 1, z_previous,offset_z);
      
        
-        std::cout<<"Observed point        "<<" x: "<<goal_point_on_image.x<<" y: "<<goal_point_on_image.y<<" z: "<<1 <<'\n';
-        std::cout<<"Robot's go_to position"<<" x: "<<x_updated<<" y: "  <<y_updated<<" z: "  <<z_updated    <<'\n';
+        // std::cout<<"Observed point        "<<" x: "<<goal_point_on_image.x<<" y: "<<goal_point_on_image.y<<" z: "<<1 <<'\n';
+        // std::cout<<"Robot's go_to position"<<" x: "<<x_updated<<" y: "  <<y_updated<<" z: "  <<z_updated    <<'\n';
 
         cv::Point2f center;
         center.x = x_updated;
@@ -262,7 +295,7 @@ public:
         pub.publish(msg_output);
         // ROS_INFO_STREAM("[Image:" << frame_id<<" was sent ]");
 
-        ROS_INFO_STREAM("[Motion Controller Synchronized]");
+        // ROS_INFO_STREAM("[Motion Controller Synchronized]");
     }
 };
 
