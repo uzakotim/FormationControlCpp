@@ -50,7 +50,7 @@ private:
     // ORB variables ---------------
     int                             count {0};
     cv::Mat                         image, image_prev, image_matches;
-    const int                       MAX_FEATURES        = 10;
+    const int                       MAX_FEATURES        = 1000;
     const float                     GOOD_MATCH_PERCENT  = 0.15f;
     bool                            flag_first_photo    = true;
 
@@ -122,7 +122,7 @@ public:
                 geometry_msgs::Point32 point;
                 point.x = point_current.x;
                 point.y = point_current.y;
-                point.z = 1; // INSERT DEPTH INFORMATION HERE
+                point.z = 0; // INSERT DEPTH INFORMATION HERE
 
                 points_current.push_back(point);
         }
