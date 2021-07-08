@@ -48,46 +48,13 @@ private:
     
     cv::Scalar                  detection_color = cv::Scalar(255,100,0);
     cv::Scalar                  goal_color = cv::Scalar(50,255,255);
-
-    cv::Point goal_point_on_image;
-    cv::Point go_to_point_on_image, go_to_goal;
     
     cv::Point3f                 initial_state    = cv::Point3f(0,0,1);
-
+  
 public:
-// KF parameters
-    cv::KalmanFilter KF = cv::KalmanFilter(4,2,0);
-    cv::Mat_<float>  measurement = cv::Mat_<float>(2,1);
-
-    void SetMeasurement(cv::Point2f center)
-    {
-        measurement.at<float>(0) = center.x;
-        measurement.at<float>(1) = center.y;
-    }
-    cv::Point UpdateKalmanFilter(cv::Mat_<float>  measurement)
-    {
-        // Updating Kalman Filter    
-        cv::Mat     estimated = KF.correct(measurement);
-        cv::Point   statePt(estimated.at<float>(0),estimated.at<float>(1));
-        cv::Point   measPt(measurement(0),measurement(1));
-        return      statePt;
-    }
-    cv::Point PredictUsingKalmanFilter()
-    {
-        // Prediction, to update the internal statePre variable -->>
-        cv::Mat prediction  =   KF.predict();
-        cv::Point               predictPt(prediction.at<float>(0),prediction.at<float>(1));
-        return  predictPt;
-        //  <<---Prediction, to update the internal statePre variable
-    }
-
-// KF parameters
-    double x_previous;
-    double y_previous;
-    double z_previous;
-    
-
-
+    double                      x_previous;
+    double                      y_previous;
+    double                      z_previous;
 
     double CostFunction(double pose_x, double x, double offset)
     {   
@@ -106,7 +73,7 @@ public:
     {
     //  Gradient descent update
     //  Offset determines a robot's position
-    double alpha {0.01}; //step parameter
+    double alpha {0.1}; //step parameter
     double gradient;
     double updated;
     
@@ -154,7 +121,7 @@ public:
         cv::Mat rotated_vector      = R*shifted_and_scaled;
 
         cv::Mat point = drone_position + offset + rotated_vector;
-        std::cout<<point<<'\n';
+        
         return point;
     }
 
@@ -169,30 +136,17 @@ public:
         image_transport::ImageTransport it(nh);
         
          // Gradient Descent Parameters
-        double x_previous = initial_state.x;
-        double y_previous = initial_state.y;
-        double z_previous = initial_state.z;
+        x_previous = initial_state.x;
+        y_previous = initial_state.y;
+        z_previous = initial_state.z;
         
         pub = it.advertise(pub_motion_topic, 1);
-
-
-        //---Kalman Filter Parameters---->>----
-        KF.transitionMatrix = (cv::Mat_<float>(4,4) << 1,0,1,0, 0,1,0,1, 0,0,1,0, 0,0,0,1);
-        measurement.setTo(cv::Scalar(0));
-        KF.statePre.at<float>(0) = 0;
-        KF.statePre.at<float>(1) = 0;
-        KF.statePre.at<float>(2) = 0;
-        KF.statePre.at<float>(3) = 0;
-        setIdentity(KF.measurementMatrix);
-        setIdentity(KF.processNoiseCov,     cv::Scalar::all(1e-4));
-        setIdentity(KF.measurementNoiseCov, cv::Scalar::all(10));
-        setIdentity(KF.errorCovPost,        cv::Scalar::all(.1));
-        // ---<< Kalman Filter Parameters ----
 
         ROS_INFO("Motion Controller Node Initialized Successfully"); 
     }
     void callback(const sensor_msgs::PointCloudConstPtr obstacles,const sensor_msgs::ImageConstPtr& msg, const PointStampedConstPtr goal)
     {
+        ROS_INFO_STREAM("[ Messages synchronized ]");
         // Receiving and converting image to CV Mat object
         std_msgs::Header    msg_header = msg->header;
         std::string         frame_id = msg_header.frame_id;
@@ -223,65 +177,34 @@ public:
         cv::Mat offset          = (cv::Mat_<float>(3,1) << (0.2*cos(yaw_value)),(0.2*sin(yaw_value)),0);
         
         cv::Mat object_position_world = HumanCoordinateToWorld(image, object_position,yaw_value, drone_position, offset);
-
+        ROS_INFO_STREAM("[Goal world position]");
+        ROS_INFO_STREAM("["<<object_position_world.at<float>(0)<<" | "<<object_position_world.at<float>(1)<<" | "<<object_position_world.at<float>(2)<<"]");
         // -------------------------------------------------
 
-        // KF parameters
-        cv::Point   predictPt       = PredictUsingKalmanFilter    ();
-
-
-        // KF parameters
-
-
-        goal_point_on_image.x = goal->point.x;
-        goal_point_on_image.y = goal->point.y;
-
-
         // GD parameters    
-       
         double x_updated, y_updated, z_updated;
         double current_cost_x, current_cost_y, current_cost_z;
         // Offset determines the position of a robot 
         // relatively to observation
-        double offset_x {-100};
+        double offset_x {-2};
         double offset_y {0};
         double offset_z {0};
-
-        // Main loop
-        // Calculation of cost function values
-        current_cost_x = CostFunction(goal_point_on_image.x, x_previous,offset_x);
-        current_cost_y = CostFunction(goal_point_on_image.y, y_previous,offset_y);
-        current_cost_z = CostFunction(1, z_previous,offset_z);
-
-        // Determining the optimal state
-        x_updated = FindGoToPoint(current_cost_x, goal_point_on_image.x, x_previous,offset_x);
-        y_updated = FindGoToPoint(current_cost_y, goal_point_on_image.y, y_previous,offset_y);
-        z_updated = FindGoToPoint(current_cost_z, 1, z_previous,offset_z);
-     
-       
-        // std::cout<<"Observed point        "<<" x: "<<goal_point_on_image.x<<" y: "<<goal_point_on_image.y<<" z: "<<1 <<'\n';
-        // std::cout<<"Robot's go_to position"<<" x: "<<x_updated<<" y: "  <<y_updated<<" z: "  <<z_updated    <<'\n';
-
-        cv::Point2f center;
-        center.x = x_updated;
-        center.y = y_updated;
-
-        // Obtaining the point from Kalman Filter
-        SetMeasurement(center);
-        cv::Point statePt = UpdateKalmanFilter(measurement);
         
-        // uncomment the following for checking estimated center coordinates
-        // std::cout<<statePt<<'\n';
+        // Main loop
+       
+        // Calculation of cost function values
+        current_cost_x = CostFunction(object_position_world.at<float>(0), x_previous,offset_x);
+        current_cost_y = CostFunction(object_position_world.at<float>(1), y_previous,offset_y);
+        current_cost_z = CostFunction(object_position_world.at<float>(2), z_previous,offset_z);
+        ROS_INFO_STREAM("[Gradient Descent Computing]"); //Important comment, computer skips gradient sometimes
+        // Determining the optimal state
+        x_updated = FindGoToPoint(current_cost_x, object_position_world.at<float>(0), x_previous,offset_x);
+        y_updated = FindGoToPoint(current_cost_y, object_position_world.at<float>(1), y_previous,offset_y);
+        z_updated = FindGoToPoint(current_cost_z, object_position_world.at<float>(2), z_previous,offset_z);
 
-        // Set go to values
-        go_to_goal.x = statePt.x;
-        go_to_goal.y = statePt.y;
-            //drawing
-        cv::circle  (image, goal_point_on_image, 5, detection_color, 10);   
-        cv::circle  (image, go_to_goal, 5, goal_color, 10);   
-
-
-        // TODO Measure State
+        ROS_INFO_STREAM("[GoTo Destination Position]");        
+        ROS_INFO_STREAM("["<<x_updated<<" | "<<y_updated<<" | "<<z_updated<<"]");
+        
         x_previous = x_updated;
         y_previous = y_updated;
         z_previous = z_updated;
@@ -293,9 +216,6 @@ public:
         msg_output->header.frame_id = std::to_string(count);
         count++;
         pub.publish(msg_output);
-        // ROS_INFO_STREAM("[Image:" << frame_id<<" was sent ]");
-
-        // ROS_INFO_STREAM("[Motion Controller Synchronized]");
     }
 };
 

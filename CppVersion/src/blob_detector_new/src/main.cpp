@@ -233,13 +233,18 @@ public:
             // uncomment the following for checking estimated center coordinates
             // std::cout<<statePt<<'\n';
 
-            // Setting up goal point
-            SetGoal(statePt);    
+               
             
              // Drawing Point
             cv::circle  (drawing, statePt, int(radius), detection_color, 2 );
             cv::circle  (drawing, statePt, 5, detection_color, 10);   
             
+            // Setting up goal point
+            SetGoal(statePt); 
+
+            goal.header.stamp = ros::Time::now();
+            pub_point.publish(goal);
+ 
             // ROS_INFO_STREAM("[Detected orange object: x "<< statePt.x<<" y "<<statePt.y<<"]"); 
 
         }
@@ -250,13 +255,13 @@ public:
     
     msg_output->header.stamp = ros::Time::now();
     
-    goal.header.stamp = ros::Time::now();
+   
     
     count++;
 
 
     pub.publish(msg_output);
-    pub_point.publish(goal);
+    
     // uncomment for debugging
     // ROS_INFO_STREAM("[Image:" << frame_id<<" was sent ]");
 
