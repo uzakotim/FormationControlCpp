@@ -122,7 +122,7 @@ public:
         // In case cost function is lower than threshold, the state is preserved
         // pose_x is the coordinate of goal
         double updated;
-        int    number_of_steps {1000};
+        int    number_of_steps {100};
         if (std::abs(cost)<=0.01)
         {
             updated = previous;

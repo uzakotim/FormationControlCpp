@@ -17,8 +17,6 @@ message_filters/synchronizer.h
 -
 message_filters/sync_policies/approximate_time.h
 -
-geometry_msgs/PointStamped.h
--
 geometry_msgs/Point.h
 -
 geometry_msgs/PointStamped.h

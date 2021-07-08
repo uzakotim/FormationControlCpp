@@ -179,8 +179,7 @@ public:
     void SetGoal(cv::Point statePt)
     {
         goal.point.x = statePt.x;
-        goal.point.y = statePt.y;
-       
+        goal.point.y = statePt.y; 
             
         // In case of depth camera
         // goal.point.z = image_depth.at<float>(statePt.x,statePt.y)/1000;

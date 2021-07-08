@@ -8,7 +8,6 @@
 #include <message_filters/sync_policies/approximate_time.h>
 
 // Libraries for msgs
-#include <geometry_msgs/PointStamped.h>
 #include <geometry_msgs/Point.h>
 #include <geometry_msgs/PointStamped.h>
 #include <sensor_msgs/Image.h>
@@ -74,11 +73,11 @@ public:
         pub_obstacles = nh.advertise<sensor_msgs::PointCloud>(pub_obstacles_topic,1);
         ROS_INFO("ORB Node Initialized Successfully");
     }
-    // Parameters for Time Synchronizer, two subscribers connected to one SLAM::callback
 
     cv::Mat ReturnCVMatImageFromMsg(const sensor_msgs::ImageConstPtr& msg)
     {
         // Function that converts Image msg into cv::Mat format
+        
         cv_bridge::CvImagePtr cv_ptr;
         try
         {
@@ -92,14 +91,67 @@ public:
         cv::Mat image = cv_ptr->image;
         return  image;
     }
-    void callback(const ImageConstPtr& msg)
+
+    std::vector<cv::DMatch> SortMatches (std::vector<cv::DMatch> matches)
     {
-       // Callback of SLAM Node
+        // The function that sortes matches and removes bad ones
+
+        std::sort(matches.begin(), matches.end()); //sort matches by score
+        const int numGoodMatches = matches.size() * GOOD_MATCH_PERCENT;
+        matches.erase(matches.begin()+numGoodMatches,matches.end()); //remove bad matches
+        return matches;
+    }
+
+    std::vector<geometry_msgs::Point32> ObtainPoints(std::vector<cv::DMatch> sorted_matches)
+    {   
+        // The function that obtains feature points 
+        // from matches found using ORB
+
         std::vector<geometry_msgs::Point32>          points_previous;
         std::vector<geometry_msgs::Point32>          points_current;
         cv::Point                                    point_previous;
         cv::Point                                    point_current;
+        for (size_t i=0; i<sorted_matches.size();i++)
+        {
+                // int index_prev {matches.at(i).queryIdx};
+                // point_previous = keypoints_prev.at(index_prev).pt;
+                // points_previous.push_back(point_previous);
+                int index_cur  {sorted_matches.at(i).trainIdx};
+                point_current  = keypoints.at(index_cur).pt;
+
+                geometry_msgs::Point32 point;
+                point.x = point_current.x;
+                point.y = point_current.y;
+                point.z = 1; // INSERT DEPTH INFORMATION HERE
+
+                points_current.push_back(point);
+        }
+        return points_current;
+        // ROS_INFO_STREAM("[Size of points_current: "<<points_current.size()<<"]");
+        // ROS_INFO_STREAM("[x: "<<points_current[0].x<<" y: "<<points_current[0].y<<"]");
+    }
+    void SendObstaclePoints(std::vector<geometry_msgs::Point32> points_current)
+    {
+        msg_obstacles.points            = points_current;
+        msg_obstacles.header.frame_id   = std::to_string(count);
+        msg_obstacles.header.stamp      = ros::Time::now();
+        // Publishing
+        pub_obstacles.publish(msg_obstacles);
  
+    }
+
+    void SendImageMatches(cv::Mat image_matches)
+    {
+        msg_output = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image_matches).toImageMsg();
+        msg_output->header.frame_id = std::to_string(count);
+        msg_output->header.stamp    = ros::Time::now();
+        //Publishing
+        pub.publish(msg_output);
+        
+    }
+
+    void callback(const ImageConstPtr& msg)
+    {
         // ROS_INFO("[Synchronized and ORB started]\n");
         cv::Mat       image           = ReturnCVMatImageFromMsg     (msg);
 
@@ -124,47 +176,20 @@ public:
             // sort and draw them
             
             orb     ->detectAndCompute(image, cv::Mat(), keypoints, descriptors);
-            matcher ->match(descriptors_prev, descriptors, matches, cv::Mat());
-            
-            std::sort(matches.begin(), matches.end()); //sort matches by score
-            const int numGoodMatches = matches.size() * GOOD_MATCH_PERCENT;
-            matches.erase(matches.begin()+numGoodMatches,matches.end()); //remove bad matches
-
-            cv::drawMatches(image_prev, keypoints_prev, image,keypoints, matches, image_matches);
-        
+            matcher ->match           (descriptors_prev, descriptors, matches, cv::Mat());
+            // Sorting matches
+            std::vector<cv::DMatch>             sorted_matches = SortMatches(matches);
             // Obtaining all points
+            std::vector<geometry_msgs::Point32> points_current = ObtainPoints(sorted_matches);
+            // Drawing matches
+            cv::drawMatches(image_prev, keypoints_prev, image,keypoints, sorted_matches, image_matches);
 
-            for (size_t i=0; i<matches.size();i++)
-            {
-                // int index_prev {matches.at(i).queryIdx};
-                // point_previous = keypoints_prev.at(index_prev).pt;
-                // points_previous.push_back(point_previous);
-                int index_cur  {matches.at(i).trainIdx};
-                point_current  = keypoints.at(index_cur).pt;
+            SendObstaclePoints(points_current);
 
-                geometry_msgs::Point32 point;
-                point.x = point_current.x;
-                point.y = point_current.y;
-                point.z = 1; // INSERT DEPTH INFORMATION HERE
-
-                points_current.push_back(point);
-            }
-            // ROS_INFO_STREAM("[Size of points_current: "<<points_current.size()<<"]");
-            // ROS_INFO_STREAM("[x: "<<points_current[0].x<<" y: "<<points_current[0].y<<"]");
-        }
+        
+       }
         // ****************************** 
-        // Preparation of output msg
-        msg_output = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image_matches).toImageMsg();
-        msg_output->header.frame_id = std::to_string(count);
-        msg_output->header.stamp= ros::Time::now();
-
-        msg_obstacles.points = points_current;
-        msg_obstacles.header.frame_id = std::to_string(count);
-        msg_obstacles.header.stamp = ros::Time::now();
-        // Publishing
-        pub_obstacles.publish(msg_obstacles);
-        pub.publish(msg_output);
-               
+        SendImageMatches(image_matches);
         // frame update for ORB detection of features
         image_prev          = image.clone();
         keypoints_prev      = keypoints;
