@@ -56,20 +56,31 @@ public:
     double                      y_previous;
     double                      z_previous;
 
-    double CostFunction(double pose_x, double x, double offset)
+    double CostFunction(double pose_x, double x, double offset, std::vector<float> obstacles)
     {   
     //  Quadratic optimization function
     //  Offset determines a robot's position
-    return pow((x-(pose_x + offset)),2);
+        double obstacle_cost {0};
+        for(size_t i = 0; i<obstacles.size();i++)
+        {
+            obstacle_cost += 1/(pow((x-obstacles[i]),2));
+        }
+        return pow((x-(pose_x + offset)),2) + obstacle_cost;
     }
-    double GradientFunction(double pose_x, double x, double offset)
+    double GradientFunction(double pose_x, double x, double offset,std::vector<float> obstacles)
     {
     //  Gradient of the cost function
     //  Offset determines a robot's position
-    return 2*(x-(pose_x + offset));
+        double obstacle_cost {0};
+        double obstacle_gradient {0};
+        for(size_t i = 0; i<obstacles.size();i++)
+        {
+            obstacle_gradient += -2*pow((x-obstacles[i]),-3);
+        }
+        return 2*(x-(pose_x + offset))+ obstacle_gradient;
     }
 
-    double CalculateUpdate(double pose_x, double previous,double offset)
+    double CalculateUpdate(double pose_x, double previous,double offset,std::vector<float> obstacles)
     {
     //  Gradient descent update
     //  Offset determines a robot's position
@@ -77,19 +88,19 @@ public:
     double gradient;
     double updated;
     
-    gradient     = GradientFunction(pose_x, previous,offset);
+    gradient     = GradientFunction(pose_x, previous,offset,obstacles);
     updated    = previous - gradient*alpha;
     return  updated;
     }
 
-    double FindGoToPoint(double cost, double pose_x, double previous, double offset)
+    double FindGoToPoint(double cost, double pose_x, double previous, double offset,std::vector<float> obstacles)
     {
         // Main loop for finding a go_to point
         // While cost function is greated than threshold, the state will be updating for n steps
         // In case cost function is lower than threshold, the state is preserved
         // pose_x is the coordinate of goal
         double updated;
-        int    number_of_steps {100};
+        int    number_of_steps {200};
         if (std::abs(cost)<=0.01)
         {
             updated = previous;
@@ -98,7 +109,7 @@ public:
         {
             for (int j;j<number_of_steps;j++)
             {
-                updated       = CalculateUpdate(pose_x,previous,offset);
+                updated       = CalculateUpdate(pose_x,previous,offset, obstacles);
                 
                 // uncomment for debugging purposes
                 // cost          = CostFunction(pose_x, updated,offset); 
@@ -163,6 +174,8 @@ public:
             return;
         }
         cv::Mat image = cv_ptr->image;
+        
+        
         //-------------------------------------------------
         //CONVERSION TO WORLD COORDINATES
 
@@ -176,7 +189,30 @@ public:
         cv::Mat object_position = (cv::Mat_<float>(3,1) << goal->point.x,goal->point.y,goal->point.z);
         cv::Mat offset          = (cv::Mat_<float>(3,1) << (0.2*cos(yaw_value)),(0.2*sin(yaw_value)),0);
         
+
         cv::Mat object_position_world = HumanCoordinateToWorld(image, object_position,yaw_value, drone_position, offset);
+        
+        // ----------------------------obstacles----------------
+        std::vector<Point32> collection_of_obstacles = obstacles->points;
+        std::vector<float> obstacles_x;
+        std::vector<float> obstacles_y;
+        std::vector<float> obstacles_z;
+        
+        for (size_t i = 0; i<collection_of_obstacles.size();i++)
+        {   
+            cv::Mat obstacle_mat = (cv::Mat_<float>(3,1) << collection_of_obstacles[i].x, collection_of_obstacles[i].y, collection_of_obstacles[i].z);
+            
+            cv::Mat point = HumanCoordinateToWorld(image, obstacle_mat,yaw_value,drone_position,offset );
+            ROS_INFO_STREAM(point.at<float>(0));
+            obstacles_x.push_back(point.at<float>(0));
+            obstacles_y.push_back(point.at<float>(1));
+            obstacles_z.push_back(point.at<float>(2));
+            //!TODO: Configure depth position in ORB Detector
+        }
+
+        // -----------------------------------------------------
+        
+        
         ROS_INFO_STREAM("[Goal world position]");
         ROS_INFO_STREAM("["<<object_position_world.at<float>(0)<<" | "<<object_position_world.at<float>(1)<<" | "<<object_position_world.at<float>(2)<<"]");
         // -------------------------------------------------
@@ -193,14 +229,14 @@ public:
         // Main loop
        
         // Calculation of cost function values
-        current_cost_x = CostFunction(object_position_world.at<float>(0), x_previous,offset_x);
-        current_cost_y = CostFunction(object_position_world.at<float>(1), y_previous,offset_y);
-        current_cost_z = CostFunction(object_position_world.at<float>(2), z_previous,offset_z);
+        current_cost_x = CostFunction(object_position_world.at<float>(0), x_previous,offset_x, obstacles_x);
+        current_cost_y = CostFunction(object_position_world.at<float>(1), y_previous,offset_y, obstacles_y);
+        current_cost_z = CostFunction(object_position_world.at<float>(2), z_previous,offset_z, obstacles_z);
         ROS_INFO_STREAM("[Gradient Descent Computing]"); //Important comment, computer skips gradient sometimes
         // Determining the optimal state
-        x_updated = FindGoToPoint(current_cost_x, object_position_world.at<float>(0), x_previous,offset_x);
-        y_updated = FindGoToPoint(current_cost_y, object_position_world.at<float>(1), y_previous,offset_y);
-        z_updated = FindGoToPoint(current_cost_z, object_position_world.at<float>(2), z_previous,offset_z);
+        x_updated = FindGoToPoint(current_cost_x, object_position_world.at<float>(0), x_previous,offset_x, obstacles_x);
+        y_updated = FindGoToPoint(current_cost_y, object_position_world.at<float>(1), y_previous,offset_y, obstacles_y);
+        z_updated = FindGoToPoint(current_cost_z, object_position_world.at<float>(2), z_previous,offset_z, obstacles_z);
 
         ROS_INFO_STREAM("[GoTo Destination Position]");        
         ROS_INFO_STREAM("["<<x_updated<<" | "<<y_updated<<" | "<<z_updated<<"]");

@@ -50,7 +50,7 @@ private:
     // ORB variables ---------------
     int                             count {0};
     cv::Mat                         image, image_prev, image_matches;
-    const int                       MAX_FEATURES        = 500;
+    const int                       MAX_FEATURES        = 10;
     const float                     GOOD_MATCH_PERCENT  = 0.15f;
     bool                            flag_first_photo    = true;
 
