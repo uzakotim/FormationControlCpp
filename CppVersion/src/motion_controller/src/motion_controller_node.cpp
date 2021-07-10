@@ -36,15 +36,18 @@ private:
     typedef Synchronizer<MySyncPolicy> Sync;
     boost::shared_ptr<Sync> sync;
 
-    image_transport::Publisher  pub;
+    // image_transport::Publisher  pub;
+    ros::Publisher              pub_go_to;
     int count = 0;
     std::string                 sub_point_cloud_topic = "/ORB/points";
     std::string                 sub_image_topic       = "/camera/image";
     std::string                 sub_goal_topic        = "/camera/goal";
 
-    std::string                 pub_motion_topic      = "/camera/motion";
+    // std::string                 pub_motion_topic      = "/camera/motion";
+    std::string                 pub_go_to_point_topic = "/camera/go_to";
     
-    sensor_msgs::ImagePtr       msg_output;
+    // sensor_msgs::ImagePtr       msg_output;
+    PointStamped                msg_go_to;
     
     cv::Scalar                  detection_color = cv::Scalar(255,100,0);
     cv::Scalar                  goal_color = cv::Scalar(50,255,255);
@@ -55,11 +58,16 @@ public:
     double                      x_previous;
     double                      y_previous;
     double                      z_previous;
-    // Offset determines the position of a robot 
-    // relatively to observation
+
+    // -------- ROBOT POSITION PARAMETERS -------
+
+    // Set robot's relative to goal position
+    // here:
+
     double offset_x {-5};
     double offset_y {0};
     double offset_z {0};
+    // ------------------------------------------ 
 
     double CostFunction(double pose_x, double x, double offset_robot_pose, std::vector<float> obstacles)
     {   
@@ -70,7 +78,8 @@ public:
         {
             obstacle_cost += 1/(pow((x-obstacles[i]),2)+0.001);
         }
-        std::cout<<"obstacle cost: "<<0.1*obstacle_cost<<'\n';
+        // uncomment for debugging
+        // std::cout<<"obstacle cost: "<<0.1*obstacle_cost<<'\n';
         return pow((x-(pose_x + offset_robot_pose)),2) + 0.1*obstacle_cost;
     }
     double GradientFunction(double pose_x, double x, double offset_robot_pose,std::vector<float> obstacles)
@@ -149,7 +158,8 @@ public:
         y_previous = initial_state.y;
         z_previous = initial_state.z;
         
-        pub = it.advertise(pub_motion_topic, 1);
+        // pub = it.advertise(pub_motion_topic, 1);
+        pub_go_to = nh.advertise<PointStamped> (pub_go_to_point_topic,1);
 
         ROS_INFO("Motion Controller Node Initialized Successfully"); 
     }
@@ -213,39 +223,47 @@ public:
         ROS_INFO_STREAM("["<<object_position_world.at<float>(0)<<" | "<<object_position_world.at<float>(1)<<" | "<<object_position_world.at<float>(2)<<"]");
         // -------------------------------------------------
 
-        // GD parameters    
+        // Gradient Descent parameters    
         double x_updated, y_updated, z_updated;
         double current_cost_x, current_cost_y, current_cost_z;
-        
-        
-        // Main loop
        
         // Calculation of cost function values
         current_cost_x = CostFunction(object_position_world.at<float>(0), x_previous,offset_x, obstacles_x);
         current_cost_y = CostFunction(object_position_world.at<float>(1), y_previous,offset_y, obstacles_y);
         current_cost_z = CostFunction(object_position_world.at<float>(2), z_previous,offset_z, obstacles_z);
-       
         
         // Determining the optimal state
         x_updated = FindGoToPoint(current_cost_x, object_position_world.at<float>(0), x_previous,offset_x, obstacles_x);
         y_updated = FindGoToPoint(current_cost_y, object_position_world.at<float>(1), y_previous,offset_y, obstacles_y);
         z_updated = FindGoToPoint(current_cost_z, object_position_world.at<float>(2), z_previous,offset_z, obstacles_z);
-        
 
-        ROS_INFO_STREAM("[GoTo Destination Position]");        
+        ROS_INFO_STREAM("[GoTo Destination Position Found]");        
         ROS_INFO_STREAM("["<<x_updated<<" | "<<y_updated<<" | "<<z_updated<<"]");
         
+        //!TODO: yaw optimization towards goal
+
+
+        // publishing image
+        // msg_output = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
+        // msg_output->header.frame_id = std::to_string(count);
+        // pub.publish(msg_output);
+
+        // publishing go_to point
+
+        msg_go_to.header.frame_id   = frame_id;
+        msg_go_to.header.stamp = ros::Time::now();
+        msg_go_to.point.x = x_updated;
+        msg_go_to.point.y = y_updated;
+        msg_go_to.point.z = z_updated;
+
+        pub_go_to.publish(msg_go_to);
+
+        // update
+        count++;        
         x_previous = x_updated;
         y_previous = y_updated;
         z_previous = z_updated;
 
-
-
-
-        msg_output = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
-        msg_output->header.frame_id = std::to_string(count);
-        count++;
-        pub.publish(msg_output);
     }
 };
 

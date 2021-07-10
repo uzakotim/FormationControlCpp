@@ -661,19 +661,6 @@ orb_detector/fast:
 	$(MAKE) -f orb_detector/CMakeFiles/orb_detector.dir/build.make orb_detector/CMakeFiles/orb_detector.dir/build
 .PHONY : orb_detector/fast
 
-#=============================================================================
-# Target rules for targets named main_slam
-
-# Build rule for target.
-main_slam: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 main_slam
-.PHONY : main_slam
-
-# fast build rule for target.
-main_slam/fast:
-	$(MAKE) -f visual_slam/CMakeFiles/main_slam.dir/build.make visual_slam/CMakeFiles/main_slam.dir/build
-.PHONY : main_slam/fast
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -725,7 +712,6 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... motion_controller"
 	@echo "... orb_detector"
-	@echo "... main_slam"
 .PHONY : help
 
 

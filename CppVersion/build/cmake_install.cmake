@@ -134,7 +134,6 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/timur/FormationControlCpp/CppVersion/build/blob_detector_new/cmake_install.cmake")
   include("/home/timur/FormationControlCpp/CppVersion/build/motion_controller/cmake_install.cmake")
   include("/home/timur/FormationControlCpp/CppVersion/build/orb_detector/cmake_install.cmake")
-  include("/home/timur/FormationControlCpp/CppVersion/build/visual_slam/cmake_install.cmake")
 
 endif()
 

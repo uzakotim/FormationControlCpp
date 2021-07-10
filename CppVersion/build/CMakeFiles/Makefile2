@@ -57,7 +57,6 @@ all: gtest/all
 all: blob_detector_new/all
 all: motion_controller/all
 all: orb_detector/all
-all: visual_slam/all
 
 .PHONY : all
 
@@ -66,7 +65,6 @@ preinstall: gtest/preinstall
 preinstall: blob_detector_new/preinstall
 preinstall: motion_controller/preinstall
 preinstall: orb_detector/preinstall
-preinstall: visual_slam/preinstall
 
 .PHONY : preinstall
 
@@ -80,7 +78,6 @@ clean: gtest/clean
 clean: blob_detector_new/clean
 clean: motion_controller/clean
 clean: orb_detector/clean
-clean: visual_slam/clean
 
 .PHONY : clean
 
@@ -221,24 +218,6 @@ orb_detector/preinstall:
 orb_detector/clean: orb_detector/CMakeFiles/orb_detector.dir/clean
 
 .PHONY : orb_detector/clean
-
-#=============================================================================
-# Directory level rules for directory visual_slam
-
-# Recursive "all" directory target.
-visual_slam/all: visual_slam/CMakeFiles/main_slam.dir/all
-
-.PHONY : visual_slam/all
-
-# Recursive "preinstall" directory target.
-visual_slam/preinstall:
-
-.PHONY : visual_slam/preinstall
-
-# Recursive "clean" directory target.
-visual_slam/clean: visual_slam/CMakeFiles/main_slam.dir/clean
-
-.PHONY : visual_slam/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/doxygen.dir
@@ -1112,7 +1091,7 @@ blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/clean:
 blob_detector_new/CMakeFiles/publisher.dir/all:
 	$(MAKE) -f blob_detector_new/CMakeFiles/publisher.dir/build.make blob_detector_new/CMakeFiles/publisher.dir/depend
 	$(MAKE) -f blob_detector_new/CMakeFiles/publisher.dir/build.make blob_detector_new/CMakeFiles/publisher.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=17,18 "Built target publisher"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=15,16 "Built target publisher"
 .PHONY : blob_detector_new/CMakeFiles/publisher.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1220,7 +1199,7 @@ blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/clean:
 motion_controller/CMakeFiles/motion_controller.dir/all:
 	$(MAKE) -f motion_controller/CMakeFiles/motion_controller.dir/build.make motion_controller/CMakeFiles/motion_controller.dir/depend
 	$(MAKE) -f motion_controller/CMakeFiles/motion_controller.dir/build.make motion_controller/CMakeFiles/motion_controller.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=13,14 "Built target motion_controller"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=11,12 "Built target motion_controller"
 .PHONY : motion_controller/CMakeFiles/motion_controller.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1247,7 +1226,7 @@ motion_controller/CMakeFiles/motion_controller.dir/clean:
 orb_detector/CMakeFiles/orb_detector.dir/all:
 	$(MAKE) -f orb_detector/CMakeFiles/orb_detector.dir/build.make orb_detector/CMakeFiles/orb_detector.dir/depend
 	$(MAKE) -f orb_detector/CMakeFiles/orb_detector.dir/build.make orb_detector/CMakeFiles/orb_detector.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=15,16 "Built target orb_detector"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=13,14 "Built target orb_detector"
 .PHONY : orb_detector/CMakeFiles/orb_detector.dir/all
 
 # Build rule for subdir invocation for target.
@@ -1266,33 +1245,6 @@ orb_detector: orb_detector/CMakeFiles/orb_detector.dir/rule
 orb_detector/CMakeFiles/orb_detector.dir/clean:
 	$(MAKE) -f orb_detector/CMakeFiles/orb_detector.dir/build.make orb_detector/CMakeFiles/orb_detector.dir/clean
 .PHONY : orb_detector/CMakeFiles/orb_detector.dir/clean
-
-#=============================================================================
-# Target rules for target visual_slam/CMakeFiles/main_slam.dir
-
-# All Build rule for target.
-visual_slam/CMakeFiles/main_slam.dir/all:
-	$(MAKE) -f visual_slam/CMakeFiles/main_slam.dir/build.make visual_slam/CMakeFiles/main_slam.dir/depend
-	$(MAKE) -f visual_slam/CMakeFiles/main_slam.dir/build.make visual_slam/CMakeFiles/main_slam.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/timur/FormationControlCpp/CppVersion/build/CMakeFiles --progress-num=11,12 "Built target main_slam"
-.PHONY : visual_slam/CMakeFiles/main_slam.dir/all
-
-# Build rule for subdir invocation for target.
-visual_slam/CMakeFiles/main_slam.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/CppVersion/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 visual_slam/CMakeFiles/main_slam.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/timur/FormationControlCpp/CppVersion/build/CMakeFiles 0
-.PHONY : visual_slam/CMakeFiles/main_slam.dir/rule
-
-# Convenience name for target.
-main_slam: visual_slam/CMakeFiles/main_slam.dir/rule
-
-.PHONY : main_slam
-
-# clean rule for target.
-visual_slam/CMakeFiles/main_slam.dir/clean:
-	$(MAKE) -f visual_slam/CMakeFiles/main_slam.dir/build.make visual_slam/CMakeFiles/main_slam.dir/clean
-.PHONY : visual_slam/CMakeFiles/main_slam.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

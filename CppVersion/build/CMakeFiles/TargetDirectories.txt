@@ -85,11 +85,3 @@
 /home/timur/FormationControlCpp/CppVersion/build/orb_detector/CMakeFiles/edit_cache.dir
 /home/timur/FormationControlCpp/CppVersion/build/orb_detector/CMakeFiles/test.dir
 /home/timur/FormationControlCpp/CppVersion/build/orb_detector/CMakeFiles/orb_detector.dir
-/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/install/strip.dir
-/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/install/local.dir
-/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/install.dir
-/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/list_install_components.dir
-/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/rebuild_cache.dir
-/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/edit_cache.dir
-/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/test.dir
-/home/timur/FormationControlCpp/CppVersion/build/visual_slam/CMakeFiles/main_slam.dir
