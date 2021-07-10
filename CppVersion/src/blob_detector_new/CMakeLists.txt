@@ -140,8 +140,8 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(main src/main.cpp)
-target_link_libraries(main  ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(detector_node src/detector_node.cpp)
+target_link_libraries(detector_node  ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 add_executable(publisher src/publisher.cpp)
 target_link_libraries(publisher ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})

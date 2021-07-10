@@ -467,19 +467,6 @@ sensor_msgs_generate_messages_eus/fast:
 .PHONY : sensor_msgs_generate_messages_eus/fast
 
 #=============================================================================
-# Target rules for targets named roscpp_generate_messages_py
-
-# Build rule for target.
-roscpp_generate_messages_py: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 roscpp_generate_messages_py
-.PHONY : roscpp_generate_messages_py
-
-# fast build rule for target.
-roscpp_generate_messages_py/fast:
-	$(MAKE) -f blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/build.make blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/build
-.PHONY : roscpp_generate_messages_py/fast
-
-#=============================================================================
 # Target rules for targets named std_msgs_generate_messages_lisp
 
 # Build rule for target.
@@ -610,17 +597,30 @@ rosgraph_msgs_generate_messages_nodejs/fast:
 .PHONY : rosgraph_msgs_generate_messages_nodejs/fast
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named roscpp_generate_messages_py
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 main
-.PHONY : main
+roscpp_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 roscpp_generate_messages_py
+.PHONY : roscpp_generate_messages_py
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) -f blob_detector_new/CMakeFiles/main.dir/build.make blob_detector_new/CMakeFiles/main.dir/build
-.PHONY : main/fast
+roscpp_generate_messages_py/fast:
+	$(MAKE) -f blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/build.make blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/build
+.PHONY : roscpp_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named detector_node
+
+# Build rule for target.
+detector_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 detector_node
+.PHONY : detector_node
+
+# fast build rule for target.
+detector_node/fast:
+	$(MAKE) -f blob_detector_new/CMakeFiles/detector_node.dir/build.make blob_detector_new/CMakeFiles/detector_node.dir/build
+.PHONY : detector_node/fast
 
 #=============================================================================
 # Target rules for targets named rosgraph_msgs_generate_messages_cpp
@@ -697,7 +697,6 @@ help:
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_eus"
-	@echo "... roscpp_generate_messages_py"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_py"
@@ -708,7 +707,8 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... publisher"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
-	@echo "... main"
+	@echo "... roscpp_generate_messages_py"
+	@echo "... detector_node"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... motion_controller"
 	@echo "... orb_detector"

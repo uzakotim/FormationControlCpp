@@ -275,7 +275,7 @@ int main(int argc, char** argv)
 
 {
     ROS_INFO_STREAM  ("Instanciating Blob Detector\n");
-    ros::init        (argc, argv, "roscpp_open_cv");
+    ros::init        (argc, argv, "roscpp_blob_detector");
     ros::NodeHandle  nh;
     BlobDetector     bd = BlobDetector(&nh);
     ros::spin();

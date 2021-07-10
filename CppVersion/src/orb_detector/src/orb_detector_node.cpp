@@ -204,7 +204,7 @@ public:
 
 int main(int argc, char** argv)
 {
-    ROS_INFO("ORB detector node initialized");
+    ROS_INFO_STREAM ("Instanciating ORB Detector\n");;
     ros::init(argc, argv, "orb_node");
     ORB orb;
     ros::spin();

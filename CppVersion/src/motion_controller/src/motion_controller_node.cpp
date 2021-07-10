@@ -64,7 +64,7 @@ public:
     // Set robot's relative to goal position
     // here:
 
-    double offset_x {-5};
+    double offset_x {0};
     double offset_y {0};
     double offset_z {0};
     // ------------------------------------------ 
@@ -143,8 +143,8 @@ public:
         return point;
     }
 
-    MotionController()
-    {    
+    MotionController(double x_parameter,double y_parameter, double z_parameter)
+    {   
         sub_1.subscribe(nh,sub_point_cloud_topic,1);
         sub_2.subscribe(nh,sub_image_topic,1);
         sub_3.subscribe(nh,sub_goal_topic,1);
@@ -157,7 +157,12 @@ public:
         x_previous = initial_state.x;
         y_previous = initial_state.y;
         z_previous = initial_state.z;
-        
+
+        // Taking parameters to set robot position
+        offset_x = x_parameter;
+        offset_y = y_parameter;
+        offset_z = z_parameter;
+
         // pub = it.advertise(pub_motion_topic, 1);
         pub_go_to = nh.advertise<PointStamped> (pub_go_to_point_topic,1);
 
@@ -165,6 +170,11 @@ public:
     }
     void callback(const sensor_msgs::PointCloudConstPtr obstacles,const sensor_msgs::ImageConstPtr& msg, const PointStampedConstPtr goal)
     {
+        // uncomment for debugging
+        // std::cout<<offset_x<<'\n';
+        // std::cout<<offset_y<<'\n';
+        // std::cout<<offset_z<<'\n';
+
         ROS_INFO_STREAM("[ Messages synchronized ]");
         // Receiving and converting image to CV Mat object
         std_msgs::Header    msg_header = msg->header;
@@ -273,10 +283,30 @@ public:
 int main(int argc, char** argv)
 
 {
+     // Check if video source has been passed as a parameter ---------
+    if(argv[1] == NULL) 
+    {
+        std::cerr<<"Please, enter the drone position, in the following form: x y z"<<'\n';
+    return 1; 
+    }
+    std::istringstream              source_cmd_x(argv[1]);
+    std::istringstream              source_cmd_y(argv[2]);
+    std::istringstream              source_cmd_z(argv[3]);
+    
+    double offset_parameter_x;
+    double offset_parameter_y;
+    double offset_parameter_z;
+
+    if(!(source_cmd_x>>offset_parameter_x)) return 1;
+    if(!(source_cmd_y>>offset_parameter_y)) return 1;
+    if(!(source_cmd_z>>offset_parameter_z)) return 1;
+
+
     ROS_INFO_STREAM  ("Instanciating Motion Controller\n");
     ros::init        (argc, argv, "roscpp_open_cv");
     ros::NodeHandle  nh;
-    MotionController mc;
+
+    MotionController mc(offset_parameter_x,offset_parameter_y,offset_parameter_z);
     ros::spin();
     return 0;
 }

@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     cv::Mat             frame;
     ros::Rate           loop_rate(100); // FREQUENCY OF FRAME CAPTURE
     
-    ROS_INFO_STREAM("Hello from Camera publisher node");
+    ROS_INFO_STREAM("Instanciating Camera Node\n");
     // ROS node instantiation ---------------------------------------
 
     // Image Publisher Declaration ----------------------------------

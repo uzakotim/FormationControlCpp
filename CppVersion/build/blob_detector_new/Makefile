@@ -378,21 +378,6 @@ sensor_msgs_generate_messages_eus/fast:
 .PHONY : sensor_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/rule:
-	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/rule
-.PHONY : blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_py: blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-.PHONY : roscpp_generate_messages_py
-
-# fast build rule for target.
-roscpp_generate_messages_py/fast:
-	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/build.make blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/build
-.PHONY : roscpp_generate_messages_py/fast
-
-# Convenience name for target.
 blob_detector_new/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
 	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector_new/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
 .PHONY : blob_detector_new/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
@@ -543,19 +528,34 @@ rosgraph_msgs_generate_messages_nodejs/fast:
 .PHONY : rosgraph_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
-blob_detector_new/CMakeFiles/main.dir/rule:
-	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector_new/CMakeFiles/main.dir/rule
-.PHONY : blob_detector_new/CMakeFiles/main.dir/rule
+blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/rule:
+	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/rule
+.PHONY : blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/rule
 
 # Convenience name for target.
-main: blob_detector_new/CMakeFiles/main.dir/rule
+roscpp_generate_messages_py: blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/rule
 
-.PHONY : main
+.PHONY : roscpp_generate_messages_py
 
 # fast build rule for target.
-main/fast:
-	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/main.dir/build.make blob_detector_new/CMakeFiles/main.dir/build
-.PHONY : main/fast
+roscpp_generate_messages_py/fast:
+	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/build.make blob_detector_new/CMakeFiles/roscpp_generate_messages_py.dir/build
+.PHONY : roscpp_generate_messages_py/fast
+
+# Convenience name for target.
+blob_detector_new/CMakeFiles/detector_node.dir/rule:
+	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f CMakeFiles/Makefile2 blob_detector_new/CMakeFiles/detector_node.dir/rule
+.PHONY : blob_detector_new/CMakeFiles/detector_node.dir/rule
+
+# Convenience name for target.
+detector_node: blob_detector_new/CMakeFiles/detector_node.dir/rule
+
+.PHONY : detector_node
+
+# fast build rule for target.
+detector_node/fast:
+	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/detector_node.dir/build.make blob_detector_new/CMakeFiles/detector_node.dir/build
+.PHONY : detector_node/fast
 
 # Convenience name for target.
 blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
@@ -572,32 +572,32 @@ rosgraph_msgs_generate_messages_cpp/fast:
 	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make blob_detector_new/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
-src/main.o: src/main.cpp.o
+src/detector_node.o: src/detector_node.cpp.o
 
-.PHONY : src/main.o
+.PHONY : src/detector_node.o
 
 # target to build an object file
-src/main.cpp.o:
-	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/main.dir/build.make blob_detector_new/CMakeFiles/main.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/detector_node.cpp.o:
+	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/detector_node.dir/build.make blob_detector_new/CMakeFiles/detector_node.dir/src/detector_node.cpp.o
+.PHONY : src/detector_node.cpp.o
 
-src/main.i: src/main.cpp.i
+src/detector_node.i: src/detector_node.cpp.i
 
-.PHONY : src/main.i
+.PHONY : src/detector_node.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/main.dir/build.make blob_detector_new/CMakeFiles/main.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/detector_node.cpp.i:
+	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/detector_node.dir/build.make blob_detector_new/CMakeFiles/detector_node.dir/src/detector_node.cpp.i
+.PHONY : src/detector_node.cpp.i
 
-src/main.s: src/main.cpp.s
+src/detector_node.s: src/detector_node.cpp.s
 
-.PHONY : src/main.s
+.PHONY : src/detector_node.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/main.dir/build.make blob_detector_new/CMakeFiles/main.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/detector_node.cpp.s:
+	cd /home/timur/FormationControlCpp/CppVersion/build && $(MAKE) -f blob_detector_new/CMakeFiles/detector_node.dir/build.make blob_detector_new/CMakeFiles/detector_node.dir/src/detector_node.cpp.s
+.PHONY : src/detector_node.cpp.s
 
 src/publisher.o: src/publisher.cpp.o
 
@@ -649,7 +649,6 @@ help:
 	@echo "... roscpp_generate_messages_nodejs"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_eus"
-	@echo "... roscpp_generate_messages_py"
 	@echo "... std_msgs_generate_messages_lisp"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... std_msgs_generate_messages_py"
@@ -662,13 +661,14 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... publisher"
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
-	@echo "... main"
+	@echo "... roscpp_generate_messages_py"
+	@echo "... detector_node"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... test"
 	@echo "... edit_cache"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... src/detector_node.o"
+	@echo "... src/detector_node.i"
+	@echo "... src/detector_node.s"
 	@echo "... src/publisher.o"
 	@echo "... src/publisher.i"
 	@echo "... src/publisher.s"
