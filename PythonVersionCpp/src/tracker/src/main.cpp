@@ -1,9 +1,9 @@
 // Copyright [2021] [Timur Uzakov]
 
 // include message filters and time sync
-#include <message_filters/subscriber.h>
-#include <message_filters/time_synchronizer.h>
-#include <message_filters/sync_policies/approximate_time.h>
+// #include <message_filters/subscriber.h>
+// #include <message_filters/time_synchronizer.h>
+// #include <message_filters/sync_policies/approximate_time.h>
 
 // include CvBridge, Image Transport, Image msg
 
@@ -13,7 +13,7 @@
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <image_transport/image_transport.h>
 #include <sensor_msgs/image_encodings.h>
-#include <sensor_msgs/Image.h>
+
 
 // include opencv2
 #include <opencv2/highgui/highgui.hpp>
@@ -32,7 +32,9 @@ class BlobDetector
 private:
     // Publishers 
     image_transport::Publisher  pub;
+    ros            ::Publisher  pub_point;
     ros            ::Publisher  pub_covar;
+    image_transport::Subscriber sub;
     // Blob Detector Parametrs
     cv::Scalar                  orange_min = cv::Scalar(10,150,150);     //min hsv value orange
     cv::Scalar                  orange_max = cv::Scalar(27,255,255);     //max hsv value orange
@@ -45,20 +47,6 @@ private:
     // Output Parameters
     sensor_msgs::ImagePtr       msg_output;
 
-    std::string image_sub_topic  = "/uav1/rs_d435/color/image_rect_color";
-    std::string depth_sub_topic  = "/uav1/rs_d435/aligned_depth_to_color/image_raw";
-
-    std::string image_pub_topic        = "/uav2/blob_detections";
-    std::string human_coord_pub_topic  = "/uav2/human"; 
-    
-    ros::NodeHandle nh;
-
-    message_filters::Subscriber<Image> sub_1;
-    message_filters::Subscriber<Image> sub_2;
-    typedef sync_policies::ApproximateTime<Image,Image> MySyncPolicy;
-    typedef Synchronizer<MySyncPolicy> Sync;
-    boost::shared_ptr<Sync> sync;
-
 public:
     cv::KalmanFilter KF = cv::KalmanFilter(4,2,0);
     boost::array<double, 36UL> msg_cov_array;
@@ -68,17 +56,13 @@ public:
     cv::Mat_<float>  measurement = cv::Mat_<float>(2,1);
 
     // Constructor
-    BlobDetector()
+    BlobDetector(ros::NodeHandle *nh)
     {   
-        sub_1.subscribe(nh,image_sub_topic,1);
-        sub_2.subscribe(nh,depth_sub_topic,1);
-
-        sync.reset(new Sync(MySyncPolicy(10), sub_1,sub_2));
-        sync->registerCallback(boost::bind(&BlobDetector::image_callback,this,_1,_2));
-        
-        image_transport::ImageTransport it(nh);
-        pub = it.advertise(image_pub_topic, 1);
-        pub_covar = nh->advertise<geometry_msgs::PoseWithCovarianceStamped>(human_coord_pub_topic, 1);
+        image_transport::ImageTransport it(*nh);
+        pub = it.advertise("camera/blob", 1);
+        // pub_point   = nh->advertise<geometry_msgs::PointStamped>("computations/goal_point", 10);
+        pub_covar   = nh->advertise<geometry_msgs::PoseWithCovarianceStamped>("computations/goal_point", 10);
+        sub = it.subscribe("camera/image", 1, &BlobDetector::image_callback,this);
 
     //---Kalman Filter Parameters---->>----
         KF.transitionMatrix = (cv::Mat_<float>(4,4) << 1,0,1,0, 0,1,0,1, 0,0,1,0, 0,0,0,1);
@@ -92,7 +76,7 @@ public:
         setIdentity(KF.measurementNoiseCov, cv::Scalar::all(10));
         setIdentity(KF.errorCovPost,        cv::Scalar::all(.1));
     // ---<< Kalman Filter Parameters ----
-        ROS_INFO("All functions initialized");
+
     }
 
     // Function for finding maximal size contour
@@ -210,7 +194,7 @@ public:
         // goal.point.z = image_depth.at<float>(statePt.x,statePt.y)/1000;
     }
     // Callback for received camera frame
-    void image_callback(const sensor_msgs::ImageConstPtr& msg,const sensor_msgs::ImageConstPtr& depth_msg)
+    void image_callback(const sensor_msgs::ImageConstPtr& msg)
     {   
         std_msgs::Header    msg_header  = msg->header;
         std::string         frame_id    = msg_header.frame_id;
@@ -219,8 +203,6 @@ public:
         PrintThatMessageWasReceived (frame_id);
         cv::Point   predictPt       = PredictUsingKalmanFilter    ();
         cv::Mat     image           = ReturnCVMatImageFromMsg     (msg);
-        
-        cv::Mat     depth           = ReturnCVMatImageFromMsg      (depth_msg);
          // -->> Operations on image ----
         // 1) smoothing the image
         cv::Mat     image_blurred   = GaussianBlur(image);
@@ -299,7 +281,8 @@ int main(int argc, char** argv)
 {
     ROS_INFO_STREAM  ("Instanciating Blob Detector\n");
     ros::init        (argc, argv, "roscpp_open_cv");
-    BlobDetector     bd;
+    ros::NodeHandle  nh;
+    BlobDetector     bd = BlobDetector(&nh);
     ros::spin();
     return 0;
 }
