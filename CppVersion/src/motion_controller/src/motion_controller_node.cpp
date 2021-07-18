@@ -76,7 +76,7 @@ public:
         double obstacle_cost {0};
         for(size_t i = 0; i<obstacles.size();i++)
         {
-            obstacle_cost += 1/(pow((x-obstacles[i]),2)+0.001);
+            obstacle_cost += 1/(pow((x-obstacles[i]),2)+0.1);
         }
         // uncomment for debugging
         // std::cout<<"obstacle cost: "<<0.1*obstacle_cost<<'\n';
@@ -90,7 +90,7 @@ public:
         double obstacle_gradient {0};
         for(size_t i = 0; i<obstacles.size();i++)
         {
-            obstacle_gradient += -2*pow((x-obstacles[i])+0.001,-3);
+            obstacle_gradient += -2*pow((x-obstacles[i])+0.1,-3);
         }
         return 2*(x-(pose_x + offset_robot_pose))+ obstacle_gradient;
     }
