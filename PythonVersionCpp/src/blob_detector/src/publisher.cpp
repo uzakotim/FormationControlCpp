@@ -1,3 +1,4 @@
+// Copyright [2021] [Timur Uzakov]
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 #include <opencv2/highgui/highgui.hpp>
