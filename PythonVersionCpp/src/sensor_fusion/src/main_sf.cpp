@@ -8,6 +8,7 @@
 
 #include <nav_msgs/Odometry.h>
 
+#include <ros/ros.h>
 // include opencv2
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -267,7 +268,7 @@ public:
         // Measurement
 
         cv::Mat state  = (cv::Mat_<float>(3,1) << pose->pose.pose.position.x, pose->pose.pose.position.y, pose->pose.pose.position.z );
-        cv::Mat offset = (cv::Mat_<float>(3,1) << (0.2*cos(yaw->point.x)),(0.2*sin(yaw->point.x)),0); //TODO needs working yaw measurement
+        cv::Mat offset = (cv::Mat_<float>(3,1) << (0.2*cos(pose->pose.pose.orientation.z)),(0.2*sin(pose->pose.pose.orientation.z)),0);
         cv::Mat human_coord = (cv::Mat_<float>(3,1)<< human->pose.pose.position.x, human->pose.pose.position.y,human->pose.pose.position.z);
 
         cv::Mat meas_state = HumanCoordinateToWorld(human_coord,yaw->point.x,state,offset);
@@ -351,6 +352,8 @@ public:
         prev_time_meas = time_meas;
         counter++;
 
+        ros::Rate rate(100);
+        rate.sleep();
     }
 
 };
@@ -361,7 +364,6 @@ int main(int argc, char** argv)
     ROS_INFO("Sensor Fusion node initialized");
     ros::init(argc, argv, "uav1_sensor_fusion");
     SensFuse sf(msg);
-    ros::Rate rate(100);
     while (!(ros::isShuttingDown))
     {
         sf.human_pub.publish(msg);
