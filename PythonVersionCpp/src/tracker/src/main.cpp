@@ -13,6 +13,7 @@
 #include <opencv2/video/tracking.hpp>
 
 #include <ros/ros.h>
+#include <cmath>
 
 using namespace sensor_msgs;
 using namespace message_filters;
