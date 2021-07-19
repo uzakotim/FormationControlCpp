@@ -168,21 +168,6 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-formation/CMakeFiles/formation_pub.dir/rule:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 formation/CMakeFiles/formation_pub.dir/rule
-.PHONY : formation/CMakeFiles/formation_pub.dir/rule
-
-# Convenience name for target.
-formation_pub: formation/CMakeFiles/formation_pub.dir/rule
-
-.PHONY : formation_pub
-
-# fast build rule for target.
-formation_pub/fast:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/build
-.PHONY : formation_pub/fast
-
-# Convenience name for target.
 formation/CMakeFiles/formation_main.dir/rule:
 	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 formation/CMakeFiles/formation_main.dir/rule
 .PHONY : formation/CMakeFiles/formation_main.dir/rule
@@ -224,33 +209,6 @@ src/main.cpp.s:
 	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f formation/CMakeFiles/formation_main.dir/build.make formation/CMakeFiles/formation_main.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/publisher.o: src/publisher.cpp.o
-
-.PHONY : src/publisher.o
-
-# target to build an object file
-src/publisher.cpp.o:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/src/publisher.cpp.o
-.PHONY : src/publisher.cpp.o
-
-src/publisher.i: src/publisher.cpp.i
-
-.PHONY : src/publisher.i
-
-# target to preprocess a source file
-src/publisher.cpp.i:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/src/publisher.cpp.i
-.PHONY : src/publisher.cpp.i
-
-src/publisher.s: src/publisher.cpp.s
-
-.PHONY : src/publisher.s
-
-# target to generate assembly for a file
-src/publisher.cpp.s:
-	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/src/publisher.cpp.s
-.PHONY : src/publisher.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -264,14 +222,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... test"
-	@echo "... formation_pub"
 	@echo "... formation_main"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/publisher.o"
-	@echo "... src/publisher.i"
-	@echo "... src/publisher.s"
 .PHONY : help
 
 

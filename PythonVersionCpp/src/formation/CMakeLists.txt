@@ -16,7 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   std_msgs
 )
-find_package(OpenCV 4.5.3 REQUIRED)
+find_package(OpenCV 4.0.0 REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -144,8 +144,6 @@ include_directories(
 add_executable(formation_main src/main.cpp)
 target_link_libraries(formation_main  ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-add_executable(formation_pub src/publisher.cpp)
-target_link_libraries(formation_pub ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

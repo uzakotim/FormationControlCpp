@@ -167,6 +167,48 @@ depend:
 	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+# Convenience name for target.
+sensor_fusion/CMakeFiles/main_sf.dir/rule:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f CMakeFiles/Makefile2 sensor_fusion/CMakeFiles/main_sf.dir/rule
+.PHONY : sensor_fusion/CMakeFiles/main_sf.dir/rule
+
+# Convenience name for target.
+main_sf: sensor_fusion/CMakeFiles/main_sf.dir/rule
+
+.PHONY : main_sf
+
+# fast build rule for target.
+main_sf/fast:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f sensor_fusion/CMakeFiles/main_sf.dir/build.make sensor_fusion/CMakeFiles/main_sf.dir/build
+.PHONY : main_sf/fast
+
+src/main_sf.o: src/main_sf.cpp.o
+
+.PHONY : src/main_sf.o
+
+# target to build an object file
+src/main_sf.cpp.o:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f sensor_fusion/CMakeFiles/main_sf.dir/build.make sensor_fusion/CMakeFiles/main_sf.dir/src/main_sf.cpp.o
+.PHONY : src/main_sf.cpp.o
+
+src/main_sf.i: src/main_sf.cpp.i
+
+.PHONY : src/main_sf.i
+
+# target to preprocess a source file
+src/main_sf.cpp.i:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f sensor_fusion/CMakeFiles/main_sf.dir/build.make sensor_fusion/CMakeFiles/main_sf.dir/src/main_sf.cpp.i
+.PHONY : src/main_sf.cpp.i
+
+src/main_sf.s: src/main_sf.cpp.s
+
+.PHONY : src/main_sf.s
+
+# target to generate assembly for a file
+src/main_sf.cpp.s:
+	cd /home/timur/FormationControlCpp/PythonVersionCpp/build && $(MAKE) -f sensor_fusion/CMakeFiles/main_sf.dir/build.make sensor_fusion/CMakeFiles/main_sf.dir/src/main_sf.cpp.s
+.PHONY : src/main_sf.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -180,6 +222,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... test"
+	@echo "... main_sf"
+	@echo "... src/main_sf.o"
+	@echo "... src/main_sf.i"
+	@echo "... src/main_sf.s"
 .PHONY : help
 
 

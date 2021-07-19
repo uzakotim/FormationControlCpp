@@ -63,7 +63,6 @@ private:
     cv::Mat master_pose;
 
 // measurements
-    cv::Mat state,state_cov,human_coord,human_cov;
     int count {0};
 // 
 
@@ -146,10 +145,83 @@ public:
 
         // Measurements
         state = (cv::Mat_<float>(4,1) << pose->pose.pose.position.x,pose->pose.pose.position.y,pose->pose.pose.position.z,pose->pose.pose.orientation.z);
-        state_cov = (cv::Mat_<float>(6,6)<< pose->pose.covariance);
+        state_cov = (cv::Mat_<double>(6,6)<<
+                                                pose->pose.covariance[0],
+                                                pose->pose.covariance[1],
+                                                pose->pose.covariance[2], 
+                                                pose->pose.covariance[3],
+                                                pose->pose.covariance[4],
+                                                pose->pose.covariance[5],
+                                                pose->pose.covariance[6],
+                                                pose->pose.covariance[7],
+                                                pose->pose.covariance[8],
+                                                pose->pose.covariance[9],
+                                                pose->pose.covariance[10],
+                                                pose->pose.covariance[11],
+                                                pose->pose.covariance[12], 
+                                                pose->pose.covariance[13],
+                                                pose->pose.covariance[14],
+                                                pose->pose.covariance[15],
+                                                pose->pose.covariance[16],
+                                                pose->pose.covariance[17],
+                                                pose->pose.covariance[18],
+                                                pose->pose.covariance[19],
+                                                pose->pose.covariance[20],
+                                                pose->pose.covariance[21],
+                                                pose->pose.covariance[22], 
+                                                pose->pose.covariance[23],
+                                                pose->pose.covariance[24],
+                                                pose->pose.covariance[25],
+                                                pose->pose.covariance[26],
+                                                pose->pose.covariance[27],
+                                                pose->pose.covariance[28],
+                                                pose->pose.covariance[29],
+                                                pose->pose.covariance[30],
+                                                pose->pose.covariance[31],
+                                                pose->pose.covariance[32], 
+                                                pose->pose.covariance[33],
+                                                pose->pose.covariance[34],
+                                                pose->pose.covariance[35]
+                                                );
 
         human_coord = (cv::Mat_<float>(3,1)<< human->pose.pose.position.x,human->pose.pose.position.y,human->pose.pose.position.z);
-        human_cov   = (cv::Mat_<float>(6,6)<< human->pose.covariance);
+        human_cov   = (cv::Mat_<float>(6,6)<<   human->pose.covariance[0],
+                                                human->pose.covariance[1],
+                                                human->pose.covariance[2], 
+                                                human->pose.covariance[3],
+                                                human->pose.covariance[4],
+                                                human->pose.covariance[5],
+                                                human->pose.covariance[6],
+                                                human->pose.covariance[7],
+                                                human->pose.covariance[8],
+                                                human->pose.covariance[9],
+                                                human->pose.covariance[10],
+                                                human->pose.covariance[11],
+                                                human->pose.covariance[12], 
+                                                human->pose.covariance[13],
+                                                human->pose.covariance[14],
+                                                human->pose.covariance[15],
+                                                human->pose.covariance[16],
+                                                human->pose.covariance[17],
+                                                human->pose.covariance[18],
+                                                human->pose.covariance[19],
+                                                human->pose.covariance[20],
+                                                human->pose.covariance[21],
+                                                human->pose.covariance[22], 
+                                                human->pose.covariance[23],
+                                                human->pose.covariance[24],
+                                                human->pose.covariance[25],
+                                                human->pose.covariance[26],
+                                                human->pose.covariance[27],
+                                                human->pose.covariance[28],
+                                                human->pose.covariance[29],
+                                                human->pose.covariance[30],
+                                                human->pose.covariance[31],
+                                                human->pose.covariance[32], 
+                                                human->pose.covariance[33],
+                                                human->pose.covariance[34],
+                                                human->pose.covariance[35]
+                                                );
         // ---------------
         // Tracker
         tracker.push_back(human_coord);

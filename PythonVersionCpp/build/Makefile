@@ -636,19 +636,6 @@ rosgraph_msgs_generate_messages_cpp/fast:
 .PHONY : rosgraph_msgs_generate_messages_cpp/fast
 
 #=============================================================================
-# Target rules for targets named formation_pub
-
-# Build rule for target.
-formation_pub: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 formation_pub
-.PHONY : formation_pub
-
-# fast build rule for target.
-formation_pub/fast:
-	$(MAKE) -f formation/CMakeFiles/formation_pub.dir/build.make formation/CMakeFiles/formation_pub.dir/build
-.PHONY : formation_pub/fast
-
-#=============================================================================
 # Target rules for targets named formation_main
 
 # Build rule for target.
@@ -660,6 +647,32 @@ formation_main: cmake_check_build_system
 formation_main/fast:
 	$(MAKE) -f formation/CMakeFiles/formation_main.dir/build.make formation/CMakeFiles/formation_main.dir/build
 .PHONY : formation_main/fast
+
+#=============================================================================
+# Target rules for targets named main_sf
+
+# Build rule for target.
+main_sf: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 main_sf
+.PHONY : main_sf
+
+# fast build rule for target.
+main_sf/fast:
+	$(MAKE) -f sensor_fusion/CMakeFiles/main_sf.dir/build.make sensor_fusion/CMakeFiles/main_sf.dir/build
+.PHONY : main_sf/fast
+
+#=============================================================================
+# Target rules for targets named tracker
+
+# Build rule for target.
+tracker: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 tracker
+.PHONY : tracker
+
+# fast build rule for target.
+tracker/fast:
+	$(MAKE) -f tracker/CMakeFiles/tracker.dir/build.make tracker/CMakeFiles/tracker.dir/build
+.PHONY : tracker/fast
 
 # Help Target
 help:
@@ -710,8 +723,9 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_nodejs"
 	@echo "... main"
 	@echo "... rosgraph_msgs_generate_messages_cpp"
-	@echo "... formation_pub"
 	@echo "... formation_main"
+	@echo "... main_sf"
+	@echo "... tracker"
 .PHONY : help
 
 
