@@ -31,7 +31,7 @@ private:
 
     message_filters::Subscriber<PoseWithCovarianceStamped> human_sub;
     message_filters::Subscriber<Odometry> pose_sub;
-    typedef sync_policies::ApproximateTime<PointStamped,Image> MySyncPolicy;
+    typedef sync_policies::ApproximateTime<PoseWithCovarianceStamped,Odometry> MySyncPolicy;
     typedef Synchronizer<MySyncPolicy> Sync;
     boost::shared_ptr<Sync> sync;
 

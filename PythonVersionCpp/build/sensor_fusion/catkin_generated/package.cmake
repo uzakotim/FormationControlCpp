@@ -1,6 +1,6 @@
 set(_CATKIN_CURRENT_PACKAGE "sensor_fusion")
 set(sensor_fusion_VERSION "0.0.0")
-set(sensor_fusion_MAINTAINER "timur <timur@todo.todo>")
+set(sensor_fusion_MAINTAINER "Timur Uzakov <timauzakov@gmail.com>")
 set(sensor_fusion_PACKAGE_FORMAT "2")
 set(sensor_fusion_BUILD_DEPENDS "cv_bridge" "image_transport" "roscpp" "rospy" "sensor_msgs" "std_msgs")
 set(sensor_fusion_BUILD_EXPORT_DEPENDS "cv_bridge" "image_transport" "roscpp" "rospy" "sensor_msgs" "std_msgs")

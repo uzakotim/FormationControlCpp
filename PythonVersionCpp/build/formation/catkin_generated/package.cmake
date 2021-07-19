@@ -1,6 +1,6 @@
 set(_CATKIN_CURRENT_PACKAGE "formation")
 set(formation_VERSION "0.0.0")
-set(formation_MAINTAINER "timur <timur@todo.todo>")
+set(formation_MAINTAINER "Timur Uzakov <timauzakov@gmail.com>")
 set(formation_PACKAGE_FORMAT "2")
 set(formation_BUILD_DEPENDS "cv_bridge" "image_transport" "roscpp" "rospy" "sensor_msgs" "std_msgs")
 set(formation_BUILD_EXPORT_DEPENDS "cv_bridge" "image_transport" "roscpp" "rospy" "sensor_msgs" "std_msgs")

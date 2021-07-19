@@ -1,6 +1,6 @@
 set(_CATKIN_CURRENT_PACKAGE "tracker")
 set(tracker_VERSION "0.0.0")
-set(tracker_MAINTAINER "timur <timur@todo.todo>")
+set(tracker_MAINTAINER "Timur Uzakov <timauzakov@gmail.com>")
 set(tracker_PACKAGE_FORMAT "2")
 set(tracker_BUILD_DEPENDS "cv_bridge" "image_transport" "roscpp" "rospy" "sensor_msgs" "std_msgs")
 set(tracker_BUILD_EXPORT_DEPENDS "cv_bridge" "image_transport" "roscpp" "rospy" "sensor_msgs" "std_msgs")

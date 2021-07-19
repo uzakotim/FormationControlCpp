@@ -1,6 +1,6 @@
 set(_CATKIN_CURRENT_PACKAGE "blob_detector")
 set(blob_detector_VERSION "0.0.0")
-set(blob_detector_MAINTAINER "timur <timur@todo.todo>")
+set(blob_detector_MAINTAINER "Timur Uzakov <timauzakov@gmail.com>")
 set(blob_detector_PACKAGE_FORMAT "2")
 set(blob_detector_BUILD_DEPENDS "cv_bridge" "image_transport" "roscpp" "rospy" "sensor_msgs" "std_msgs")
 set(blob_detector_BUILD_EXPORT_DEPENDS "cv_bridge" "image_transport" "roscpp" "rospy" "sensor_msgs" "std_msgs")
