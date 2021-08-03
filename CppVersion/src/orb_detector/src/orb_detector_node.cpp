@@ -111,12 +111,12 @@ public:
         std::vector<geometry_msgs::Point32>          points_current;
         cv::Point                                    point_previous;
         cv::Point                                    point_current;
-        for (size_t i=0; i<sorted_matches.size();i++)
+        for (auto& sorted_match : sorted_matches)
         {
-                // int index_prev {matches.at(i).queryIdx};
+                // int index_prev {sorted_matches.queryIdx};
                 // point_previous = keypoints_prev.at(index_prev).pt;
                 // points_previous.push_back(point_previous);
-                int index_cur  {sorted_matches.at(i).trainIdx};
+                int index_cur  {sorted_match.trainIdx};
                 point_current  = keypoints.at(index_cur).pt;
 
                 geometry_msgs::Point32 point;
