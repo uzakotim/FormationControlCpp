@@ -1,3 +1,4 @@
+// Copyright [2021] [Timur Uzakov]
 // include CvBridge, Image Transport, Image msg
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
